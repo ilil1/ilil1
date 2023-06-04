@@ -1,11 +1,11 @@
 
-## 👋 안녕하세요. 안드로이드 개발자 입니다.
+## 👋 안녕하세요. 모바일 개발자 입니다.
 
 
 
 ### 🤔Who am I
 - 🎓 majored in Computer Science
-- 🤖 I'm mobile app developer using Android
+- 🤖 I'm mobile app developer using Android and Ios
  
 
 ### 🌱Tech Stack
