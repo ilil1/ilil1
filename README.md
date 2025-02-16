@@ -27,6 +27,7 @@
 <p><img src="https://img.shields.io/badge/circle%20ci-%23161616.svg?style=flat-square&logo=circleci&logoColor=white"/>
 <img src="https://img.shields.io/badge/github%20actions-%232671E5.svg?style=flat-square&logo=githubactions&logoColor=white"/>
 <img src="https://img.shields.io/badge/Fastlane-00F200?logo=fastlane&logoColor=000&style=flat-square"/>
+<img src="https://img.shields.io/badge/docker-257bd6?style=for-the-badge&logo=docker&logoColor=white&style=flat-square" />
 </p>
 
 ### ⚡SNS
