@@ -5,7 +5,7 @@
 
 ### 🤔Who am I
 - 🎓 majored in Computer Science
-- 🤖 I'm softWare developer using various frameworks
+- 🤖 I'm softWare developer using various frameworks and language
  
 
 ### 🌱Tech Stack
