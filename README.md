@@ -5,7 +5,7 @@
 
 ### 🤔Who am I
 - 🎓 majored in Computer Science
-- 🤖 I'm mobile app developer using Android and Flutter and iOS
+- 🤖 I'm softWare developer using various frameworks
  
 
 ### 🌱Tech Stack
