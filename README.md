@@ -29,11 +29,14 @@
 <p>
 <img src="https://img.shields.io/badge/Laravel-2e2e2e?style=flat-square&logo=laravel"/>
 <img src="https://img.shields.io/badge/FastAPI-005571?style=flat-square&logo=fastapi"/>
-<img src="https://img.shields.io/badge/MCP-Server-green?style=flat-square"/>
 <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=Firebase&amp;logoColor=white"/>
 </p>
 <p>
 <img src = "https://img.shields.io/badge/-MySQL-4479A1?style=flat-square&logo=mysql&labelColor=4479A1&logoColor=FFF" />
+</p>
+<p>
+ <img src="https://img.shields.io/badge/LangChain-4479A1?style=flat-square&&logo=langchain&logoColor=green"/>
+ <img src="https://img.shields.io/badge/MCP-Server-green?style=flat-square"/>
 </p>
 <p><img src="https://img.shields.io/badge/circle%20ci-%23161616.svg?style=flat-square&logo=circleci&logoColor=white"/>
 <img src="https://img.shields.io/badge/github%20actions-%232671E5.svg?style=flat-square&logo=githubactions&logoColor=white"/>
