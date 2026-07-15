@@ -35,9 +35,7 @@
 <img src = "https://img.shields.io/badge/-MySQL-4479A1?style=flat-square&logo=mysql&labelColor=4479A1&logoColor=FFF" />
 </p>
 <p>
-<img src = "https://img.shields.io/badge/Machine%20Learning-FF6F00?style=flat-square&logo=scikit-learn&logoColor=white" />
-</p>
-<p>
+ <img src = "https://img.shields.io/badge/Machine%20Learning-FF6F00?style=flat-square&logo=scikit-learn&logoColor=white" />
  <img src="https://img.shields.io/badge/OpenAI API-412991?style=flat-square&logo=openai&logoColor=white"/>
  <img src="https://img.shields.io/badge/LangChain-4479A1?style=flat-square&&logo=langchain&logoColor=green"/>
  <img src="https://img.shields.io/badge/MCP-Server-green?style=flat-square"/>
