@@ -36,6 +36,7 @@
 </p>
 <p>
  <img src = "https://img.shields.io/badge/-Scikit_Learn-0D1117?style=flat-square&logo=scikitlearn" />
+ <img src = "https://img.shields.io/badge/-PyTorch-333?style=flat-square&logo=pytorch" />
  <img src="https://img.shields.io/badge/OpenAI API-412991?style=flat-square&logo=openai&logoColor=white"/>
  <img src="https://img.shields.io/badge/LangChain-4479A1?style=flat-square&&logo=langchain&logoColor=green"/>
  <img src="https://img.shields.io/badge/MCP-Server-green?style=flat-square"/>
