@@ -1,5 +1,5 @@
 
-## 👋 안녕하세요. FullStack SoftWare 개발자 입니다.
+## 👋 안녕하세요. AI SoftWare engineer 입니다.
 
 
 
