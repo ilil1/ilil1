@@ -3,14 +3,7 @@
 
 👋 안녕하세요. 기술적 전문성과 창의적 사고를 바탕으로 문제를 해결하고, 아이디어를 실제 서비스로 구현하는 엔지니어입니다.
 
-
-
-### 🤔Who am I
-- 🎓 majored in Computer Science
-- 🤖 I'm softWare developer using various frameworks and language
- 
-
-### 🌱Tech Stack
+# 🌱Tech Stack
 <p>
 <img src="https://img.shields.io/badge/Kotlin-0095D5?style=flat-square&logo=Kotlin&logoColor=white"/>
 <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white"/>
@@ -49,7 +42,7 @@
 <img src="https://img.shields.io/badge/docker-257bd6?logo=docker&logoColor=white&style=flat-square" />
 </p>
 
-### ⚡SNS
+# ⚡SNS
 
 <a href="https://velog.io/@ilil1"><img src="https://img.shields.io/badge/Tech%20Blog-11B48A?style=flat-square&logo=Vimeo&logoColor=white&link=https://velog.io/@ilil1"/></a>
 
