@@ -24,6 +24,7 @@
 <p>
 <img src="https://img.shields.io/badge/Laravel-2e2e2e?style=flat-square&logo=laravel"/>
 <img src="https://img.shields.io/badge/FastAPI-005571?style=flat-square&logo=fastapi"/>
+<img src="https://img.shields.io/badge/springboot-000000?style=flat-square&logo=springboot&logoColor=green"/>
 <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=Firebase&amp;logoColor=white"/>
 </p>
 <p>
