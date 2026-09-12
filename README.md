@@ -29,6 +29,9 @@
 </p>
 <p>
 <img src = "https://img.shields.io/badge/-MySQL-4479A1?style=flat-square&logo=mysql&labelColor=4479A1&logoColor=FFF" />
+<img src = "https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=Redis&logoColor=white"/>
+<img src = "https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch"/>
+<img src = "https://img.shields.io/badge/VectorDB-Qdrant-red?style=flat-square&logo"/>
 </p>
 <p>
  <img src = "https://img.shields.io/badge/-Scikit_Learn-0D1117?style=flat-square&logo=scikitlearn" />
