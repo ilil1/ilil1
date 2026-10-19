@@ -14,7 +14,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 
 | 영역 | 적용 기술 |
 |---|---|
-| 구현 언어 | Kotlin, Python 3.12, TypeScript 6 |
+| Language | Kotlin, Java, Dart, Swift, Python, JavaScript  |
 | 웹 프론트엔드 | React 19, Vite 8, Tailwind CSS 4, React Router, Redux Toolkit, Zod |
 | 모바일 | React Native, Expo, Expo Router, Firebase App Distribution(테스트 앱 배포) |
 | 업무·수집 API | Spring Boot, JDK 21, MyBatis, Flyway |
@@ -32,16 +32,6 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | GitOps 배포 | Helm, Argo CD |
 | 모노레포·공통 계약 | pnpm workspace, 웹·앱 공통 TypeScript 계약 |
 
-<p>
-<img src="https://img.shields.io/badge/Kotlin-0095D5?style=flat-square&logo=Kotlin&logoColor=white"/>
-<img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white"/>
-<img src="https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white"/>
-<img src="https://img.shields.io/badge/Swift-FA7343?style=flat-square&logo=Swift&logoColor=white"/>
-<img src="https://img.shields.io/badge/python-3670A0?style=flat-square&logo=python&logoColor=ffdd54"/>
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=black"/>
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/>
-<img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/>
-</p>
 <p>
 <img src="https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=Android&logoColor=white"/>
 <img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white"/>
