@@ -22,11 +22,10 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
 | 캐시·비동기 처리 | Redis, RabbitMQ |
 | LLMOps | Langfuse, Prefect, Pandera, Evidently, pandas |
-| 로컬 실행·컨테이너 | Docker Compose, Kubernetes(kind), Helm |
+| Infra | AWS (EKS/ECS, Lambda, S3, RDS, DynamoDB), Kubernetes, Docker, Helm, ArgoCD, Fastlane, circle-ci|
 | AWS 인프라 | Amazon EKS, Amazon EC2(워커 노드), Amazon EBS(gp3), Amazon VPC |
 | 검증·이미지 관리 | GitHub Actions, GitHub Container Registry(GHCR), Amazon ECR |
 | AWS 배포 도구 | AWS CloudFormation, eksctl, AWS CodeConnections, AWS CodeBuild |
-| GitOps 배포 | Helm, Argo CD |
 
 <p>
  <img src = "https://img.shields.io/badge/-Scikit_Learn-0D1117?style=flat-square&logo=scikitlearn" />
@@ -34,11 +33,6 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
  <img src="https://img.shields.io/badge/OpenAI API-412991?style=flat-square&logo=openai&logoColor=white"/>
  <img src="https://img.shields.io/badge/LangChain-4479A1?style=flat-square&&logo=langchain&logoColor=green"/>
  <img src="https://img.shields.io/badge/MCP-Server-green?style=flat-square"/>
-</p>
-<p><img src="https://img.shields.io/badge/circle%20ci-%23161616.svg?style=flat-square&logo=circleci&logoColor=white"/>
-<img src="https://img.shields.io/badge/github%20actions-%232671E5.svg?style=flat-square&logo=githubactions&logoColor=white"/>
-<img src="https://img.shields.io/badge/Fastlane-00F200?logo=fastlane&logoColor=000&style=flat-square"/>
-<img src="https://img.shields.io/badge/docker-257bd6?logo=docker&logoColor=white&style=flat-square" />
 </p>
 
 # ⚡SNS
