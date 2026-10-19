@@ -19,7 +19,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | ML/DL | Scikit_Learn, PyTorch |
 | 워크플로 오케스트레이션 | Prefect |
 | AI 평가·모니터링 | Langfuse, Langsmith, Evidently |
-| 벡엔드 | Spring Boot, Laravel, FastAPI |
+| 벡엔드 | FastAPI, Spring Boot, Laravel |
 | Infra & Cloud | AWS (EKS, Lambda, S3, RDS), Kubernetes, Docker, Helm|
 | CI/CD & GitOps | Argo CD, GitHub Actions, fastlane, CircleCI|
 | 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
