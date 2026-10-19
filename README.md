@@ -15,8 +15,8 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | 영역 | 적용 기술 |
 |---|---|
 | Language | Kotlin, Java, Dart, Swift, Python, JavaScript  |
-| 웹 프론트엔드 | React 19, Vite 8, Tailwind CSS 4, React Router, Redux Toolkit, Zod |
-| 모바일 | React Native, Expo, Expo Router, Firebase App Distribution(테스트 앱 배포) |
+| 프론트엔드 | React, Vue.js, Flutter |
+| 모바일 | Android, iOS |
 | 업무·수집 API | Spring Boot, JDK 21, MyBatis, Flyway |
 | AI API·Agent | FastAPI, OpenAI, LangChain, LangGraph, OpenAI Agents SDK |
 | 평가 운영 API | Django, Django REST Framework |
@@ -32,13 +32,6 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | GitOps 배포 | Helm, Argo CD |
 | 모노레포·공통 계약 | pnpm workspace, 웹·앱 공통 TypeScript 계약 |
 
-<p>
-<img src="https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=Android&logoColor=white"/>
-<img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white"/>
-<img src="https://img.shields.io/badge/iOS-000000?style=flat-square&logo=Apple&logoColor=white"/>
-<img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/>
-<img src="https://img.shields.io/badge/-Vue.js-4fc08d?style=flat-square&logo=vuedotjs&logoColor=white"/>
-</p>
 <p>
 <img src="https://img.shields.io/badge/Laravel-2e2e2e?style=flat-square&logo=laravel"/>
 <img src="https://img.shields.io/badge/FastAPI-005571?style=flat-square&logo=fastapi"/>
