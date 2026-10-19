@@ -21,7 +21,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | ML/DL 및 Model | Scikit_Learn, PyTorch, Fine-tuning |
 | 벡엔드 | FastAPI, Spring Boot, Laravel |
 | Infra & Cloud | AWS (EKS, Lambda, S3, RDS), Docker, Docker-Compose, Kubernetes, Helm|
-| CI/CD & GitOps | Argo CD, GitHub Actions, fastlane, CircleCI|
+| CI/CD | Argo CD, GitHub Actions, fastlane, CircleCI|
 | 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
 | 캐시·비동기 처리 | Redis, RabbitMQ |
 | 프론트엔드 | React, Vue.js |
