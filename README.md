@@ -16,7 +16,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 |---|---|
 | Language | Python, Kotlin, Java, Dart, Swift, JavaScript  |
 | AI Agent | LangChain, LangGraph, OpenAI Agents SDK, MCP-Server |
-| ML/DL | Scikit_Learn, PyTorch, OpenAI Agents SDK |
+| ML/DL | Scikit_Learn, PyTorch |
 | 워크플로 오케스트레이션 | Prefect |
 | LLMOps | Langfuse, Langsmith |
 | Observability | Evidently, pandas, Pandera |
