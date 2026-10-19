@@ -24,7 +24,6 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | LLMOps | Langfuse, Prefect, Pandera, Evidently, pandas |
 | 로컬 실행·컨테이너 | Docker Compose, Kubernetes(kind), Helm |
 | AWS 인프라 | Amazon EKS, Amazon EC2(워커 노드), Amazon EBS(gp3), Amazon VPC |
-| API 진입·프록시 | Amazon CloudFront, Application Load Balancer(ALB), Nginx |
 | 검증·이미지 관리 | GitHub Actions, GitHub Container Registry(GHCR), Amazon ECR |
 | AWS 배포 도구 | AWS CloudFormation, eksctl, AWS CodeConnections, AWS CodeBuild |
 | GitOps 배포 | Helm, Argo CD |
