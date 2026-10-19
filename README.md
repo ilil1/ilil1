@@ -20,19 +20,15 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | 프론트엔드 | React, Vue.js, Flutter |
 | 모바일 | Android, iOS |
 | 업무·수집 API | Spring Boot, JDK 21, MyBatis, Flyway |
-| AI API·Agent | FastAPI, OpenAI, LangChain, LangGraph, OpenAI Agents SDK |
-| 평가 운영 API | Django, Django REST Framework |
 | 데이터 저장·검색 | MySQL 8.4, Elasticsearch(Nori/BM25), Qdrant |
 | 캐시·비동기 처리 | Redis, RabbitMQ |
 | LLMOps | Langfuse, Prefect, Pandera, Evidently, pandas |
 | 로컬 실행·컨테이너 | Docker Compose, Kubernetes(kind), Helm |
 | AWS 인프라 | Amazon EKS, Amazon EC2(워커 노드), Amazon EBS(gp3), Amazon VPC |
 | API 진입·프록시 | Amazon CloudFront, Application Load Balancer(ALB), Nginx |
-| 웹 배포 | Vercel |
 | 검증·이미지 관리 | GitHub Actions, GitHub Container Registry(GHCR), Amazon ECR |
 | AWS 배포 도구 | AWS CloudFormation, eksctl, AWS CodeConnections, AWS CodeBuild |
 | GitOps 배포 | Helm, Argo CD |
-| 모노레포·공통 계약 | pnpm workspace, 웹·앱 공통 TypeScript 계약 |
 
 <p>
 <img src = "https://img.shields.io/badge/-MySQL-4479A1?style=flat-square&logo=mysql&labelColor=4479A1&logoColor=FFF" />
