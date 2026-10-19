@@ -1,5 +1,5 @@
 
-#  Ai Software Engineer
+#  Ai Engineer
 
 4년 차 소프트웨어 엔지니어로서 Ai Agent 설계·구현부터 LLMOps 까지 AI 서비스의 전체 라이프사이클 시스템을 구축했습니다.  
 LLMOps 의 Evals로 LLM의 응답 품질 평가, Observability 로써 Tracing 및 Monitoring을 하여 안정적인 AI 서비스 운영 시스템을 구현했습니다.  
