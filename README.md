@@ -15,7 +15,8 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | 영역 | 적용 기술 |
 |---|---|
 | Language | Python, Kotlin, Java, Dart, Swift, JavaScript  |
-| AI Agent | LangChain, LangGraph, OpenAI Agents SDK |
+| AI Agent | LangChain, LangGraph, OpenAI Agents SDK, MCP-Server |
+| ML/DL | Scikit_Learn, PyTorch, OpenAI Agents SDK |
 | 벡엔드 | Spring Boot, Laravel, FastAPI, Firebase |
 | 프론트엔드 | React, Vue.js |
 | 모바일 | Android, iOS, Flutter |
@@ -24,13 +25,6 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | LLMOps | Langfuse, Prefect, Pandera, Evidently, pandas |
 | Infra & Cloud | AWS (EKS, Lambda, S3, RDS), Kubernetes, Docker, Helm, ArgoCD, GitHub Actions, Fastlane, circle-ci|
 
-<p>
- <img src = "https://img.shields.io/badge/-Scikit_Learn-0D1117?style=flat-square&logo=scikitlearn" />
- <img src = "https://img.shields.io/badge/-PyTorch-333?style=flat-square&logo=pytorch" />
- <img src="https://img.shields.io/badge/OpenAI API-412991?style=flat-square&logo=openai&logoColor=white"/>
- <img src="https://img.shields.io/badge/LangChain-4479A1?style=flat-square&&logo=langchain&logoColor=green"/>
- <img src="https://img.shields.io/badge/MCP-Server-green?style=flat-square"/>
-</p>
 
 # ⚡SNS
 
