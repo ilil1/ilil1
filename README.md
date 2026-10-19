@@ -10,7 +10,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 최근에는 개인 프로젝트에서 MLOps를 학습하며 AI 서비스의 배포·운영 인프라를 구축하고 있습니다.   
 또한 개발자로써 기술적 역할에만 국한하지 않으며 제품의 문제를 해결하는 팀원으로써 가능한 모든 부분에 적극적으로 참여합니다.  
 
-# 🌱Tech Stack
+# Tech Stack
 <p>
 <img src="https://img.shields.io/badge/Kotlin-0095D5?style=flat-square&logo=Kotlin&logoColor=white"/>
 <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white"/>
