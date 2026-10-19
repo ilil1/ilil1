@@ -26,7 +26,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | 캐시·비동기 처리 | Redis, RabbitMQ |
 | 프론트엔드 | React, Vue.js |
 | 모바일 | Android, iOS, Flutter |
-| 모바일 | Firebase App Distribution, Firebase Cloud Messaging (FCM), Firebase Analytics, Firebase Crashlytics |
+| Firebase Service | Firebase App Distribution, Firebase Cloud Messaging (FCM), Firebase Analytics, Firebase Crashlytics |
 
 
 
