@@ -22,10 +22,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
 | 캐시·비동기 처리 | Redis, RabbitMQ |
 | LLMOps | Langfuse, Prefect, Pandera, Evidently, pandas |
-| Infra | AWS (EKS/ECS, Lambda, S3, RDS, DynamoDB), Kubernetes, Docker, Helm, ArgoCD, Fastlane, circle-ci|
-| AWS 인프라 | Amazon EKS, Amazon EC2(워커 노드), Amazon EBS(gp3), Amazon VPC |
-| 검증·이미지 관리 | GitHub Actions, GitHub Container Registry(GHCR), Amazon ECR |
-| AWS 배포 도구 | AWS CloudFormation, eksctl, AWS CodeConnections, AWS CodeBuild |
+| Infra & Cloud | AWS (EKS, Lambda, S3, RDS), Kubernetes, Docker, Helm, ArgoCD, GitHub Actions, Fastlane, circle-ci|
 
 <p>
  <img src = "https://img.shields.io/badge/-Scikit_Learn-0D1117?style=flat-square&logo=scikitlearn" />
