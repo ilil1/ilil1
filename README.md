@@ -11,6 +11,27 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 또한 개발자로써 기술적 역할에만 국한하지 않으며 제품의 문제를 해결하는 팀원으로써 가능한 모든 부분에 적극적으로 참여합니다.  
 
 # Tech Stack
+
+| 영역 | 적용 기술 |
+|---|---|
+| 구현 언어 | Kotlin, Python 3.12, TypeScript 6 |
+| 웹 프론트엔드 | React 19, Vite 8, Tailwind CSS 4, React Router, Redux Toolkit, Zod |
+| 모바일 | React Native, Expo, Expo Router, Firebase App Distribution(테스트 앱 배포) |
+| 업무·수집 API | Spring Boot, JDK 21, MyBatis, Flyway |
+| AI API·Agent | FastAPI, OpenAI, LangChain, LangGraph, OpenAI Agents SDK |
+| 평가 운영 API | Django, Django REST Framework |
+| 데이터 저장·검색 | MySQL 8.4, Elasticsearch(Nori/BM25), Qdrant |
+| 캐시·비동기 처리 | Redis, RabbitMQ |
+| LLMOps | Langfuse, Prefect, Pandera, Evidently, pandas |
+| 로컬 실행·컨테이너 | Docker Compose, Kubernetes(kind), Helm |
+| AWS 인프라 | Amazon EKS, Amazon EC2(워커 노드), Amazon EBS(gp3), Amazon VPC |
+| API 진입·프록시 | Amazon CloudFront, Application Load Balancer(ALB), Nginx |
+| 웹 배포 | Vercel |
+| 검증·이미지 관리 | GitHub Actions, GitHub Container Registry(GHCR), Amazon ECR |
+| AWS 배포 도구 | AWS CloudFormation, eksctl, AWS CodeConnections, AWS CodeBuild |
+| GitOps 배포 | Helm, Argo CD |
+| 모노레포·공통 계약 | pnpm workspace, 웹·앱 공통 TypeScript 계약 |
+
 <p>
 <img src="https://img.shields.io/badge/Kotlin-0095D5?style=flat-square&logo=Kotlin&logoColor=white"/>
 <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white"/>
