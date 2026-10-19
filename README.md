@@ -15,12 +15,11 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | 영역 | 적용 기술 |
 |---|---|
 | Language | Python, Kotlin, Java, Dart, Swift, JavaScript  |
-| AI Agent | FastAPI, OpenAI, LangChain, LangGraph, OpenAI Agents SDK |
+| AI Agent | OpenAI, LangChain, LangGraph, OpenAI Agents SDK |
 | 벡엔드 | Spring Boot, Laravel, FastAPI, Firebase |
 | 프론트엔드 | React, Vue.js |
 | 모바일 | Android, iOS, Flutter |
-| 업무·수집 API | Spring Boot, JDK 21, MyBatis, Flyway |
-| 데이터 저장·검색 | MySQL 8.4, Elasticsearch(Nori/BM25), Qdrant |
+| 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
 | 캐시·비동기 처리 | Redis, RabbitMQ |
 | LLMOps | Langfuse, Prefect, Pandera, Evidently, pandas |
 | 로컬 실행·컨테이너 | Docker Compose, Kubernetes(kind), Helm |
@@ -30,12 +29,6 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | AWS 배포 도구 | AWS CloudFormation, eksctl, AWS CodeConnections, AWS CodeBuild |
 | GitOps 배포 | Helm, Argo CD |
 
-<p>
-<img src = "https://img.shields.io/badge/-MySQL-4479A1?style=flat-square&logo=mysql&labelColor=4479A1&logoColor=FFF" />
-<img src = "https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=Redis&logoColor=white"/>
-<img src = "https://img.shields.io/badge/Elasticsearch-005571?style=flat-square&logo=elasticsearch"/>
-<img src = "https://img.shields.io/badge/VectorDB-Qdrant-red?style=flat-square&logo"/>
-</p>
 <p>
  <img src = "https://img.shields.io/badge/-Scikit_Learn-0D1117?style=flat-square&logo=scikitlearn" />
  <img src = "https://img.shields.io/badge/-PyTorch-333?style=flat-square&logo=pytorch" />
