@@ -31,7 +31,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 
 
 
-# ⚡SNS
+# SNS
 
 <a href="https://velog.io/@ilil1"><img src="https://img.shields.io/badge/Tech%20Blog-11B48A?style=flat-square&logo=Vimeo&logoColor=white&link=https://velog.io/@ilil1"/></a>
 
