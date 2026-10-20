@@ -1,7 +1,9 @@
-# 로지스팟 화주용 — 노션 페이지 HTML
+# 로지스팟 포트폴리오 — 노션 페이지 HTML
 
-- 공개 사이트: https://ilil1.github.io/ilil1/
-- 원문: https://app.notion.com/p/2fbdff352c1480e5bccafcc4df3dc583
+- 화주용 사이트: https://ilil1.github.io/ilil1/
+- 화주용 원문: https://app.notion.com/p/2fbdff352c1480e5bccafcc4df3dc583
+- 차주용 사이트: https://ilil1.github.io/ilil1/logispot-driver/
+- 차주용 원문: https://app.notion.com/p/2fbdff352c1480219814d8fd96310913
 - 배포 위치: `main` 브랜치의 `/docs` 디렉터리
 - 배포 방식: GitHub Pages → Deploy from a branch
 
@@ -9,8 +11,10 @@
 
 ## 파일
 
-- `docs/index.html`: 원문 내용과 링크
-- `docs/styles.css`: 노션 문서 서식과 모바일·인쇄 스타일
+- `docs/index.html`: 화주용 원문 내용과 링크
+- `docs/logispot-driver/index.html`: 차주용 원문 내용과 링크
+- `docs/styles.css`: 공통 노션 문서 서식과 모바일·인쇄 스타일
+- `docs/logispot-driver/styles.css`: 차주용 원문의 개별 간격
 - `docs/.nojekyll`: 정적 파일을 그대로 배포하도록 설정
 
 외부 글꼴, JavaScript, 빌드 도구 또는 패키지 설치 없이 동작합니다.
@@ -21,7 +25,7 @@
 python3 -m http.server 4173 --bind 127.0.0.1 --directory docs
 ```
 
-http://127.0.0.1:4173 에 접속합니다.
+화주용은 http://127.0.0.1:4173 에, 차주용은 http://127.0.0.1:4173/logispot-driver/ 에 접속합니다.
 
 ## 수정과 배포
 

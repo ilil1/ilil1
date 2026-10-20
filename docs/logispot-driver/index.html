@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="로지스팟 차주용 앱의 프로젝트 개요, 주요 기술, 담당 업무 및 성과입니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="로지스팟 차주용">
+  <meta property="og:description" content="프로젝트 개요 · 프로젝트 주요 기술 · 프로젝트 담당 · 프로젝트 성과">
+  <meta property="og:url" content="https://ilil1.github.io/ilil1/logispot-driver/">
+  <link rel="canonical" href="https://ilil1.github.io/ilil1/logispot-driver/">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="./styles.css">
+  <title>로지스팟 차주용</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">콘텐츠로 건너뛰기</a>
+  <header class="page-bar"><a href="#main">로지스팟 차주용</a></header>
+  <main class="page" id="main">
+    <h1>로지스팟 차주용</h1>
+    <div class="project-links">
+      <p><strong>로지스팟 대표 사이트 :</strong> <a href="https://logi-spot.com/" rel="noopener noreferrer">https://logi-spot.com/</a></p>
+      <p><strong>안드로이드 : <a href="https://play.google.com/store/apps/details?id=com.TruckUpDriver.android" rel="noopener noreferrer">구글 플레이 링크</a></strong></p>
+      <p><strong>iOS : </strong><a href="https://apps.apple.com/kr/app/%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8C%9F-%EC%B0%A8%EC%A3%BC%EC%9A%A9/id1464864599" rel="noopener noreferrer"><strong>앱</strong> 스토어 링크</a> </p>
+    </div>
+    <hr class="links-divider">
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">프로젝트 개요</h2>
+      <p class="overview-text">로지스팟 차주용 APP은 일반·지입·대장기사 및 협력사(Carrier)가 화주사와 운송사로부터 전달된 오더를 수행하기 위한 차량용 애플리케이션입니다. 본 프로젝트는 기사님들이 사용하던 기존 Native 앱을 <strong>Flutter 기반으로 전환</strong>하는 것을 목표로 진행되었습니다.</p>
+    </section>
+
+    <section class="technology-section" aria-labelledby="technology">
+      <h2 id="technology">프로젝트 주요 기술</h2>
+      <div class="technology-list">
+        <p><strong>Framwork :</strong> Flutter 3.27.1</p>
+        <p><strong>Language</strong>: Dart(Main) 3.6.0 / Kotlin 2.1.0 / Swift</p>
+        <p><strong>Architecture</strong>: Monorepo(melos 6.3.2), CleanArchitecture, Multi-Module, MVVM</p>
+        <p><strong>Networking</strong>: chopper 7.0.10</p>
+        <p><strong>Asynchronous</strong>: RxDart, asyn/await</p>
+        <p><strong>LocalDB</strong>: hive</p>
+        <p><strong>Test</strong> : Mockito, Appium</p>
+        <p><strong>ETC</strong>: Firebase crashlytics, Firebase analytics, FCM</p>
+        <p><strong>CI/CD:</strong> Git Action</p>
+        <p><strong>State Management : </strong>Riverpod</p>
+        <p><strong>DI</strong>: Riverpod</p>
+        <p><strong>ETC :</strong> FCM Deep Link</p>
+      </div>
+    </section>
+
+    <section class="responsibility-section" aria-labelledby="responsibility">
+      <h2 id="responsibility"> 프로젝트 담당</h2>
+      <ul class="responsibility-list">
+        <li>프로젝트 아키텍처 설계 (100% 기여) <br>프로젝트에 클린아키텍쳐 설계 및 Riverpod 을 활용한 동일한 코드로 state 관리를 디자인 패턴을 만듭니다. </li>
+        <li>프로젝트 모노레포 및 멀티 모듈 구조로 전환 (50% 기여)<br>이미 완성된 화주앱과 차주앱을 합쳐서 하나의 레포에서 관리하고 각각의 공통 위젯 및 기능을 모듈화하여 멀티 모듈로 관리합니다. </li>
+        <li>회원가입 및 로그인 개발 (100% 기여)<br>회원 가입을 하고 로그인을 진행합니다.</li>
+        <li>메인 페이지 (100% 기여)<br>드라이버 앱의 메인페이지 구조를 잡고 하단 탭으로 각 영역을 분리하는 페이지를 만듭니다.</li>
+        <li>실시간 오더 리스트 및 상세 페이지 (100% 기여)<br>화물 오더를 기사들이 자유롭게 잡을 수 있는 페이지 입니다.</li>
+        <li>운송사 페이지 (100% 기여)<br>운송사에서 오더를 기사에게 배정할 수 있습니다. </li>
+        <li>설정 페이지 (100% 기여)<br>문서 등록 / 개인 정보 수정/ 회원탈퇴 / 비밀번호 수정 / 하위 기사 등록 / 정산 관리 등 여러 기능들이 있는 페이지에 대해서 개발</li>
+        <li>CI/CD 구축 (50% 기여)<br>안드로이드 배포 관련 CI/CD 를 담당해서 구축했습니다. </li>
+        <li>FCM 알림 및 FCM 인앱 페이지 (100% 기여)<br>FCM 을 통해서 기사들이 오더가 배정됬을 때 알림을 실시간으로 받게 됩니다.</li>
+        <li>모든 API 및 기능에 대해서 네이티브와 비교해서 전수 검증 진행<br>네이티브 유지보수한 기간이 길어서 비즈니스 로직을 잘 알기 때문에 동료 개발자가 놓칠 수 있는 부분에 대해서 검증을 진행했습니다.</li>
+      </ul>
+    </section>
+
+    <section class="results-section" aria-labelledby="results">
+      <h2 id="results"> 프로젝트 성과</h2>
+      <ul class="results-list">
+        <li>안드로이드 / iOS 따로 관리되서 기능이 안드로이드에는 있지만 iOS 는 없는 기능이 플러터로 전환후 동일하게 구축되었습니다.</li>
+        <li>CI/CD 를 통한 자동 배포를 통해 배포 추적에 용의하고 배포를 하는데 있어 휴먼 에러를 줄일 수 있고 시간을 절약할 수 있게 되었습니다</li>
+        <li>FireBase APP Distribution 도입을 통해 QA 인원들이 테스트 앱 설치를 하는것에 더 쉽게 접근하고 버전 관리에 용의함을 가져가게 되었습니다.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
