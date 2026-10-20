@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="로지스팟 화주용 앱의 프로젝트 개요, 주요 기술, 담당 업무 및 성과입니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="로지스팟 화주용">
+  <meta property="og:description" content="프로젝트 개요 · 프로젝트 주요 기술 · 프로젝트 담당 · 프로젝트 성과">
+  <meta property="og:url" content="https://ilil1.github.io/ilil1/">
+  <link rel="canonical" href="https://ilil1.github.io/ilil1/">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./styles.css">
+  <title>로지스팟 화주용</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">콘텐츠로 건너뛰기</a>
+  <header class="page-bar"><a href="#main">로지스팟 화주용</a></header>
+  <main class="page" id="main">
+    <h1>로지스팟 화주용</h1>
+    <hr class="title-divider">
+    <div class="project-links">
+      <p><strong>로지스팟 대표 사이트 :</strong> <a href="https://logi-spot.com/" rel="noopener noreferrer">https://logi-spot.com/</a></p>
+      <p><strong>안드로이드 : <a href="https://play.google.com/store/apps/details?id=com.TruckUp.android" rel="noopener noreferrer">구글 플레이 링크</a></strong></p>
+      <p><strong>iOS :</strong> <a href="https://apps.apple.com/kr/app/%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8C%9F-%ED%99%94%EC%A3%BC%EC%9A%A9/id1178000751" rel="noopener noreferrer">앱스토어 링크</a></p>
+    </div>
+    <hr class="links-divider">
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">프로젝트 개요</h2>
+      <p class="overview-text">로지스팟 화주용 APP은 화주사의 빠른 배차 요청과 배차 목록 관리를 지원하는 B2B 프로덕트입니다. 논픽션·올리브영·코오롱인더스트리와 같은 일부 화주사의 경우 지역 매장 및 팝업스토어 운영 특성상 현장 배차를 위한 모바일 APP 사용이 필요했습니다. 퀵서비스 및 소형 카고를 활용한 운송 니즈가 있었습니다. 본 프로젝트는 기존 Native(AOS, iOS) 기반 앱을 Flutter로 전환하는 것을 1차 목표로 시작했으나, 이를 계기로 기존 화주사들의 다양한 니즈를 적극 반영한 새로운 화주용 APP으로 리뉴얼을 진행하였습니다. </p>
+    </section>
+
+    <section class="technology-section" aria-labelledby="technology">
+      <h2 id="technology">프로젝트 주요 기술</h2>
+      <div class="technology-list">
+        <p><strong>Framwork :</strong> Flutter 3.27.1</p>
+        <p><strong>Language</strong>: Dart(Main) 3.6.0 / Kotlin 2.1.0 / Swift</p>
+        <p><strong>Architecture</strong>: Monorepo(melos 6.3.2), CleanArchitecture, Multi-Module, Bloc</p>
+        <p><strong>Networking</strong>: chopper 7.0.10</p>
+        <p><strong>Asynchronous</strong>: RxDart, asyn/await</p>
+        <p><strong>LocalDB</strong>: SharedPreferences</p>
+        <p><strong>Test</strong> : Mockito, Appium</p>
+        <p><strong>ETC</strong>: Firebase crashlytics, Firebase analytics, FCM</p>
+        <p><strong>CI/CD:</strong> Git Action</p>
+        <p><strong>State Management : </strong>Bloc</p>
+        <p><strong>DI</strong>: get_it , injectable</p>
+      </div>
+    </section>
+
+    <section class="responsibility-section" aria-labelledby="responsibility">
+      <h2 id="responsibility"> 프로젝트 담당</h2>
+      <ul class="responsibility-list">
+        <li>프로젝트 아키텍처 설계 (80% 기여) <br>프로젝트에 클린아키텍쳐 설계 및 Bloc 을 활용한 동일한 코드로 state 관리를 디자인 패턴을 만듭니다. </li>
+        <li>배차 내역 리스트 및 필터 (100% 기여)<br>배차를 진행하면 배차 내역 리스트 확인을 하고 관련 필터링을 진행해서 보고 싶은 배차 리스트를 확인합니다. 배차 관련 중요한 정보를 확인 할 수 있습니다.</li>
+        <li>배차 내역 상세 (80% 기여)<br>배차 내역 리스트에 들어가서 실제 배차 내역에 상세적인 정보들을 확인합니다. 배차에 관한 수많은 정보를 확인할 수 있습니다.</li>
+        <li>설정 및 고객지원 개발 (90% 기여)<br>설정에 있는 APP 에 여러 기능을 구현합니다. 고객지원을 위한 페이지를 구현합니다.</li>
+        <li>CI/CD 구축 (50% 기여)<br>안드로이드 배포 관련 CI/CD 를 담당해서 구축했습니다. </li>
+        <li>모든 API 및 기능에 대해서 네이티브와 비교해서 전수 검증 진행<br>네이티브 유지보수한 기간이 길어서 비즈니스 로직을 잘 알기 때문에 동료 개발자가 놓칠 수 있는 부분에 대해서 검증을 진행했습니다.</li>
+      </ul>
+    </section>
+
+    <section class="results-section" aria-labelledby="results">
+      <h2 id="results"> 프로젝트 성과</h2>
+      <ul class="results-list">
+        <li>안드로이드 / iOS 따로 관리되서 기능이 안드로이드에는 있지만 iOS 는 없는 기능이 플러터로 전환후 동일하게 구축되었습니다.</li>
+        <li>CI/CD 를 통한 자동 배포를 통해 배포 추적에 용의하고 배포를 하는데 있어 휴먼 에러를 줄일 수 있고 시간을 절약할 수 있게 되었습니다</li>
+        <li>FireBase APP Distribution 도입을 통해 QA 인원들이 테스트 앱 설치를 하는것에 더 쉽게 접근하고 버전 관리에 용의함을 가져가게 되었습니다.</li>
+        <li>개발 인력부족으로 개선되지 않았던 iOS 화주앱이 개선되어 화주사의 iOS 사용자 2배 증가</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
