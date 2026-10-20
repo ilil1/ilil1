@@ -15,7 +15,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | 영역 | 적용 기술 |
 |---|---|
 | Language | Python, Kotlin, Java, Dart, Swift, JavaScript  |
-| Ai Agent | LangChain, LangGraph, MCP-Server |
+| Ai 에이전트 | LangChain, LangGraph, MCP-Server |
 | Ai 평가·모니터링 | Langfuse, Langsmith, MLflow, Evidently |
 | 워크플로 오케스트레이션 | Apache Airflow, Prefect |
 | ML/DL 및 Model | Scikit_Learn, PyTorch, Fine-tuning |
