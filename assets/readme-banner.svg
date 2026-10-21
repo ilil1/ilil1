@@ -1,6 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" fill="none" role="img" aria-labelledby="title description">
-  <title id="title">AI Agent Engineering · Backend / Infra</title>
-  <desc id="description">ilil1 engineering profile banner. Midnight navy background, turquoise typography accents, and connected agent, backend, and infrastructure nodes.</desc>
+  <title id="title">Ai Engineer · Backend / Infra</title>
+  <desc id="description">Midnight navy banner with turquoise accents, softly pulsing lights, and animated signals connecting agent, backend, and infrastructure nodes.</desc>
+  <style>
+    .ambient-light { animation: breathe 7s ease-in-out infinite; }
+    .signal { stroke-dasharray: 3 32; animation: flow 6s linear infinite; }
+    .signal-return { animation-delay: -3s; }
+    .status-light { animation: pulse 4s ease-in-out infinite; }
+    .status-delayed { animation-delay: -2s; }
+    @keyframes flow { to { stroke-dashoffset: -140; } }
+    @keyframes pulse { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
+    @keyframes breathe { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .ambient-light, .signal, .status-light { animation: none; }
+    }
+  </style>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1280" y2="360" gradientUnits="userSpaceOnUse">
       <stop stop-color="#0C1425"/>
@@ -26,18 +39,13 @@
 
   <g clip-path="url(#frame)">
     <rect width="1280" height="360" fill="url(#background)"/>
-    <rect width="1280" height="360" fill="url(#light)"/>
+    <rect class="ambient-light" width="1280" height="360" fill="url(#light)"/>
     <path d="M784 0H1280V360H784Z" fill="url(#grid)"/>
     <path d="M837-31 682 391M861-31 706 391" stroke="#76A6B2" stroke-opacity=".08"/>
     <rect x=".5" y=".5" width="1279" height="359" rx="17.5" stroke="#26384A"/>
 
     <g font-family="Arial, Helvetica, sans-serif">
-      <rect x="62" y="55" width="7" height="7" rx="2" fill="#6EE7D7"/>
-      <text x="82" y="65" fill="#CCD7E0" font-size="15" font-weight="700" letter-spacing="2.8">ILIL1</text>
-      <path d="M151 51V68" stroke="#3C5064"/>
-      <text x="168" y="64" fill="#889EAF" font-size="11" font-weight="500" letter-spacing="2.4">ENGINEERING PORTFOLIO</text>
-
-      <text x="60" y="166" fill="#F3F7FA" font-size="61" font-weight="700" letter-spacing="-2.1">AI Agent Engineering</text>
+      <text x="60" y="166" fill="#F3F7FA" font-size="76" font-weight="700" letter-spacing="-2.1">Ai Engineer</text>
       <text x="63" y="224" fill="#9EDBD9" font-size="31" font-weight="400" letter-spacing=".5">Backend <tspan fill="#456678">/</tspan> Infra</text>
 
       <path d="M63 271H726" stroke="url(#accent)"/>
@@ -54,8 +62,12 @@
       <path d="M917 132V232" stroke-dasharray="4 7" opacity=".32"/>
       <path d="M1000 269H1170Q1190 269 1190 249V79" stroke-dasharray="4 7" opacity=".22"/>
     </g>
-    <circle cx="1100" cy="122" r="3" fill="#79DAD1"/>
-    <circle cx="1049" cy="269" r="3" fill="#79DAD1"/>
+    <g stroke="#A4FFF0" stroke-width="3" stroke-linecap="round">
+      <path class="signal" d="M982 93H1079Q1100 93 1100 114V139"/>
+      <path class="signal signal-return" d="M1100 217V251Q1100 269 1082 269H1000"/>
+    </g>
+    <circle class="status-light" cx="1100" cy="122" r="3" fill="#79DAD1"/>
+    <circle class="status-light status-delayed" cx="1049" cy="269" r="3" fill="#79DAD1"/>
     <circle cx="1190" cy="79" r="3" stroke="#678B9A" stroke-width="1.5"/>
 
     <rect x="850" y="53" width="132" height="80" rx="12" fill="#132535" stroke="#386474"/>
@@ -70,15 +82,15 @@
     <path d="m1046 165-6 8 6 8m11-16 6 8-6 8" stroke="#85E7D8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="1081" y="176" fill="#D6EBEB" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" letter-spacing="1">BACKEND</text>
     <path d="M1082 188H1148" stroke="#4C7484" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="1164" cy="154" r="2.5" fill="#7CE7D4"/>
+    <circle class="status-light" cx="1164" cy="154" r="2.5" fill="#7CE7D4"/>
 
     <rect x="852" y="232" width="148" height="80" rx="12" fill="#132535" stroke="#386474"/>
     <g stroke="#81BFC6" stroke-width="1.4">
       <rect x="870" y="249" width="31" height="11" rx="3"/>
       <rect x="870" y="265" width="31" height="11" rx="3"/>
     </g>
-    <circle cx="877" cy="254.5" r="1.5" fill="#7CE7D4"/>
-    <circle cx="877" cy="270.5" r="1.5" fill="#7CE7D4"/>
+    <circle class="status-light" cx="877" cy="254.5" r="1.5" fill="#7CE7D4"/>
+    <circle class="status-light status-delayed" cx="877" cy="270.5" r="1.5" fill="#7CE7D4"/>
     <path d="M916 253H980M916 264H962M916 275H972" stroke="#527889" stroke-width="2.5" stroke-linecap="round"/>
     <text x="871" y="296" fill="#9FC1CD" font-family="Arial, Helvetica, sans-serif" font-size="8" letter-spacing="2">INFRA</text>
   </g>
