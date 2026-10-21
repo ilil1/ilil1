@@ -11,6 +11,21 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 최근에는 개인 프로젝트에서 MLOps를 학습하며 ML·DL 서비스의 배포·운영 인프라를 구축하고 있습니다.   
 또한 개발자로써 기술적 역할에만 국한하지 않으며 제품의 문제를 해결하는 팀원으로써 가능한 모든 부분에 적극적으로 참여합니다.  
 
+# Project
+
+### Ai Agent 를 활용한 **정부지원사업 탐색·신청 관리 플랫폼 고도화**
+
+(2025.9.20 ~ 2025.10.15)
+
+- **프로젝트 원본 링크 :** [https://github.com/ilil1/SKN34-4th-1Team](https://github.com/ilil1/SKN34-4th-1Team)
+- 프로젝트 기술 보고서 링크 :
+- PM 역할
+- 사용자 의도에 따라 업무별 기능을 연결하는 LLM 기반 슈퍼바이저 에이전트 설계 및 구현.
+- 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.
+- Django 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.
+- Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처를 설계.
+- React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.
+
 # Tech Stack
 
 | 영역 | 적용 기술 |
