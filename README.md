@@ -24,6 +24,17 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 - Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처를 설계.
 - React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.
 
+### 2. Ai Agent 를 활용한 **정부지원사업 탐색·신청 관리 플랫폼**
+
+(2025.9.2 ~ 2025.9.17)
+
+- **프로젝트 원본 링크 :** [https://github.com/ilil1/SKN34-3rd-1Team](https://github.com/ilil1/SKN34-3rd-1Team)
+- Elasticsearch(Nori·BM25)와 Qdrant hybrid 검색에 RRF·LLM 재순위화를 적용, 원문의 인용을 검증하는 RAG 응답 기능 구현.
+- Core API(Spring Boot)·Ai Service(FastAPI)의 책임 분리 및 서비스 간 API 통신·데이터 흐름 설계.
+- 백엔드의 레이어드 아키텍처 설계 그리고 프론트엔드의 클린아키텍처 및 MVVM / Flux 패턴
+- Vercel 기반 프론트엔드 및 AWS CodeBuild·ECR·SSM 기반 백엔드 CD 파이프라인 구축.
+- AWS EC2·RDS의 프라이빗 서브넷 배치 및 CloudFront·Nginx 라우팅·NAT Gateway 외부 통신 구성.
+
 # Tech Stack
 
 | 영역 | 적용 기술 |
