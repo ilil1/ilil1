@@ -61,6 +61,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 #### 사용 기술
 
 - **Ai 에이전트:** LangChain, LangGraph, MCP-Server, OpenAI API
+- **검색:** Elasticsearch(Nori/BM25), Qdrant
 - **Infra & Cloud:** AWS (EC2, RDS, ECR), Docker, Docker Compose
 
 <details>
