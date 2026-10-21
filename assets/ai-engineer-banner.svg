@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" fill="none" role="img" aria-labelledby="title description">
   <title id="title">Ai Engineer · Backend / Infra</title>
-  <desc id="description">Ai Engineer with a turquoise shimmer, animated connections, and specialties: Ai Agents · Infra · ML · DL · Fine-tuning · Backend · Frontend · Mobile.</desc>
+  <desc id="description">A fresh ivory and mint banner with a shimmering Ai Engineer heading, animated connections, and specialties: Ai Agents · Infra · ML · DL · Fine-tuning · Backend · Frontend · Mobile.</desc>
   <style>
     .ambient-light { animation: breathe 7s ease-in-out infinite; }
     .signal { stroke-dasharray: 3 32; animation: flow 6s linear infinite; }
@@ -22,51 +22,56 @@
   </style>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1280" y2="360" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#0C1425"/>
-      <stop offset="1" stop-color="#111F30"/>
+      <stop stop-color="#FCFCF6"/>
+      <stop offset="1" stop-color="#EFFAF6"/>
     </linearGradient>
     <radialGradient id="light" cx="0" cy="0" r="1" gradientTransform="translate(1095 170) rotate(90) scale(300 410)" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#255C66" stop-opacity=".28"/>
-      <stop offset="1" stop-color="#255C66" stop-opacity="0"/>
+      <stop stop-color="#BCEBD9" stop-opacity=".65"/>
+      <stop offset="1" stop-color="#BCEBD9" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="accent" x1="62" y1="0" x2="728" y2="0" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#6EE7D7"/>
-      <stop offset="1" stop-color="#6EE7D7" stop-opacity="0"/>
+      <stop stop-color="#77CDB3"/>
+      <stop offset="1" stop-color="#77CDB3" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="connection" x1="885" y1="70" x2="1178" y2="300" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#78E6D7"/>
-      <stop offset="1" stop-color="#6C9EBE"/>
+      <stop stop-color="#63BBA3"/>
+      <stop offset="1" stop-color="#74AFC1"/>
     </linearGradient>
     <linearGradient id="title-shine">
-      <stop stop-color="#6EE7D7" stop-opacity="0"/>
-      <stop offset=".5" stop-color="#6EE7D7" stop-opacity=".95"/>
-      <stop offset="1" stop-color="#6EE7D7" stop-opacity="0"/>
+      <stop stop-color="#178A79" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#178A79" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#178A79" stop-opacity="0"/>
     </linearGradient>
     <clipPath id="title-clip">
       <text x="60" y="166" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700" letter-spacing="-2.1">Ai Engineer</text>
     </clipPath>
-    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-      <path d="M32 0H0V32" stroke="#7FA4BC" stroke-opacity=".07"/>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="1" fill="#80B5A6" fill-opacity=".22"/>
     </pattern>
-    <clipPath id="frame"><rect width="1280" height="360" rx="18"/></clipPath>
+    <filter id="card-shadow" x="-25%" y="-35%" width="150%" height="180%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#277A6C" flood-opacity=".09"/>
+    </filter>
+    <clipPath id="frame"><rect width="1280" height="360" rx="24"/></clipPath>
   </defs>
 
   <g clip-path="url(#frame)">
     <rect width="1280" height="360" fill="url(#background)"/>
     <rect class="ambient-light" width="1280" height="360" fill="url(#light)"/>
-    <path d="M784 0H1280V360H784Z" fill="url(#grid)"/>
-    <path d="M837-31 682 391M861-31 706 391" stroke="#76A6B2" stroke-opacity=".08"/>
-    <rect x=".5" y=".5" width="1279" height="359" rx="17.5" stroke="#26384A"/>
+    <circle cx="1190" cy="20" r="180" fill="#DDEFF4" fill-opacity=".55"/>
+    <circle cx="1245" cy="360" r="145" fill="#F5EDC9" fill-opacity=".6"/>
+    <circle cx="1045" cy="181" r="173" stroke="#AFDACB" stroke-opacity=".4"/>
+    <path d="M784 0H1280V360H784Z" fill="url(#dots)"/>
+    <rect x=".5" y=".5" width="1279" height="359" rx="23.5" stroke="#DCEAE1"/>
 
     <g font-family="Arial, Helvetica, sans-serif">
-      <text x="60" y="166" fill="#F3F7FA" font-size="76" font-weight="700" letter-spacing="-2.1">Ai Engineer</text>
+      <text x="60" y="166" fill="#183F38" font-size="76" font-weight="700" letter-spacing="-2.1">Ai Engineer</text>
       <g clip-path="url(#title-clip)" aria-hidden="true">
         <rect class="title-shimmer" x="-180" y="85" width="160" height="100" fill="url(#title-shine)"/>
       </g>
-      <text x="63" y="224" fill="#9EDBD9" font-size="31" font-weight="400" letter-spacing=".5">Backend <tspan fill="#456678">/</tspan> Infra</text>
+      <text x="63" y="224" fill="#427B6E" font-size="31" font-weight="400" letter-spacing=".5">Backend <tspan fill="#9DC9B9">/</tspan> Infra</text>
 
       <path d="M63 271H726" stroke="url(#accent)"/>
-      <text x="63" y="302" fill="#9FB3C3" font-size="17" letter-spacing=".25">Ai Agents · Infra · ML · DL · Fine-tuning · Backend · Frontend · Mobile</text>
+      <text x="63" y="302" fill="#536F65" font-size="19" letter-spacing=".25">Ai Agents · Infra · ML · DL · Fine-tuning · Backend · Frontend · Mobile</text>
     </g>
 
     <g stroke="url(#connection)" stroke-width="1.5">
@@ -75,36 +80,36 @@
       <path d="M917 132V232" stroke-dasharray="4 7" opacity=".32"/>
       <path d="M1000 269H1170Q1190 269 1190 249V79" stroke-dasharray="4 7" opacity=".22"/>
     </g>
-    <g stroke="#A4FFF0" stroke-width="3" stroke-linecap="round">
+    <g stroke="#159B80" stroke-width="3" stroke-linecap="round">
       <path class="signal" d="M982 93H1079Q1100 93 1100 114V139"/>
       <path class="signal signal-return" d="M1100 217V251Q1100 269 1082 269H1000"/>
     </g>
-    <circle class="status-light" cx="1100" cy="122" r="3" fill="#79DAD1"/>
-    <circle class="status-light status-delayed" cx="1049" cy="269" r="3" fill="#79DAD1"/>
-    <circle cx="1190" cy="79" r="3" stroke="#678B9A" stroke-width="1.5"/>
+    <circle class="status-light" cx="1100" cy="122" r="3" fill="#159B80"/>
+    <circle class="status-light status-delayed" cx="1049" cy="269" r="3" fill="#159B80"/>
+    <circle cx="1190" cy="79" r="3" stroke="#7EABAA" stroke-width="1.5"/>
 
-    <rect x="850" y="53" width="132" height="80" rx="12" fill="#132535" stroke="#386474"/>
-    <rect x="866" y="70" width="32" height="32" rx="8" fill="#1A3B43"/>
-    <path d="M882 76V96M872 86H892M875 79 889 93M889 79 875 93" stroke="#7CE7D4" stroke-width="1.5" stroke-linecap="round"/>
-    <circle cx="882" cy="86" r="3" fill="#7CE7D4" stroke="#1A3B43" stroke-width="2"/>
-    <path d="M914 80H963M914 91H947" stroke="#608597" stroke-width="3" stroke-linecap="round"/>
-    <text x="868" y="119" fill="#9FC1CD" font-family="Arial, Helvetica, sans-serif" font-size="8" letter-spacing="2">AGENT</text>
+    <rect x="850" y="53" width="132" height="80" rx="16" fill="#FFFFFF" stroke="#C5E3D7" filter="url(#card-shadow)"/>
+    <rect x="866" y="70" width="32" height="32" rx="10" fill="#E2F5EB"/>
+    <path d="M882 76V96M872 86H892M875 79 889 93M889 79 875 93" stroke="#229C7B" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="882" cy="86" r="3" fill="#229C7B" stroke="#E2F5EB" stroke-width="2"/>
+    <path d="M914 80H963M914 91H947" stroke="#9ABCB0" stroke-width="3" stroke-linecap="round"/>
+    <text x="868" y="119" fill="#527D6D" font-family="Arial, Helvetica, sans-serif" font-size="8" letter-spacing="2">AGENT</text>
 
-    <rect x="1017" y="139" width="165" height="78" rx="12" fill="#142C3B" stroke="#4B8990"/>
-    <rect x="1034" y="156" width="34" height="34" rx="8" fill="#1D414A"/>
-    <path d="m1046 165-6 8 6 8m11-16 6 8-6 8" stroke="#85E7D8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="1081" y="176" fill="#D6EBEB" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" letter-spacing="1">BACKEND</text>
-    <path d="M1082 188H1148" stroke="#4C7484" stroke-width="2" stroke-linecap="round"/>
-    <circle class="status-light" cx="1164" cy="154" r="2.5" fill="#7CE7D4"/>
+    <rect x="1017" y="139" width="165" height="78" rx="16" fill="#FFFFFF" stroke="#BBD9DE" filter="url(#card-shadow)"/>
+    <rect x="1034" y="156" width="34" height="34" rx="10" fill="#E4F2F7"/>
+    <path d="m1046 165-6 8 6 8m11-16 6 8-6 8" stroke="#367F9B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="1081" y="176" fill="#356171" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" letter-spacing="1">BACKEND</text>
+    <path d="M1082 188H1148" stroke="#A6C8D2" stroke-width="2" stroke-linecap="round"/>
+    <circle class="status-light" cx="1164" cy="154" r="2.5" fill="#229C7B"/>
 
-    <rect x="852" y="232" width="148" height="80" rx="12" fill="#132535" stroke="#386474"/>
-    <g stroke="#81BFC6" stroke-width="1.4">
+    <rect x="852" y="232" width="148" height="80" rx="16" fill="#FFFFFF" stroke="#C5E3D7" filter="url(#card-shadow)"/>
+    <g stroke="#689F8B" stroke-width="1.4">
       <rect x="870" y="249" width="31" height="11" rx="3"/>
       <rect x="870" y="265" width="31" height="11" rx="3"/>
     </g>
-    <circle class="status-light" cx="877" cy="254.5" r="1.5" fill="#7CE7D4"/>
-    <circle class="status-light status-delayed" cx="877" cy="270.5" r="1.5" fill="#7CE7D4"/>
-    <path d="M916 253H980M916 264H962M916 275H972" stroke="#527889" stroke-width="2.5" stroke-linecap="round"/>
-    <text x="871" y="296" fill="#9FC1CD" font-family="Arial, Helvetica, sans-serif" font-size="8" letter-spacing="2">INFRA</text>
+    <circle class="status-light" cx="877" cy="254.5" r="1.5" fill="#229C7B"/>
+    <circle class="status-light status-delayed" cx="877" cy="270.5" r="1.5" fill="#229C7B"/>
+    <path d="M916 253H980M916 264H962M916 275H972" stroke="#A3C2B5" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="871" y="296" fill="#527D6D" font-family="Arial, Helvetica, sans-serif" font-size="8" letter-spacing="2">INFRA</text>
   </g>
 </svg>
