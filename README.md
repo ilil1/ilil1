@@ -1,6 +1,6 @@
 <p>
-  <img src="https://raw.githubusercontent.com/ilil1/ilil1/8d6ca304581456e3e131da4c8e512ed3e519d9ce/assets/ai-engineer-banner.svg" alt="Ai Engineer · Backend / Infra" width="81%" />
   <img src="./assets/profile-anime.png" alt="Kim geon woo 프로필 사진" width="17%" />
+  <img src="https://raw.githubusercontent.com/ilil1/ilil1/8d6ca304581456e3e131da4c8e512ed3e519d9ce/assets/ai-engineer-banner.svg" alt="Ai Engineer · Backend / Infra" width="81%" />
 </p>
 
 #  Kim geon woo
