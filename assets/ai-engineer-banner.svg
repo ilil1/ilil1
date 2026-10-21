@@ -1,17 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" fill="none" role="img" aria-labelledby="title description">
   <title id="title">Ai Engineer · Backend / Infra</title>
-  <desc id="description">Midnight navy banner with turquoise accents, softly pulsing lights, and animated signals connecting agent, backend, and infrastructure nodes.</desc>
+  <desc id="description">Ai Engineer with a turquoise shimmer, animated connections, and specialties: Ai Agents · Infra · ML · DL · Fine-tuning · Backend · Frontend · Mobile.</desc>
   <style>
     .ambient-light { animation: breathe 7s ease-in-out infinite; }
     .signal { stroke-dasharray: 3 32; animation: flow 6s linear infinite; }
     .signal-return { animation-delay: -3s; }
     .status-light { animation: pulse 4s ease-in-out infinite; }
     .status-delayed { animation-delay: -2s; }
+    .title-shimmer { animation: title-shimmer 6s ease-in-out infinite; }
     @keyframes flow { to { stroke-dashoffset: -140; } }
     @keyframes pulse { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
     @keyframes breathe { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+    @keyframes title-shimmer {
+      0%, 12% { transform: translateX(0); }
+      65%, 100% { transform: translateX(850px); }
+    }
     @media (prefers-reduced-motion: reduce) {
       .ambient-light, .signal, .status-light { animation: none; }
+      .title-shimmer { animation: none; display: none; }
     }
   </style>
   <defs>
@@ -31,6 +37,14 @@
       <stop stop-color="#78E6D7"/>
       <stop offset="1" stop-color="#6C9EBE"/>
     </linearGradient>
+    <linearGradient id="title-shine">
+      <stop stop-color="#6EE7D7" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#6EE7D7" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#6EE7D7" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="title-clip">
+      <text x="60" y="166" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700" letter-spacing="-2.1">Ai Engineer</text>
+    </clipPath>
     <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
       <path d="M32 0H0V32" stroke="#7FA4BC" stroke-opacity=".07"/>
     </pattern>
@@ -46,14 +60,13 @@
 
     <g font-family="Arial, Helvetica, sans-serif">
       <text x="60" y="166" fill="#F3F7FA" font-size="76" font-weight="700" letter-spacing="-2.1">Ai Engineer</text>
+      <g clip-path="url(#title-clip)" aria-hidden="true">
+        <rect class="title-shimmer" x="-180" y="85" width="160" height="100" fill="url(#title-shine)"/>
+      </g>
       <text x="63" y="224" fill="#9EDBD9" font-size="31" font-weight="400" letter-spacing=".5">Backend <tspan fill="#456678">/</tspan> Infra</text>
 
       <path d="M63 271H726" stroke="url(#accent)"/>
-      <text x="63" y="302" fill="#7F96A8" font-size="10" letter-spacing="2.7">AGENTS</text>
-      <circle cx="144" cy="298" r="1.5" fill="#557380"/>
-      <text x="163" y="302" fill="#7F96A8" font-size="10" letter-spacing="2.7">SYSTEMS</text>
-      <circle cx="254" cy="298" r="1.5" fill="#557380"/>
-      <text x="273" y="302" fill="#7F96A8" font-size="10" letter-spacing="2.7">INFRASTRUCTURE</text>
+      <text x="63" y="302" fill="#9FB3C3" font-size="17" letter-spacing=".25">Ai Agents · Infra · ML · DL · Fine-tuning · Backend · Frontend · Mobile</text>
     </g>
 
     <g stroke="url(#connection)" stroke-width="1.5">

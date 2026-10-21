@@ -1,4 +1,4 @@
-![Ai Engineer · Backend / Infra](./assets/ai-engineer-banner.svg)
+![Ai Engineer · Backend / Infra](https://raw.githubusercontent.com/ilil1/ilil1/main/assets/ai-engineer-banner.svg?v=3)
 
 #  Kim geon woo
 
