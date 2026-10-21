@@ -1,8 +1,9 @@
-![Ai Engineer · Backend / Infra](https://raw.githubusercontent.com/ilil1/ilil1/8d6ca304581456e3e131da4c8e512ed3e519d9ce/assets/ai-engineer-banner.svg)
+<p>
+  <img src="https://raw.githubusercontent.com/ilil1/ilil1/8d6ca304581456e3e131da4c8e512ed3e519d9ce/assets/ai-engineer-banner.svg" alt="Ai Engineer · Backend / Infra" width="81%" />
+  <img src="./assets/profile-anime.png" alt="Kim geon woo 프로필 사진" width="17%" />
+</p>
 
 #  Kim geon woo
-
-<img src="./assets/profile-anime.png" alt="Kim geon woo 프로필 사진" width="180" />
 
 4년 차 소프트웨어 엔지니어로서 다양한 Ai Agent 설계·구현부터 LLMOps 까지 Ai 서비스의 통합 시스템을 구축했습니다.  
 LLMOps 의 Evals로 LLM의 응답 품질 평가, Observability 로써 Tracing 및 Monitoring을 하여 안정적인 Ai 서비스 운영 시스템을 구현했습니다.  
