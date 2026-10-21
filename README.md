@@ -28,7 +28,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 
 <table>
   <thead>
-    <tr><th width="150">영역</th><th width="650">적용 기술</th></tr>
+    <tr><th width="22%">영역</th><th>적용 기술</th></tr>
   </thead>
   <tbody>
     <tr><td>Ai 에이전트</td><td>LangChain, LangGraph, MCP-Server, OpenAI API</td></tr>
@@ -40,7 +40,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
           <summary>추가 사용 기술 보기</summary>
           <table>
             <tbody>
-              <tr><td width="150">CI/CD</td><td width="650">GitHub Actions, Argo CD, AWS (CodeBuild)</td></tr>
+              <tr><td width="20%">CI/CD</td><td>GitHub Actions, Argo CD, AWS (CodeBuild)</td></tr>
               <tr><td>백엔드</td><td>FastAPI, Django, Spring Boot, Mybatis, Flyway</td></tr>
               <tr><td>데이터 저장·검색</td><td>MySQL, Elasticsearch(Nori/BM25), Qdrant</td></tr>
               <tr><td>캐시·비동기 처리</td><td>Redis, RabbitMQ</td></tr>
@@ -69,7 +69,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 
 <table>
   <thead>
-    <tr><th width="150">영역</th><th width="650">적용 기술</th></tr>
+    <tr><th width="22%">영역</th><th>적용 기술</th></tr>
   </thead>
   <tbody>
     <tr><td>Ai 에이전트</td><td>LangChain, LangGraph, MCP-Server, OpenAI API</td></tr>
@@ -80,7 +80,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
           <summary>추가 사용 기술 보기</summary>
           <table>
             <tbody>
-              <tr><td width="150">CI/CD</td><td width="650">GitHub Actions, AWS (CodeBuild)</td></tr>
+              <tr><td width="20%">CI/CD</td><td>GitHub Actions, AWS (CodeBuild)</td></tr>
               <tr><td>백엔드</td><td>FastAPI, Spring Boot, Mybatis, Flyway</td></tr>
               <tr><td>데이터 저장·검색</td><td>MySQL, Elasticsearch(Nori/BM25), Qdrant</td></tr>
               <tr><td>캐시·비동기 처리</td><td>Redis, RabbitMQ</td></tr>
