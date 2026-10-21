@@ -31,12 +31,20 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | Ai 에이전트 | LangChain, LangGraph, MCP-Server, OpenAI API |
 | LLMOps | Langfuse, Prefect, Evidently |
 | Infra & Cloud | AWS (EKS, ECR, EC2, EBS), Docker, Kubernetes, Helm |
+
+<details>
+<summary>추가 사용 기술 보기</summary>
+
+| 영역 | 적용 기술 |
+|---|---|
 | CI/CD | GitHub Actions, Argo CD, AWS (CodeBuild) |
 | 백엔드 | FastAPI, Django, Spring Boot, Mybatis, Flyway |
 | 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
 | 캐시·비동기 처리 | Redis, RabbitMQ |
 | 프론트엔드 | React, Redux, React Hooks, Zod, Tailwind, React Router |
 | 모바일 | React Native, Firebase App Distribution |
+
+</details>
 
 ### 2. Ai Agent 를 활용한 **정부지원사업 탐색·신청 관리 플랫폼**
 
@@ -55,11 +63,19 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 |---|---|
 | Ai 에이전트 | LangChain, LangGraph, MCP-Server, OpenAI API |
 | Infra & Cloud | AWS (EC2, RDS, ECR), Docker, Docker Compose |
+
+<details>
+<summary>추가 사용 기술 보기</summary>
+
+| 영역 | 적용 기술 |
+|---|---|
 | CI/CD | GitHub Actions, AWS (CodeBuild) |
 | 백엔드 | FastAPI, Spring Boot, Mybatis, Flyway |
 | 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
 | 캐시·비동기 처리 | Redis, RabbitMQ |
 | 프론트엔드 | React, Redux, React Hooks, Zod, Tailwind, React Router |
+
+</details>
 
 # Tech Stack
 
