@@ -26,25 +26,33 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 
 #### 사용 기술
 
-| 영역 | 적용 기술 |
-|---|---|
-| Ai 에이전트 | LangChain, LangGraph, MCP-Server, OpenAI API |
-| LLMOps | Langfuse, Prefect, Evidently |
-| Infra & Cloud | AWS (EKS, ECR, EC2, EBS), Docker, Kubernetes, Helm |
-
-<details>
-<summary>추가 사용 기술 보기</summary>
-
-| 영역 | 적용 기술 |
-|---|---|
-| CI/CD | GitHub Actions, Argo CD, AWS (CodeBuild) |
-| 백엔드 | FastAPI, Django, Spring Boot, Mybatis, Flyway |
-| 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
-| 캐시·비동기 처리 | Redis, RabbitMQ |
-| 프론트엔드 | React, Redux, React Hooks, Zod, Tailwind, React Router |
-| 모바일 | React Native, Firebase App Distribution |
-
-</details>
+<table>
+  <thead>
+    <tr><th width="150">영역</th><th width="650">적용 기술</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ai 에이전트</td><td>LangChain, LangGraph, MCP-Server, OpenAI API</td></tr>
+    <tr><td>LLMOps</td><td>Langfuse, Prefect, Evidently</td></tr>
+    <tr><td>Infra &amp; Cloud</td><td>AWS (EKS, ECR, EC2, EBS), Docker, Kubernetes, Helm</td></tr>
+    <tr>
+      <td colspan="2">
+        <details>
+          <summary>추가 사용 기술 보기</summary>
+          <table>
+            <tbody>
+              <tr><td width="150">CI/CD</td><td width="650">GitHub Actions, Argo CD, AWS (CodeBuild)</td></tr>
+              <tr><td>백엔드</td><td>FastAPI, Django, Spring Boot, Mybatis, Flyway</td></tr>
+              <tr><td>데이터 저장·검색</td><td>MySQL, Elasticsearch(Nori/BM25), Qdrant</td></tr>
+              <tr><td>캐시·비동기 처리</td><td>Redis, RabbitMQ</td></tr>
+              <tr><td>프론트엔드</td><td>React, Redux, React Hooks, Zod, Tailwind, React Router</td></tr>
+              <tr><td>모바일</td><td>React Native, Firebase App Distribution</td></tr>
+            </tbody>
+          </table>
+        </details>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ### 2. Ai Agent 를 활용한 **정부지원사업 탐색·신청 관리 플랫폼**
 
@@ -59,23 +67,31 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 
 #### 사용 기술
 
-| 영역 | 적용 기술 |
-|---|---|
-| Ai 에이전트 | LangChain, LangGraph, MCP-Server, OpenAI API |
-| Infra & Cloud | AWS (EC2, RDS, ECR), Docker, Docker Compose |
-
-<details>
-<summary>추가 사용 기술 보기</summary>
-
-| 영역 | 적용 기술 |
-|---|---|
-| CI/CD | GitHub Actions, AWS (CodeBuild) |
-| 백엔드 | FastAPI, Spring Boot, Mybatis, Flyway |
-| 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
-| 캐시·비동기 처리 | Redis, RabbitMQ |
-| 프론트엔드 | React, Redux, React Hooks, Zod, Tailwind, React Router |
-
-</details>
+<table>
+  <thead>
+    <tr><th width="150">영역</th><th width="650">적용 기술</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ai 에이전트</td><td>LangChain, LangGraph, MCP-Server, OpenAI API</td></tr>
+    <tr><td>Infra &amp; Cloud</td><td>AWS (EC2, RDS, ECR), Docker, Docker Compose</td></tr>
+    <tr>
+      <td colspan="2">
+        <details>
+          <summary>추가 사용 기술 보기</summary>
+          <table>
+            <tbody>
+              <tr><td width="150">CI/CD</td><td width="650">GitHub Actions, AWS (CodeBuild)</td></tr>
+              <tr><td>백엔드</td><td>FastAPI, Spring Boot, Mybatis, Flyway</td></tr>
+              <tr><td>데이터 저장·검색</td><td>MySQL, Elasticsearch(Nori/BM25), Qdrant</td></tr>
+              <tr><td>캐시·비동기 처리</td><td>Redis, RabbitMQ</td></tr>
+              <tr><td>프론트엔드</td><td>React, Redux, React Hooks, Zod, Tailwind, React Router</td></tr>
+            </tbody>
+          </table>
+        </details>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 # Tech Stack
 
