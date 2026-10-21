@@ -15,7 +15,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 
 ### 1. Ai Agent 를 활용한 **정부지원사업 탐색·신청 관리 플랫폼 고도화**
 
-(2025.9.20 ~ 2025.10.15)
+(2026.9.20 ~ 2026.10.15)
 
 - **프로젝트 원본 링크 :** [https://github.com/ilil1/SKN34-4th-1Team](https://github.com/ilil1/SKN34-4th-1Team)
 - 사용자 의도에 따라 업무별 기능을 연결하는 LLM 기반 슈퍼바이저 에이전트 설계 및 구현.
@@ -40,7 +40,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 
 ### 2. Ai Agent 를 활용한 **정부지원사업 탐색·신청 관리 플랫폼**
 
-(2025.9.2 ~ 2025.9.17)
+(2026.9.2 ~ 2026.9.17)
 
 - **프로젝트 원본 링크 :** [https://github.com/ilil1/SKN34-3rd-1Team](https://github.com/ilil1/SKN34-3rd-1Team)
 - Elasticsearch(Nori·BM25)와 Qdrant hybrid 검색에 RRF·LLM 재순위화를 적용, 원문의 인용을 검증하는 RAG 응답 기능 구현.
