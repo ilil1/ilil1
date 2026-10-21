@@ -1,4 +1,4 @@
-![Ai Engineer · Backend / Infra](./assets/readme-banner.svg?v=2)
+![Ai Engineer · Backend / Infra](./assets/ai-engineer-banner.svg)
 
 #  Kim geon woo
 
