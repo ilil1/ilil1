@@ -49,6 +49,18 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 - Vercel 기반 프론트엔드 및 AWS CodeBuild·ECR·SSM 기반 백엔드 CD 파이프라인 구축.
 - AWS EC2·RDS의 프라이빗 서브넷 배치 및 CloudFront·Nginx 라우팅·NAT Gateway 외부 통신 구성.
 
+#### 사용 기술
+
+| 영역 | 적용 기술 |
+|---|---|
+| Ai 에이전트 | LangChain, LangGraph, MCP-Server, OpenAI API |
+| Infra & Cloud | AWS (EC2, RDS, ECR), Docker, Docker Compose |
+| CI/CD | GitHub Actions, AWS (CodeBuild) |
+| 백엔드 | FastAPI, Spring Boot, Mybatis, Flyway |
+| 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
+| 캐시·비동기 처리 | Redis, RabbitMQ |
+| 프론트엔드 | React, Redux, React Hooks, Zod, Tailwind, React Router |
+
 # Tech Stack
 
 | 영역 | 적용 기술 |
