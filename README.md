@@ -1,6 +1,6 @@
 ![AI Agent Engineering · Backend / Infra](./assets/readme-banner.svg)
 
-#  Ai Engineer
+#  Kim geon woo
 
 4년 차 소프트웨어 엔지니어로서 다양한 Ai Agent 설계·구현부터 LLMOps 까지 Ai 서비스의 통합 시스템을 구축했습니다.  
 LLMOps 의 Evals로 LLM의 응답 품질 평가, Observability 로써 Tracing 및 Monitoring을 하여 안정적인 Ai 서비스 운영 시스템을 구현했습니다.  
