@@ -18,8 +18,6 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 (2025.9.20 ~ 2025.10.15)
 
 - **프로젝트 원본 링크 :** [https://github.com/ilil1/SKN34-4th-1Team](https://github.com/ilil1/SKN34-4th-1Team)
-- 프로젝트 기술 보고서 링크 :
-- PM 역할
 - 사용자 의도에 따라 업무별 기능을 연결하는 LLM 기반 슈퍼바이저 에이전트 설계 및 구현.
 - 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.
 - Django 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.
