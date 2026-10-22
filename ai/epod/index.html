@@ -22,7 +22,7 @@
 <hr>
 <h2>01. 전체 아키텍처</h2>
 <p><b>Laravel은 메일 수집·작업 실행·DB 저장을, FastAPI는 PDF 해석을 담당합니다.</b> 원본 파일을 S3에 보관한 뒤 임시 URL로 AI 서비스에 전달하고, 추출 결과를 첨부 이력과 연결해 저장하는 구조입니다.</p>
-<figure class="image"><img src="./assets/logispot-detailed-architecture.png" alt="logispot detailed architecture" decoding="async"></figure>
+<figure class="image architecture-image"><a href="./assets/logispot-detailed-architecture.png" target="_blank" rel="noopener" aria-label="전체 아키텍처 원본 크기로 보기" title="클릭하여 원본 크기로 보기"><img src="./assets/logispot-detailed-architecture.png" alt="logispot detailed architecture" decoding="async"></a></figure>
 <p><i>그림 1 · 메일 수집부터 페이지별 AI 해석, 응답 매핑과 DB 저장까지의 전체 처리 흐름</i></p>
 <details>
 <summary>API 요청·응답 상세</summary>
