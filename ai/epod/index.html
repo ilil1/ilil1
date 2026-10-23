@@ -56,18 +56,6 @@
 <p><b>왜 공통 정보와 상품을 나누나요?</b> 납품번호·납품처는 문서의 공통 내용이어서 한 건으로, 상품은 품목 수만큼 여러 건으로 저장하기 때문입니다. 같은 첨부 ID를 기록해 이 데이터들이 한 원본에서 나온 정보임을 연결합니다.</p>
 <p><b>번호의 의미:</b> <code>501</code>은 시스템이 부여한 첨부 관리 번호이고, <code>DL-001</code>은 예시 납품서에 적힌 납품번호입니다.</p>
 <p><b>실제 연결 경로:</b> 납품 공통 정보·상품 → 첨부 이력 → 파일 정보 → S3 원본. 수신 메일 정보도 첨부 이력과 연결되어 있습니다.</p>
-<details>
-<summary>기존 테이블 관계도 · 기술 참고</summary>
-<div class="details-body">
-<figure class="image"><img src="./assets/logispot-storage-architecture.png" alt="logispot storage architecture" decoding="async"></figure>
-<p><i>기술 참고 · 첨부 추적 ID를 중심으로 연결되는 실제 테이블 관계</i></p>
-<ul>
-<li><b>메일 1건 → 첨부 여러 건:</b> 첨부마다 원본 파일과 파싱 상태를 따로 관리합니다.</li>
-<li><b>첨부 1건 → 헤더 최대 1건·품목 여러 건:</b> 헤더와 품목은 각각 같은 첨부 추적 ID를 참조합니다.</li>
-<li><b>원본까지 추적:</b> 첨부의 <code>file_id</code>로 파일 메타데이터를 찾고, 파일의 <code>key</code>로 S3 원본을 식별합니다.</li>
-</ul>
-</div>
-</details>
 </div>
 </details>
 <hr>
