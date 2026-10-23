@@ -17,7 +17,9 @@ b { font-weight: 600; }
 a { color: inherit; text-underline-offset: 3px; text-decoration-color: #b8b6b0; }
 a:hover { text-decoration-color: currentColor; }
 code { color: #eb5757; background: rgba(135, 131, 120, 0.15); border-radius: 3px; padding: 2px 4px; font-size: 85%; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
-.image { margin: 20px 0; }
+/* Preserve each image's displayed width and alignment from Notion. */
+.image { width: var(--image-width, 100%); max-width: 100%; margin: 20px 0; }
+.image-centered { margin-inline: auto; }
 .image img { display: block; max-width: 100%; height: auto; }
 .image + p:has(> i:only-child) { color: #787774; font-size: 14px; margin-top: -10px; }
 hr { border: 0; border-top: 1px solid #e9e9e7; margin: 28px 0; }
@@ -48,7 +50,5 @@ td:first-child { min-width: 100px; }
   th, td { padding: 8px; }
 }
 
-/* Match the architecture image width last adjusted on the Notion page. */
-.architecture-image a { display: block; width: fit-content; max-width: 100%; margin-inline: auto; cursor: zoom-in; }
-.architecture-image img { width: 560px; max-width: 100%; height: auto; }
+.architecture-image a { display: block; cursor: zoom-in; }
 .architecture-image a:focus-visible { outline: 2px solid #2383e2; outline-offset: 4px; }
