@@ -88,7 +88,7 @@ LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히
 | Ai 평가·모니터링 | Langfuse, Langsmith, MLflow, Evidently |
 | 워크플로 오케스트레이션 | Apache Airflow, Prefect |
 | ML/DL 및 Model | Scikit_Learn, PyTorch, Fine-tuning |
-| 벡엔드 | FastAPI, Django, Spring Boot, Laravel |
+| 백엔드 | FastAPI, Django, Spring Boot, Laravel |
 | Infra & Cloud | AWS (EKS, Lambda, S3, RDS), Docker, Docker-Compose, Kubernetes, Helm|
 | CI/CD | Argo CD, GitHub Actions, Fastlane, CircleCI|
 | 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
