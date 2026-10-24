@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <meta name="description" content="GovBiz 정부지원사업 탐색·신청 관리 플랫폼. 한국어 하이브리드 검색과 근거 검증 RAG, 서비스 아키텍처, 프론트엔드 구조와 AWS 배포 설계를 정리한 기술 포트폴리오.">
 <title>GovBiz | 검색·RAG·아키텍처·배포 보고서</title>
-<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./styles.css?v=20261025-compact">
 <script src="./script.js" defer></script>
 </head>
 <body>
@@ -28,13 +28,13 @@
 <p>GovBiz는 <b>정부지원사업 탐색부터 신청 준비까지 연결하는 AI 서비스</b>입니다. 여러 기관에 흩어진 공고를 모아, 기업의 조건과 목적에 맞는 사업을 찾고 신청 준비와 진행 상황까지 관리할 수 있도록 돕습니다.</p>
 <div class="diagram-heading"><b>GovBiz 한눈에 보기 — 서비스 흐름</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-project-overview-service-v4.png" aria-label="GovBiz 한눈에 보기 — 서비스 흐름 — 크게 보기"><img src="./assets/govbiz-project-overview-service-v4.png" alt="GovBiz 한눈에 보기 — 서비스 흐름" width="2086" height="754" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:2.766578"><a class="zoom-image" href="./assets/govbiz-project-overview-service-v4.png" aria-label="GovBiz 한눈에 보기 — 서비스 흐름 — 크게 보기"><img src="./assets/govbiz-project-overview-service-v4.png" alt="GovBiz 한눈에 보기 — 서비스 흐름" width="2086" height="754" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 
 
 <div class="diagram-heading"><b>서비스가 연결하는 사용자 흐름</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-user-journey-v4.png" aria-label="서비스가 연결하는 사용자 흐름 — 크게 보기"><img src="./assets/govbiz-user-journey-v4.png" alt="서비스가 연결하는 사용자 흐름" width="1824" height="862" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:2.116009"><a class="zoom-image" href="./assets/govbiz-user-journey-v4.png" aria-label="서비스가 연결하는 사용자 흐름 — 크게 보기"><img src="./assets/govbiz-user-journey-v4.png" alt="서비스가 연결하는 사용자 흐름" width="1824" height="862" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 
 
@@ -92,7 +92,7 @@
 <p>회원 인증과 기업 정보를 기준으로 검색 대화, 관심 공고, 신청 작업과 리포트를 이어서 사용합니다. 이 사용자 흐름은 <b>팀 서비스 전체의 기능 맥락</b>이며, 기관 신청서 제출과 선정 결정은 서비스 밖에서 이루어집니다.</p>
 <h2 id="section-2">시스템 아키텍처</h2>
 <p>GovBiz는 <b>화면·업무 처리·AI 실행의 책임을 분리</b>하고, 검색·데이터 저장·배포를 아래 구조로 연결했습니다.</p>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-system-architecture.png" aria-label="시스템 아키텍처 — 크게 보기"><img src="./assets/govbiz-system-architecture.png" alt="시스템 아키텍처" width="5640" height="3800" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.484211"><a class="zoom-image" href="./assets/govbiz-system-architecture.png" aria-label="시스템 아키텍처 — 크게 보기"><img src="./assets/govbiz-system-architecture.png" alt="시스템 아키텍처" width="5640" height="3800" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p>실선은 서비스 통신, 주황 점선은 배포 경로입니다.</p>
 <ul>
@@ -105,22 +105,22 @@
 <h3>해결하려던 문제</h3>
 <div class="diagram-heading">표현이 달라도 공고를 찾고, <b>신청 조건과 답변 근거를 확인</b>할 수 있어야 했습니다.</div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-search-problems-v4-no-title.png" aria-label="표현이 달라도 공고를 찾고, 신청 조건과 답변 근거를 확인할 수 있어야 했습니다. — 크게 보기"><img src="./assets/govbiz-search-problems-v4-no-title.png" alt="표현이 달라도 공고를 찾고, 신청 조건과 답변 근거를 확인할 수 있어야 했습니다." width="1919" height="820" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:2.340244"><a class="zoom-image" href="./assets/govbiz-search-problems-v4-no-title.png" aria-label="표현이 달라도 공고를 찾고, 신청 조건과 답변 근거를 확인할 수 있어야 했습니다. — 크게 보기"><img src="./assets/govbiz-search-problems-v4-no-title.png" alt="표현이 달라도 공고를 찾고, 신청 조건과 답변 근거를 확인할 수 있어야 했습니다." width="1919" height="820" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <h3>설계와 구현</h3>
 <div class="diagram-heading"><b>대화로 조건을 바꾸고, 확인 후 검색합니다</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-condition-confirmation-notion-v3.png" aria-label="대화로 조건을 바꾸고, 확인 후 검색합니다 — 크게 보기"><img src="./assets/govbiz-condition-confirmation-notion-v3.png" alt="대화로 조건을 바꾸고, 확인 후 검색합니다" width="1859" height="846" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:2.197400"><a class="zoom-image" href="./assets/govbiz-condition-confirmation-notion-v3.png" aria-label="대화로 조건을 바꾸고, 확인 후 검색합니다 — 크게 보기"><img src="./assets/govbiz-condition-confirmation-notion-v3.png" alt="대화로 조건을 바꾸고, 확인 후 검색합니다" width="1859" height="846" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p>서버가 AI의 조건 변경안을 검사하고, <b>사용자가 확인한 뒤 검색합니다.</b> 검색 당시 조건은 결과와 함께 보관합니다.</p>
 <div class="diagram-heading"><b>두 검색 결과를 합치고, LLM이 추천 순서를 다듬습니다</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-hybrid-search-notion-v2.png" aria-label="두 검색 결과를 합치고, LLM이 추천 순서를 다듬습니다 — 크게 보기"><img src="./assets/govbiz-hybrid-search-notion-v2.png" alt="두 검색 결과를 합치고, LLM이 추천 순서를 다듬습니다" width="1864" height="843" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:2.211151"><a class="zoom-image" href="./assets/govbiz-hybrid-search-notion-v2.png" aria-label="두 검색 결과를 합치고, LLM이 추천 순서를 다듬습니다 — 크게 보기"><img src="./assets/govbiz-hybrid-search-notion-v2.png" alt="두 검색 결과를 합치고, LLM이 추천 순서를 다듬습니다" width="1864" height="843" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p>키워드 검색과 의미 검색에서 찾은 공고를 <b>각 검색의 순위를 기준으로 합칩니다.</b> 이후 LLM이 지원 목적과 지원 형태에 얼마나 맞는지 살펴 <b>최종 추천과 이유</b>를 구성합니다.</p>
 <div class="diagram-heading"><b>검색 품질을 지키는 네 가지 설계 기준</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-search-safeguards-v3-no-title.png" aria-label="검색 품질을 지키는 네 가지 설계 기준 — 크게 보기"><img src="./assets/govbiz-search-safeguards-v3-no-title.png" alt="검색 품질을 지키는 네 가지 설계 기준" width="1614" height="975" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.655385"><a class="zoom-image" href="./assets/govbiz-search-safeguards-v3-no-title.png" aria-label="검색 품질을 지키는 네 가지 설계 기준 — 크게 보기"><img src="./assets/govbiz-search-safeguards-v3-no-title.png" alt="검색 품질을 지키는 네 가지 설계 기준" width="1614" height="975" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <ul>
 <li>두 검색 경로에서 각각 최대 20개 후보를 수집하고, 동일 가중치의 RRF로 최대 20개를 결합한 후 최종 최대 5개를 반환하도록 구성했습니다.</li>
@@ -130,7 +130,7 @@
 </ul>
 <div class="diagram-heading"><b>공고 검색과 원문 근거 검색은 벡터 단위를 나눴습니다.</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-two-vector-indexes-v4.png" aria-label="공고 검색과 원문 근거 검색은 벡터 단위를 나눴습니다. — 크게 보기"><img src="./assets/govbiz-two-vector-indexes-v4.png" alt="공고 검색과 원문 근거 검색은 벡터 단위를 나눴습니다." width="1254" height="1254" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.000000"><a class="zoom-image" href="./assets/govbiz-two-vector-indexes-v4.png" aria-label="공고 검색과 원문 근거 검색은 벡터 단위를 나눴습니다. — 크게 보기"><img src="./assets/govbiz-two-vector-indexes-v4.png" alt="공고 검색과 원문 근거 검색은 벡터 단위를 나눴습니다." width="1254" height="1254" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>01  공고 검색 — 관련 사업 찾기</b><br />제목·기관·대상·지역·기간·지원 내용을 묶어 <b>공고 1건당 벡터 1개</b>를 만듭니다. Qdrant의 <b>공고 컬렉션</b>에서 질문과 의미가 비슷한 사업을 찾습니다.</p>
 <p><b>02  상세 RAG — 답변 근거 찾기</b><br />선택한 기업마당 공고의 HTML 본문을 작은 구간(청크)으로 나누고 <b>청크마다 벡터 1개</b>를 만듭니다. 별도의 <b>근거 컬렉션</b>에서 관련 구간을 찾아 답변과 원문 인용에 활용합니다.</p>
@@ -146,17 +146,17 @@
 </ul>
 <div class="diagram-heading"><b>LLM 평가 — 검색된 공고를 비교해 추천합니다</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-llm-evaluation-notion-v4.png" aria-label="LLM 평가 — 검색된 공고를 비교해 추천합니다 — 크게 보기"><img src="./assets/govbiz-llm-evaluation-notion-v4.png" alt="LLM 평가 — 검색된 공고를 비교해 추천합니다" width="1180" height="1333" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:0.885221"><a class="zoom-image" href="./assets/govbiz-llm-evaluation-notion-v4.png" aria-label="LLM 평가 — 검색된 공고를 비교해 추천합니다 — 크게 보기"><img src="./assets/govbiz-llm-evaluation-notion-v4.png" alt="LLM 평가 — 검색된 공고를 비교해 추천합니다" width="1180" height="1333" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>검색어는 원하는 지원을, 후보 공고는 비교할 내용을 알려줍니다.</b> LLM은 이를 기업 조건과 함께 비교해 점수·추천 이유·조건 검토 결과를 만듭니다.</p>
 <div class="diagram-heading"><b>검색 준비를 마친 최신 수집 결과만 반영합니다</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-index-publication-notion-v7.png" aria-label="검색 준비를 마친 최신 수집 결과만 반영합니다 — 크게 보기"><img src="./assets/govbiz-index-publication-notion-v7.png" alt="검색 준비를 마친 최신 수집 결과만 반영합니다" width="1383" height="1137" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.216359"><a class="zoom-image" href="./assets/govbiz-index-publication-notion-v7.png" aria-label="검색 준비를 마친 최신 수집 결과만 반영합니다 — 크게 보기"><img src="./assets/govbiz-index-publication-notion-v7.png" alt="검색 준비를 마친 최신 수집 결과만 반영합니다" width="1383" height="1137" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>준비와 반영:</b> 같은 내용·임베딩 설정의 벡터는 재사용합니다. 두 검색 데이터의 준비와 최신 작업 확인을 마치면 MySQL의 공개 공고 목록을 한 번에 갱신하고, 검색 시에도 현재 목록과 같은 내용의 검색 데이터만 사용합니다.</p>
 <div class="diagram-heading"><b>선택한 공고의 원문에서 답변 근거를 찾습니다</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-evidence-easy-notion-v4.png" aria-label="선택한 공고의 원문에서 답변 근거를 찾습니다 — 크게 보기"><img src="./assets/govbiz-evidence-easy-notion-v4.png" alt="선택한 공고의 원문에서 답변 근거를 찾습니다" width="1122" height="1402" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:0.800285"><a class="zoom-image" href="./assets/govbiz-evidence-easy-notion-v4.png" aria-label="선택한 공고의 원문에서 답변 근거를 찾습니다 — 크게 보기"><img src="./assets/govbiz-evidence-easy-notion-v4.png" alt="선택한 공고의 원문에서 답변 근거를 찾습니다" width="1122" height="1402" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <ul>
 <li><b>검색 준비:</b> 원문 구간을 벡터로 만들어 Qdrant에 저장합니다. 원문 버전과 임베딩 설정이 같으면 재사용합니다.</li>
@@ -190,7 +190,7 @@ AI Service 코드가 처리
 <h2 id="section-4">2. Core API와 AI Service의 책임 분리</h2>
 <div class="diagram-heading"><b>Python AI 실행 환경과 업무 API를 분리했습니다</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-python-ai-boundary-notion-v3.png" aria-label="Python AI 실행 환경과 업무 API를 분리했습니다 — 크게 보기"><img src="./assets/govbiz-python-ai-boundary-notion-v3.png" alt="Python AI 실행 환경과 업무 API를 분리했습니다" width="1586" height="992" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.598790"><a class="zoom-image" href="./assets/govbiz-python-ai-boundary-notion-v3.png" aria-label="Python AI 실행 환경과 업무 API를 분리했습니다 — 크게 보기"><img src="./assets/govbiz-python-ai-boundary-notion-v3.png" alt="Python AI 실행 환경과 업무 API를 분리했습니다" width="1586" height="992" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>분리한 이유</b></p>
 <p><b>Python의 LangChain·OpenAI SDK와 임베딩·검색 도구를 활용하기 위해 AI 기능을 FastAPI로 분리했습니다.</b> 계정·공고·신청 관리와 데이터 저장은 Spring Boot에 두어, 업무 기능과 AI 처리 로직을 각각 변경하고 관리할 수 있도록 했습니다.</p>
@@ -202,7 +202,7 @@ AI Service 코드가 처리
 <p>두 서비스는 API로 통신합니다. <b>브라우저 → Core → AI Service → Core → 브라우저</b> 순서로 요청과 결과가 오갑니다.</p>
 <div class="diagram-heading"><b>원본·색인·임시 상태·작업 전달의 역할도 구분했습니다.</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-data-ownership-notion-v7.png" aria-label="원본·색인·임시 상태·작업 전달의 역할도 구분했습니다. — 크게 보기"><img src="./assets/govbiz-data-ownership-notion-v7.png" alt="원본·색인·임시 상태·작업 전달의 역할도 구분했습니다." width="1774" height="887" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:2.000000"><a class="zoom-image" href="./assets/govbiz-data-ownership-notion-v7.png" aria-label="원본·색인·임시 상태·작업 전달의 역할도 구분했습니다. — 크게 보기"><img src="./assets/govbiz-data-ownership-notion-v7.png" alt="원본·색인·임시 상태·작업 전달의 역할도 구분했습니다." width="1774" height="887" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>공고 데이터 관리</b></p>
 <ul>
@@ -219,7 +219,7 @@ AI Service 코드가 처리
 </ul>
 <div class="diagram-heading"><b>AI 결과를 사용자에게 전달하는 기준</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-search-sequence-notion-v2.png" aria-label="AI 결과를 사용자에게 전달하는 기준 — 크게 보기"><img src="./assets/govbiz-search-sequence-notion-v2.png" alt="AI 결과를 사용자에게 전달하는 기준" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-search-sequence-notion-v2.png" aria-label="AI 결과를 사용자에게 전달하는 기준 — 크게 보기"><img src="./assets/govbiz-search-sequence-notion-v2.png" alt="AI 결과를 사용자에게 전달하는 기준" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>Core는 AI 응답을 검사한 뒤 사용자에게 전달합니다.</b></p>
 <ul>
@@ -231,7 +231,7 @@ AI Service 코드가 처리
 <h3>백엔드: 기능 안에서 책임과 경계 구분</h3>
 <div class="diagram-heading"><b>요청 접수·외부 통신·DB 접근의 역할을 나눴습니다</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-backend-responsibilities.png" aria-label="요청 접수·외부 통신·DB 접근의 역할을 나눴습니다 — 크게 보기"><img src="./assets/govbiz-backend-responsibilities.png" alt="요청 접수·외부 통신·DB 접근의 역할을 나눴습니다" width="1380" height="1140" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.210526"><a class="zoom-image" href="./assets/govbiz-backend-responsibilities.png" aria-label="요청 접수·외부 통신·DB 접근의 역할을 나눴습니다 — 크게 보기"><img src="./assets/govbiz-backend-responsibilities.png" alt="요청 접수·외부 통신·DB 접근의 역할을 나눴습니다" width="1380" height="1140" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <ul>
 <li><b>요청과 업무:</b> 기능별 디렉터리에서 Controller는 HTTP 요청을 받고, Service는 업무 흐름을 조율합니다.</li>
@@ -289,7 +289,7 @@ if (!sourceText.contains(quote)) return null
 <h3>프론트엔드: 의존 방향, 화면 로직, 공유 상태 분리</h3>
 <div class="diagram-heading"><b>화면·업무·서버 통신의 역할을 나눴습니다</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-frontend-clean-architecture-notion-v3.png" aria-label="화면·업무·서버 통신의 역할을 나눴습니다 — 크게 보기"><img src="./assets/govbiz-frontend-clean-architecture-notion-v3.png" alt="화면·업무·서버 통신의 역할을 나눴습니다" width="1122" height="1402" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:0.800285"><a class="zoom-image" href="./assets/govbiz-frontend-clean-architecture-notion-v3.png" aria-label="화면·업무·서버 통신의 역할을 나눴습니다 — 크게 보기"><img src="./assets/govbiz-frontend-clean-architecture-notion-v3.png" alt="화면·업무·서버 통신의 역할을 나눴습니다" width="1122" height="1402" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <ul>
 <li><b>화면(Presentation):</b> 사용자 입력을 확인하고 업무 기능을 호출해 결과를 표시합니다.</li>
@@ -300,7 +300,7 @@ if (!sourceText.contains(quote)) return null
 <p>의존 방향: <code>Presentation → Domain ← Data</code></p>
 <div class="diagram-heading"><b>MVVM — Hook ViewModel로 화면과 업무 호출 분리</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-mvvm-hook-notion-v1.png" aria-label="MVVM — Hook ViewModel로 화면과 업무 호출 분리 — 크게 보기"><img src="./assets/govbiz-mvvm-hook-notion-v1.png" alt="MVVM — Hook ViewModel로 화면과 업무 호출 분리" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-mvvm-hook-notion-v1.png" aria-label="MVVM — Hook ViewModel로 화면과 업무 호출 분리 — 크게 보기"><img src="./assets/govbiz-mvvm-hook-notion-v1.png" alt="MVVM — Hook ViewModel로 화면과 업무 호출 분리" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>조회 흐름:</b> <code>View → ViewModel Hook → UseCase → Repository</code></p>
 <ul>
@@ -310,7 +310,7 @@ if (!sourceText.contains(quote)) return null
 </ul>
 <div class="diagram-heading"><b>Flux — ViewModel 뒤에서 Redux 상태를 단방향 갱신</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-flux-redux-notion-v2.png" aria-label="Flux — ViewModel 뒤에서 Redux 상태를 단방향 갱신 — 크게 보기"><img src="./assets/govbiz-flux-redux-notion-v2.png" alt="Flux — ViewModel 뒤에서 Redux 상태를 단방향 갱신" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-flux-redux-notion-v2.png" aria-label="Flux — ViewModel 뒤에서 Redux 상태를 단방향 갱신 — 크게 보기"><img src="./assets/govbiz-flux-redux-notion-v2.png" alt="Flux — ViewModel 뒤에서 Redux 상태를 단방향 갱신" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>상태 흐름:</b> <code>View → ViewModel → Action/Thunk → Reducer → Store → Selector → ViewModel → View</code></p>
 <ul>
@@ -328,7 +328,7 @@ if (!sourceText.contains(quote)) return null
 <h2 id="section-6">4. Vercel·CodeBuild·ECR·SSM 기반 CD 구축</h2>
 <div class="diagram-heading"><b>배포 경로를 나누고, 검증·교체·복구를 연결했습니다</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-deployment-overview-notion-v3.png" aria-label="배포 경로를 나누고, 검증·교체·복구를 연결했습니다 — 크게 보기"><img src="./assets/govbiz-deployment-overview-notion-v3.png" alt="배포 경로를 나누고, 검증·교체·복구를 연결했습니다" width="1086" height="1448" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:0.750000"><a class="zoom-image" href="./assets/govbiz-deployment-overview-notion-v3.png" aria-label="배포 경로를 나누고, 검증·교체·복구를 연결했습니다 — 크게 보기"><img src="./assets/govbiz-deployment-overview-notion-v3.png" alt="배포 경로를 나누고, 검증·교체·복구를 연결했습니다" width="1086" height="1448" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>배포 경로</b></p>
 <ul>
@@ -349,7 +349,7 @@ if (!sourceText.contains(quote)) return null
 <h2 id="section-7">5. 프라이빗 네트워크와 API 라우팅 구성</h2>
 <div class="diagram-heading"><b>서버와 DB를 비공개로 두고, 들어오는 요청과 나가는 호출을 나눴습니다</b></div>
 
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-private-network-notion-v1.png" aria-label="서버와 DB를 비공개로 두고, 들어오는 요청과 나가는 호출을 나눴습니다 — 크게 보기"><img src="./assets/govbiz-private-network-notion-v1.png" alt="서버와 DB를 비공개로 두고, 들어오는 요청과 나가는 호출을 나눴습니다" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-private-network-notion-v1.png" aria-label="서버와 DB를 비공개로 두고, 들어오는 요청과 나가는 호출을 나눴습니다 — 크게 보기"><img src="./assets/govbiz-private-network-notion-v1.png" alt="서버와 DB를 비공개로 두고, 들어오는 요청과 나가는 호출을 나눴습니다" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>설계 목표</b></p>
 <p>EC2와 DB를 인터넷에 직접 공개하지 않으면서, 사용자 요청을 받고 OpenAI·공식 공고 API를 호출할 수 있어야 했습니다.</p>
@@ -413,7 +413,7 @@ DB 비공개 배치 및 인증서·호스트명을 검증하는 TLS 연결
 <h2 id="section-8">6. 검색 이후로 이어지는 서비스 기능</h2>
 <p>이 절은 <b>검색·RAG와 서비스 경계가 팀의 후속 업무에 어떻게 연결되는지</b>를 설명합니다. 개인 담당 범위를 추가한 목록이 아니라 프로젝트 전체의 기능 연결을 보여주는 내용입니다.</p>
 <h3>신청 문서: 원본·사용자 답변·기입 위치를 연결</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-application-document-notion-v1.png" aria-label="신청 문서: 원본·사용자 답변·기입 위치를 연결 — 크게 보기"><img src="./assets/govbiz-application-document-notion-v1.png" alt="신청 문서: 원본·사용자 답변·기입 위치를 연결" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-application-document-notion-v1.png" aria-label="신청 문서: 원본·사용자 답변·기입 위치를 연결 — 크게 보기"><img src="./assets/govbiz-application-document-notion-v1.png" alt="신청 문서: 원본·사용자 답변·기입 위치를 연결" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>처리 흐름</b></p>
 <ul>
@@ -429,7 +429,7 @@ DB 비공개 배치 및 인증서·호스트명을 검증하는 TLS 연결
 </ul>
 <p><b>사용자 확인:</b> 미지원 항목은 수동으로 작성하며, 생성된 초안은 사용자가 검토합니다. 기관에 자동 제출하지 않습니다.</p>
 <h3>도우미: 회원 권한 안에서 조회하고 결과를 검증</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-assistant-boundary-notion-v1.png" aria-label="도우미: 회원 권한 안에서 조회하고 결과를 검증 — 크게 보기"><img src="./assets/govbiz-assistant-boundary-notion-v1.png" alt="도우미: 회원 권한 안에서 조회하고 결과를 검증" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-assistant-boundary-notion-v1.png" aria-label="도우미: 회원 권한 안에서 조회하고 결과를 검증 — 크게 보기"><img src="./assets/govbiz-assistant-boundary-notion-v1.png" alt="도우미: 회원 권한 안에서 조회하고 결과를 검증" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>제공 기능:</b> 서비스 이용 안내 · 기업·협업 정보 조회 · 관심 공고 질문</p>
 <p><b>실행 경로</b></p>
@@ -446,7 +446,7 @@ DB 비공개 배치 및 인증서·호스트명을 검증하는 TLS 연결
 </ul>
 <p>구현 근거: <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/backend/core-api/src/main/kotlin/ai/govbiz/core/assistant/service/AssistantMessageService.kt">도우미 메시지·권한 경계</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/docs/architecture.md">전체 실행 흐름</a></p>
 <h3>맞춤 리포트: 생성과 이메일 발송을 별도 작업으로 관리</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-async-reports-notion-v1.png" aria-label="맞춤 리포트: 생성과 이메일 발송을 별도 작업으로 관리 — 크게 보기"><img src="./assets/govbiz-async-reports-notion-v1.png" alt="맞춤 리포트: 생성과 이메일 발송을 별도 작업으로 관리" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-async-reports-notion-v1.png" aria-label="맞춤 리포트: 생성과 이메일 발송을 별도 작업으로 관리 — 크게 보기"><img src="./assets/govbiz-async-reports-notion-v1.png" alt="맞춤 리포트: 생성과 이메일 발송을 별도 작업으로 관리" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 선택하면 크게 볼 수 있습니다.</figcaption></figure>
 
 <p><b>리포트 내용</b></p>
 <ul>
