@@ -171,13 +171,18 @@ AI Service 코드가 처리
 </ul>
 <div class="diagram-heading"><b>AI 결과를 사용자에게 전달하는 기준</b></div>
 
-<figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-search-sequence-notion-v2.png" aria-label="AI 결과를 사용자에게 전달하는 기준 — 크게 보기"><img src="./assets/govbiz-search-sequence-notion-v2.png" alt="AI 결과를 사용자에게 전달하는 기준" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-search-sequence-notion-v3.png" aria-label="AI 결과를 사용자에게 전달하는 기준 — 크게 보기"><img src="./assets/govbiz-search-sequence-notion-v3.png" alt="AI 결과를 사용자에게 전달하는 기준" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 
 <p><b>Core는 AI 응답을 검사한 뒤 사용자에게 전달합니다.</b></p>
 <ul>
 <li><b>내용 확인:</b> 요청한 후보의 공고 ID인지, 점수가 정해진 범위와 계산식을 지키는지, 근거와 인용이 전달한 원문에 연결되는지 확인합니다.</li>
 <li><b>오류 구분:</b> 연결 실패·시간 초과·잘못된 응답을 구분해 공통 오류 형식으로 반환합니다. 처리 실패를 정상적인 “검색 결과 없음”으로 바꾸지 않습니다.</li>
 <li><b>응답 구성:</b> AI 통신용 데이터와 사용자 API 응답을 분리하고, 검증을 통과한 결과를 사용자 응답으로 구성합니다.</li>
+</ul>
+<p><b>그림에서 생략한 실제 처리 과정</b></p>
+<ul>
+<li><b>검색 전 준비:</b> Core가 검색 조건을 확인하고, MySQL에서 검색 가능한 공고와 버전 정보를 읽어 검색 대상을 정합니다.</li>
+<li><b>결과 반환:</b> Elasticsearch 검색 결과는 Core로, Qdrant 검색 결과와 LLM 평가 결과는 AI Service를 거쳐 Core로 돌아옵니다. Core는 두 검색 결과를 받은 뒤 RRF로 결합하고, 이후 받은 AI 평가 결과를 검사해 사용자에게 전달합니다.</li>
 </ul>
 <h2 id="section-5">3. 백엔드 레이어드 구조와 프론트엔드 클린 아키텍처·MVVM·Flux</h2>
 <h3>백엔드: 기능 안에서 책임과 경계 구분</h3>
