@@ -320,6 +320,175 @@ if (!sourceText.contains(quote)) return null
 </ul>
 <p><b>운영 설정 관리</b></p>
 <p>검색 엔진·캐시·큐 컨테이너와 영속 볼륨은 유지하고, 운영 비밀값·Compose 전체는 이미지 배포와 별도로 관리합니다. DB migration은 자동으로 되돌리지 않습니다.</p>
+<p><b>실제 작성 코드 — 펼쳐서 확인</b></p>
+<p>실행 순서부터 EC2 교체·복구까지 저장소의 실제 코드를 담았습니다. 전체 파일과 핵심 함수 발췌를 구분하고, 각 항목에 원본 링크를 연결했습니다.</p>
+<details class="technical-detail"><summary>01. 실행 순서 — backend.yml</summary><div class="detail-content">
+<p>CodeBuild가 읽는 설정 파일 전체입니다. 실행 환경을 준비한 뒤 검사 스크립트와 배포 스크립트를 순서대로 실행하며, 실패하면 중단합니다. 배포 활성화 값은 기본 false이며, AWS 프로젝트 설정에서 true로 지정해야 실제 배포로 진행합니다.</p>
+<p><b>실제 설정 전체</b></p>
+<pre><code class="language-yaml">version: 0.2
+
+env:
+  shell: bash
+  # The AWS project overrides this only after its connection and SSM checks pass.
+  variables:
+    GOVBIZ_DEPLOY_ENABLED: &quot;false&quot;
+    OPENAI_API_KEY: &quot;compose-verification-key-never-sent&quot;
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto21
+      python: 3.11
+    commands:
+      - python -m pip install uv==0.12.5
+  build:
+    on-failure: ABORT
+    commands:
+      # One fail-fast process: a failed test must never reach ECR or SSM.
+      - bash infrastructure/codebuild/verify-backend.sh
+      - python3 infrastructure/codebuild/release.py
+</code></pre>
+<p><a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/codebuild/backend.yml">전체 파일 보기 — backend.yml</a></p>
+</div></details>
+<details class="technical-detail"><summary>02. 자동 검사 — verify-backend.sh</summary><div class="detail-content">
+<p>CodeBuild 안에서 실행하는 검사 스크립트 전체입니다. Core 빌드·테스트, AI 테스트·패키지 빌드, 배포 코드 테스트와 Compose·Nginx 검증을 실행합니다. Qdrant는 검사용으로 잠시 실행한 뒤 정리합니다. 아래 OpenAI 키는 실제 비밀값이 아닌 통합 검증용 값입니다.</p>
+<p><b>실제 검사 스크립트 전체</b></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+set -Eeuo pipefail
+cd &quot;${CODEBUILD_SRC_DIR:?Run this entrypoint in CodeBuild}&quot;
+
+# Runs in an isolated, disposable CodeBuild Docker daemon, never on production.
+export JAVA_TOOL_OPTIONS=&quot;-Dspring.test.context.cache.maxSize=2&quot;
+(cd backend/core-api &amp;&amp; ./gradlew clean build --no-daemon)
+
+qdrant_id=&quot;$(docker run --detach --publish 127.0.0.1:6333:6333 qdrant/qdrant:v1.17.1)&quot;
+cleanup_qdrant() { docker rm --force &quot;${qdrant_id}&quot; &gt;/dev/null; }
+trap cleanup_qdrant EXIT
+export QDRANT_TEST_URL=http://127.0.0.1:6333
+python3 - &lt;&lt;&#x27;PY&#x27;
+import time, urllib.request
+for attempt in range(30):
+    try:
+        urllib.request.urlopen(&#x27;http://127.0.0.1:6333/readyz&#x27;, timeout=2).close()
+        break
+    except OSError:
+        if attempt == 29:
+            raise
+        time.sleep(1)
+PY
+(
+  cd backend/ai-service
+  uv lock --check
+  uv sync --locked --extra dev
+  uv pip check --python .venv/bin/python
+  uv run --locked --extra dev python -m pytest
+  uv build
+  uv run --locked --extra dev python -m pytest ../../evaluation/support-program-evidence
+)
+cleanup_qdrant
+trap - EXIT
+python3 -B -m unittest discover -s infrastructure/scripts -p &#x27;test_*.py&#x27;
+python3 -B -m unittest discover -s infrastructure/codebuild -p &#x27;test_*.py&#x27;
+(
+  cd evaluation/support-program-search
+  ../../backend/ai-service/.venv/bin/python -m unittest discover
+  python3 -B -m unittest discover -s review -p &#x27;test_*.py&#x27;
+  python3 -B review/verify-shared-run.py --run-dir runs/support-program-catalog-20260906-v1 --with-capture
+  python3 -B compare_elasticsearch.py --fixture runs/support-program-catalog-20260906-v1/review-final-v1/fixture-labeled.json --verify-report runs/elasticsearch-nori-20260912-v1/report.json
+  python3 -B compare_korean_queries.py --fixture runs/support-program-catalog-20260906-v1/review-final-v1/fixture-labeled.json --questions runs/elasticsearch-korean-queries-20260912-v1/questions.json --verify-report runs/elasticsearch-korean-queries-20260912-v1/report.json
+)
+
+export VERIFY_COMPOSE_PROJECT_NAME=&quot;govbiz-codebuild-${CODEBUILD_BUILD_NUMBER:?}&quot;
+export VERIFY_COMPOSE_KEEP_RUNNING=false
+export OPENAI_API_KEY=compose-verification-key-never-sent
+docker compose --project-name &quot;${VERIFY_COMPOSE_PROJECT_NAME}&quot; --file infrastructure/compose.yaml config --quiet
+bash infrastructure/scripts/verify-compose.sh
+python3 infrastructure/scripts/verify-production-proxy.py
+</code></pre>
+<p><a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/codebuild/verify-backend.sh">전체 파일 보기 — verify-backend.sh</a></p>
+</div></details>
+<details class="technical-detail"><summary>03. 이미지 게시·배포 요청 — release.py</summary><div class="detail-content">
+<p>CodeBuild에서 실행하는 실제 함수 두 개를 발췌했습니다. 보조 함수와 import는 생략했으며, 실행 가능한 전체 파일은 아래 링크에서 확인할 수 있습니다.</p>
+<p><b>이미지가 없으면 Docker로 빌드·게시하고, ECR에서 확인한 digest를 반환합니다.</b></p>
+<pre><code class="language-python">def publish(registry, service, sha):
+    repository, tag = &#x27;govbiz/&#x27; + service, &#x27;git-&#x27; + sha
+    digest = image_digest(repository, tag)
+    if digest is None:
+        ref = registry + &#x27;/&#x27; + repository + &#x27;:&#x27; + tag
+        run(&#x27;docker&#x27;, &#x27;build&#x27;, &#x27;--platform&#x27;, &#x27;linux/amd64&#x27;, &#x27;--label&#x27;,
+            &#x27;org.opencontainers.image.revision=&#x27; + sha, &#x27;--tag&#x27;, ref, &#x27;backend/&#x27; + service)
+        run(&#x27;docker&#x27;, &#x27;push&#x27;, ref)
+        digest = image_digest(repository, tag)
+    if not digest or not re.fullmatch(&#x27;sha256:[0-9a-f]{64}&#x27;, digest):
+        raise RuntimeError(&#x27;ECR did not return a valid immutable image digest&#x27;)
+    return registry + &#x27;/&#x27; + repository + &#x27;@&#x27; + digest
+</code></pre>
+<p><b>배포 활성화와 최신 main을 확인하고, 이미지를 게시한 뒤 SSM에 EC2 배포 명령을 전달합니다. 마지막에는 실행 결과를 기다립니다.</b></p>
+<pre><code class="language-python">def main():
+    sha = commit_id()
+    if os.environ.get(&#x27;GOVBIZ_DEPLOY_ENABLED&#x27;) != &#x27;true&#x27;:
+        print(&#x27;GOVBIZ_BACKEND_VERIFIED_DEPLOY_DISABLED&#x27;)
+        return
+    if not is_current_main(sha):
+        print(&#x27;GOVBIZ_SUPERSEDED_BUILD_NOT_DEPLOYED&#x27;)
+        return
+    account = aws(&#x27;sts&#x27;, &#x27;get-caller-identity&#x27;)[&#x27;Account&#x27;]
+    registry = account + &#x27;.dkr.ecr.&#x27; + os.environ[&#x27;AWS_REGION&#x27;] + &#x27;.amazonaws.com&#x27;
+    # Password only crosses stdin. Never print or place it in command arguments.
+    password = run(&#x27;aws&#x27;, &#x27;ecr&#x27;, &#x27;get-login-password&#x27;, &#x27;--region&#x27;, os.environ[&#x27;AWS_REGION&#x27;],
+                   capture_output=True).stdout
+    try:
+        run(&#x27;docker&#x27;, &#x27;login&#x27;, &#x27;--username&#x27;, &#x27;AWS&#x27;, &#x27;--password-stdin&#x27;, registry,
+            input=password, capture_output=True)
+        images = {service: publish(registry, service, sha) for service in (&#x27;core-api&#x27;, &#x27;ai-service&#x27;)}
+    finally:
+        subprocess.run([&#x27;docker&#x27;, &#x27;logout&#x27;, registry], capture_output=True)
+    if not is_current_main(sha):
+        print(&#x27;GOVBIZ_SUPERSEDED_BUILD_NOT_DEPLOYED&#x27;)
+        return
+    instance = os.environ[&#x27;GOVBIZ_INSTANCE_ID&#x27;]
+    response = aws(&#x27;ssm&#x27;, &#x27;send-command&#x27;, &#x27;--document-name&#x27;, os.environ[&#x27;GOVBIZ_DEPLOY_DOCUMENT&#x27;],
+                   &#x27;--document-version&#x27;, os.environ[&#x27;GOVBIZ_DEPLOY_DOCUMENT_VERSION&#x27;], &#x27;--instance-ids&#x27;, instance,
+                   &#x27;--parameters&#x27;, json.dumps({&#x27;Mode&#x27;: [&#x27;deploy&#x27;], &#x27;Commit&#x27;: [sha],
+                       &#x27;CoreImage&#x27;: [images[&#x27;core-api&#x27;]], &#x27;AiImage&#x27;: [images[&#x27;ai-service&#x27;]]}),
+                   &#x27;--comment&#x27;, &#x27;GovBiz main &#x27; + sha)
+    wait_command(response[&#x27;Command&#x27;][&#x27;CommandId&#x27;], instance)
+</code></pre>
+<p><a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/codebuild/release.py">전체 파일 보기 — release.py</a></p>
+</div></details>
+<details class="technical-detail"><summary>04. EC2 교체·복구 — deploy_host.py</summary><div class="detail-content">
+<p>SSM을 통해 EC2에서 실행하는 실제 함수 두 개를 발췌했습니다. 보조 함수, 배포 잠금과 사전 점검 등은 전체 파일에 있습니다. SSM 명령 문서에 이 파일을 포함시키는 코드는 ssm_document.py에서 확인할 수 있습니다.</p>
+<p><b>AI Service가 준비된 뒤 Core API를 교체하고, Nginx와 서비스 상태를 확인합니다.</b></p>
+<pre><code class="language-python">def restore_or_start():
+    # Never restart stateful dependencies or run `down`. AI must be ready before Core.
+    for service in (&#x27;ai-service&#x27;, &#x27;core-api&#x27;):
+        compose(&#x27;up&#x27;, &#x27;--detach&#x27;, &#x27;--no-deps&#x27;, &#x27;--no-build&#x27;, &#x27;--pull&#x27;, &#x27;never&#x27;, &#x27;--wait&#x27;,
+                &#x27;--wait-timeout&#x27;, &#x27;300&#x27;, service)
+    nginx = container_id(&#x27;nginx&#x27;)
+    invoke([&#x27;docker&#x27;, &#x27;exec&#x27;, nginx, &#x27;nginx&#x27;, &#x27;-t&#x27;])
+    invoke([&#x27;docker&#x27;, &#x27;exec&#x27;, nginx, &#x27;nginx&#x27;, &#x27;-s&#x27;, &#x27;reload&#x27;])
+    health()
+</code></pre>
+<p><b>이미지 참조가 포함된 환경 설정을 백업하고 교체합니다. 실패하면 이전 설정과 이미지로 복구를 시도하며, DB는 되돌리지 않습니다.</b></p>
+<pre><code class="language-python">def apply_release(original, candidate, file_stat, receipt):
+    atomic_write(receipt / &#x27;environment.before&#x27;, original, file_stat)
+    atomic_write(ENV_FILE, candidate, file_stat)
+    try:
+        restore_or_start()
+    except Exception:
+        atomic_write(ENV_FILE, original, file_stat)
+        try:
+            restore_or_start()
+        except Exception:
+            atomic_write(receipt / &#x27;result&#x27;, b&#x27;FAILED_IMAGE_RESTORE_FAILED_DATABASE_NOT_ROLLED_BACK\n&#x27;)
+            raise RuntimeError(&#x27;Deployment and previous-image recovery failed; operator action required&#x27;) from None
+        atomic_write(receipt / &#x27;result&#x27;, b&#x27;FAILED_PREVIOUS_IMAGES_RESTORED_DATABASE_NOT_ROLLED_BACK\n&#x27;)
+        raise RuntimeError(&#x27;Deployment failed; previous images restored, database NOT rolled back&#x27;) from None
+    atomic_write(receipt / &#x27;result&#x27;, b&#x27;SUCCESS\n&#x27;)
+</code></pre>
+<p><a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/codebuild/deploy_host.py">전체 파일 보기 — deploy_host.py</a></p>
+<p><a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/codebuild/ssm_document.py">SSM 명령 문서 생성 코드 — ssm_document.py</a></p>
+</div></details>
 <p>구현 근거: <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/codebuild/verify-backend.sh">배포 전 검증</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/codebuild/release.py">이미지 게시·SSM 호출</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/codebuild/deploy_host.py">교체·복구 구현</a></p>
 <h2 id="section-7">5. 프라이빗 네트워크와 API 라우팅 구성</h2>
 <div class="diagram-heading"><b>서버와 DB를 비공개로 두고, 들어오는 요청과 나가는 호출을 나눴습니다</b></div>
