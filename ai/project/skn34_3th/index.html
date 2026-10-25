@@ -385,44 +385,17 @@ DB 비공개 배치 및 인증서·호스트명을 검증하는 TLS 연결
 <p>구현 근거: <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/docs/assets/architecture/README-aws-deployed.md">배포 구성 기록</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/frontend/middleware.ts">Vercel 프록시</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/nginx/default.conf.template">Nginx 라우팅</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/compose.prod.yaml">운영 Compose·RDS TLS</a></p>
 <hr>
 <h2 id="section-9">검증 결과와 해석 범위</h2>
-<div class="table-scroll" tabindex="0" role="region" aria-label="내용 비교 표"><table>
-
-<thead><tr>
-<th scope="col">
-검증 대상
-</th>
-<th scope="col">
-기록된 결과
-</th>
-<th scope="col">
-측정 조건과 의미
-</th>
-</tr></thead>
-<tr>
-<td>
-<b>Nori v2 키워드 후보 검색</b>
-</td>
-<td>
-목표 공고 Hit@20 <b>295/300 → 299/300</b><br />MRR@20 <br /><b>0.906111 → 0.933764</b>
-</td>
-<td>
-고정 공고 1,422건·개발 중 사용한 AI 작성 질문 300개에서 Nori 설정·사전·동의어 변경 전후 비교. 질문별 목표 공고의 검색 여부·순위 진단이며, 전체 관련 공고 Recall이나 최종 하이브리드 추천 정확도와 구분
-</td>
-</tr>
-<tr>
-<td>
-<b>RAG 대상 조건 요약 보완</b>
-</td>
-<td>
-기대 응답 상태 <b>12/12 일치</b>
-</td>
-<td>
-공식 공고 질문 6개·가상 질문 6개의 단회 실모델 실행 기록. 의미 검토는 AI-only이며 사람 검토 정확도나 통계적으로 입증된 개선을 의미하지 않음
-</td>
-</tr>
-</table></div>
-<p>검색 설정 보완으로 기존 누락 5개 중 4개를 회복했으며, 기존 적중 목표의 top-20 이탈은 없었습니다. 다만 순위가 하락한 질문 9개와 남은 누락 1개도 기록해 개선의 범위를 함께 확인했습니다.</p>
-<p>평가 근거: <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/evaluation/support-program-search/runs/lexical-v2-20260913-v1/README.md">Nori v2 비교 보고서</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/evaluation/support-program-evidence/runs/official-flow-20260907-v2/README.md">RAG 후속 평가 보고서</a></p>
+<h3>한국어 분석 설정을 조정해 검색 누락을 줄였습니다</h3>
+<p>지명·복합어·유사 표현 때문에 목표 공고가 검색되지 않는 사례를 분석하고, Elasticsearch의 Nori 설정·사용자 사전·검색 시점 동의어를 보완했습니다.</p>
+<ul>
+<li><b>복합어 처리:</b> Nori 분해 모드를 <code>mixed</code>에서 <code>discard</code>로 바꿔, 원형과 분해된 단어를 함께 사용하던 방식에서 분해된 단어를 사용하는 방식으로 조정했습니다.</li>
+<li><b>사용자 사전:</b> <code>횡성</code>, <code>소상공인</code> 같은 지명·용어가 검색에 필요한 형태로 분석되도록 등록했습니다.</li>
+<li><b>유사 표현:</b> 검색 시 <code>여행사 ↔ 여행업체</code>를 함께 찾도록 설정했습니다. 신청 범위가 달라지는 <code>융자 = 보조금</code> 같은 동의어는 추가하지 않았습니다.</li>
+</ul>
+<p><b>검증 결과:</b> 같은 공고 1,422건과 질문 300개로 비교한 결과, 목표 공고가 상위 20개에 포함된 질문이 <b>295개에서 299개로 증가</b>했습니다. 기존 누락 5개 중 4개를 회복했으며, 기존에 찾았던 목표 공고가 상위 20개 밖으로 밀려난 경우는 없었습니다.</p>
+<p><b>개선 사례:</b> “횡성 소상공인 대출이자” 질문의 목표 공고는 상위 20개 밖에서 <b>1위</b>로 올라왔습니다. 다만 순위가 하락한 질문 9개와 여전히 찾지 못한 질문 1개도 함께 기록했습니다.</p>
+<p><b>해석 범위:</b> 개발에 사용한 AI 작성 질문으로 평가했으며, 실제 사용자 질문에 대한 일반적인 성능을 입증한 결과는 아닙니다. 여러 설정을 함께 변경했으므로 특정 설정 하나의 효과로 단정하지 않았습니다. 이 결과는 Elasticsearch 키워드 후보 검색의 개선이며, 최종 하이브리드 추천이나 RAG 답변 정확도와는 구분합니다.</p>
+<p>평가 근거: <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/evaluation/support-program-search/runs/lexical-v2-20260913-v1/README.md">한국어 검색 설정 변경 전후 비교 보고서</a></p>
 <h3>설계에서 얻은 점</h3>
 <ul>
 <li><b>검색과 자격 판정의 분리:</b> 관련성, 지원 방식, 신청 자격을 한 점수로 섞지 않고 각각 설명할 수 있어야 추천 결과를 해석하기 쉽습니다.</li>
