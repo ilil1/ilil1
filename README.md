@@ -27,6 +27,7 @@ ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜�
 #### 사용 기술
 
 - **Ai 에이전트:** LangChain, LangGraph, MCP-Server, OpenAI API
+- **검색:** Elasticsearch(Nori/BM25), Qdrant
 - **LLMOps:** Langfuse, Prefect, Evidently
 - **Infra & Cloud:** AWS (EKS, ECR, EC2, EBS), Docker, Kubernetes, Helm
 
