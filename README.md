@@ -91,7 +91,7 @@ ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜�
 | 백엔드 | FastAPI, Django, Spring Boot, Laravel |
 | Infra & Cloud | AWS (EKS, Lambda, S3, RDS), Docker, Docker-Compose, Kubernetes, Helm|
 | CI/CD | Argo CD, GitHub Actions, Fastlane, CircleCI|
-| 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant |
+| 데이터 저장·검색 | MySQL, Elasticsearch(Nori/BM25), Qdrant, neo4j |
 | 캐시·비동기 처리 | Redis, RabbitMQ |
 | 프론트엔드 | React, Vue.js |
 | 모바일 | Android, iOS, Flutter |
