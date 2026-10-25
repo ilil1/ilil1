@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <meta name="description" content="GovBiz 정부지원사업 탐색·신청 관리 플랫폼. 한국어 하이브리드 검색과 근거 검증 RAG, 서비스 아키텍처, 프론트엔드 구조와 AWS 배포 설계를 정리한 기술 포트폴리오.">
 <title>GovBiz</title>
-<link rel="stylesheet" href="./styles.css?v=20261025-images-90">
+<link rel="stylesheet" href="./styles.css?v=20261026-nested-toc">
 <script src="./script.js" defer></script>
 </head>
 <body>
@@ -16,13 +16,25 @@
 <header class="hero"><p class="eyebrow">정부지원사업 탐색 · 신청 관리 플랫폼</p><h1>GovBiz</h1></header>
 <nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li>
 <li><a href="#section-2">2. 시스템 아키텍처</a></li>
-<li><a href="#section-3">3. Elasticsearch(Nori·BM25)와 Qdrant hybrid 검색에 RRF·LLM 재순위화를 적용, RAG 응답 기능 구현.</a></li>
-<li><a href="#section-4">4. Core API와 AI Service의 책임 분리</a></li>
-<li><a href="#section-5">5. 백엔드 레이어드 구조와 프론트엔드 클린 아키텍처·MVVM·Flux</a></li>
-<li><a href="#section-6">6. Vercel·CodeBuild·ECR·SSM 기반 CD 구축</a></li>
-<li><a href="#section-7">7. 프라이빗 네트워크와 API 라우팅 구성</a></li>
-<li><a href="#section-9">8. 트러블슈팅과 설계 회고</a></li>
-<li><a href="#section-10">9. 기술 보고서 PDF</a></li></ol></nav>
+<li><a href="#section-implementation">3. 구현 정보</a>
+<ol><li><a href="#section-3">3.1. Elasticsearch(Nori·BM25)와 Qdrant hybrid 검색에 RRF·LLM 재순위화를 적용, RAG 응답 기능 구현.</a>
+<ol><li><a href="#topic-3-1-1">3.1.1. 해결하려던 문제</a></li>
+<li><a href="#topic-3-1-2">3.1.2. 설계와 구현</a></li></ol></li>
+<li><a href="#section-4">3.2. Core API와 AI Service의 책임 분리</a>
+<ol><li><a href="#topic-3-2-1">3.2.1. 분리한 이유</a></li>
+<li><a href="#topic-3-2-2">3.2.2. 요청 흐름</a></li></ol></li>
+<li><a href="#section-5">3.3. 백엔드 레이어드 구조와 프론트엔드 클린 아키텍처·MVVM·Flux</a>
+<ol><li><a href="#topic-3-3-1">3.3.1. 백엔드: 기능 안에서 책임과 경계 구분</a></li>
+<li><a href="#topic-3-3-2">3.3.2. 프론트엔드: 의존 방향, 화면 로직, 공유 상태 분리</a></li></ol></li>
+<li><a href="#section-6">3.4. Vercel·CodeBuild·ECR·SSM 기반 CD 구축</a></li>
+<li><a href="#section-7">3.5. 프라이빗 네트워크와 API 라우팅 구성</a></li></ol></li>
+<li><a href="#section-9">4. 트러블슈팅</a>
+<ol><li><a href="#topic-4-1">4.1. 한국어 검색에서 누락되던 공고 개선</a>
+<ol><li><a href="#topic-4-1-1">4.1.1. 문제</a></li>
+<li><a href="#topic-4-1-2">4.1.2. 원인 분석</a></li>
+<li><a href="#topic-4-1-3">4.1.3. 해결</a></li>
+<li><a href="#topic-4-1-4">4.1.4. 결과와 한계</a></li></ol></li></ol></li>
+<li><a href="#section-10">5. 기술 보고서 PDF</a></li></ol></nav>
 <article id="content"><h2 id="section-1">1. 프로젝트 개요</h2>
 <p>GovBiz는 <b>정부지원사업 탐색부터 신청 준비까지 연결하는 AI 서비스</b>입니다. 여러 기관에 흩어진 공고를 모아, 기업의 조건과 목적에 맞는 사업을 찾고 신청 준비와 진행 상황까지 관리할 수 있도록 돕습니다.</p>
 <div class="diagram-heading"><b>GovBiz 한눈에 보기 — 서비스 흐름</b></div>
@@ -39,7 +51,7 @@
 
 <h2 id="section-2">2. 시스템 아키텍처</h2>
 <p>GovBiz는 <b>화면·업무 처리·AI 실행의 책임을 분리</b>하고, 검색·데이터 저장·배포를 아래 구조로 연결했습니다.</p>
-<figure class="diagram" style="--diagram-ratio:1.484211"><a class="zoom-image" href="./assets/govbiz-system-architecture.png" aria-label="시스템 아키텍처 — 크게 보기"><img src="./assets/govbiz-system-architecture.png" alt="시스템 아키텍처" width="5640" height="3800" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.484211"><a class="zoom-image" href="./assets/govbiz-system-architecture.png" aria-label="2. 시스템 아키텍처 — 크게 보기"><img src="./assets/govbiz-system-architecture.png" alt="2. 시스템 아키텍처" width="5640" height="3800" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 
 <p>실선은 서비스 통신, 주황 점선은 배포 경로입니다.</p>
 <ul>
@@ -48,13 +60,14 @@
 <li><b>운영:</b> 프론트엔드는 Vercel에서 제공하고, EC2·RDS는 프라이빗 네트워크에 배치했습니다. 백엔드는 CodeBuild·ECR·SSM을 통해 배포합니다.</li>
 </ul>
 <hr>
-<h2 id="section-3">3. Elasticsearch(Nori·BM25)와 Qdrant hybrid 검색에 RRF·LLM 재순위화를 적용, RAG 응답 기능 구현.</h2>
-<h3>3.1. 해결하려던 문제</h3>
+<h2 id="section-implementation">3. 구현 정보</h2>
+<h3 id="section-3">3.1. Elasticsearch(Nori·BM25)와 Qdrant hybrid 검색에 RRF·LLM 재순위화를 적용, RAG 응답 기능 구현.</h3>
+<h4 id="topic-3-1-1">3.1.1. 해결하려던 문제</h4>
 <div class="diagram-heading">표현이 달라도 공고를 찾고, <b>신청 조건과 답변 근거를 확인</b>할 수 있어야 했습니다.</div>
 
 <figure class="diagram" style="--diagram-ratio:2.340244"><a class="zoom-image" href="./assets/govbiz-search-problems-v4-no-title.png" aria-label="표현이 달라도 공고를 찾고, 신청 조건과 답변 근거를 확인할 수 있어야 했습니다. — 크게 보기"><img src="./assets/govbiz-search-problems-v4-no-title.png" alt="표현이 달라도 공고를 찾고, 신청 조건과 답변 근거를 확인할 수 있어야 했습니다." width="1919" height="820" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 
-<h3>3.2. 설계와 구현</h3>
+<h4 id="topic-3-1-2">3.1.2. 설계와 구현</h4>
 <div class="diagram-heading"><b>대화로 조건을 바꾸고, 확인 후 검색합니다</b></div>
 
 <figure class="diagram" style="--diagram-ratio:2.197400"><a class="zoom-image" href="./assets/govbiz-condition-confirmation-notion-v3.png" aria-label="대화로 조건을 바꾸고, 확인 후 검색합니다 — 크게 보기"><img src="./assets/govbiz-condition-confirmation-notion-v3.png" alt="대화로 조건을 바꾸고, 확인 후 검색합니다" width="1859" height="846" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
@@ -139,14 +152,14 @@ AI Service 코드가 처리
 </code></pre>
 <p><b>긴 ID를 옮겨 적는 일을 AI 대신 코드가 맡도록 바꾼 것입니다.</b> Core는 기존처럼 <code>citationChunkIds</code>에 근거 구간 ID를 받으므로, 서비스 간 응답 형식은 유지했습니다.</p>
 </div></details>
-<h2 id="section-4">4. Core API와 AI Service의 책임 분리</h2>
+<h3 id="section-4">3.2. Core API와 AI Service의 책임 분리</h3>
 <div class="diagram-heading"><b>Python AI 실행 환경과 업무 API를 분리했습니다</b></div>
 
 <figure class="diagram" style="--diagram-ratio:1.598790"><a class="zoom-image" href="./assets/govbiz-python-ai-boundary-notion-v3.png" aria-label="Python AI 실행 환경과 업무 API를 분리했습니다 — 크게 보기"><img src="./assets/govbiz-python-ai-boundary-notion-v3.png" alt="Python AI 실행 환경과 업무 API를 분리했습니다" width="1586" height="992" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 
-<p><b>분리한 이유</b></p>
+<h4 id="topic-3-2-1">3.2.1. <b>분리한 이유</b></h4>
 <p><b>Python의 LangChain·OpenAI SDK와 임베딩·검색 도구를 활용하기 위해 AI 기능을 FastAPI로 분리했습니다.</b> 계정·공고·신청 관리와 데이터 저장은 Spring Boot에 두어, 업무 기능과 AI 처리 로직을 각각 변경하고 관리할 수 있도록 했습니다.</p>
-<p><b>요청 흐름</b></p>
+<h4 id="topic-3-2-2">3.2.2. <b>요청 흐름</b></h4>
 <ul>
 <li><b>Core API(Spring Boot):</b> 사용자 요청을 받고 계정·공고·신청 관리, MySQL 데이터 조회·저장을 담당합니다.</li>
 <li><b>AI Service(FastAPI):</b> Core가 보낸 질문·조건과 필요한 공고·근거를 받아 임베딩·벡터 검색·LLM 평가와 답변 생성을 수행합니다. MySQL에는 직접 접근하지 않습니다.</li>
@@ -158,16 +171,17 @@ AI Service 코드가 처리
 
 <p><b>공고 데이터 관리</b></p>
 <ul>
-<li><b>형식 통일:</b> 네 제공처의 공고를 같은 형식으로 정리하고, ‘제공처 코드 + 원본 ID’로 구분합니다.
-<details class="technical-detail"><summary>왜 제공처와 공고 번호를 함께 사용할까요?</summary><div class="detail-content">
-<p><b>공고 번호가 같아도 제공처가 다르면 서로 다른 공고입니다.</b> 제공처 코드는 어디에서 가져왔는지, 원본 ID는 그 제공처가 부여한 공고 번호를 뜻합니다.</p>
+<li><b>형식 통일:</b> 네 제공처의 공고를 같은 형식으로 정리하고, ‘제공처 코드 + 원본 ID’로 구분합니다.</li>
+</ul>
+<details class="technical-detail"><summary>왜 제공처와 공고 번호를 함께 사용할까요?</summary><div class="detail-content"><p><b>공고 번호가 같아도 제공처가 다르면 서로 다른 공고입니다.</b> 제공처 코드는 어디에서 가져왔는지, 원본 ID는 그 제공처가 부여한 공고 번호를 뜻합니다.</p>
 <p>예를 들어 기업마당과 K-Startup이 모두 공고 번호 <code>123</code>을 사용한다고 가정해 보겠습니다.</p>
 <ul>
 <li><b>기업마당의 123번 공고:</b> <code>BIZINFO:123</code></li>
 <li><b>K-Startup의 123번 공고:</b> <code>KSTARTUP:123</code></li>
 </ul>
 <p><code>123</code>만 사용하면 두 공고를 같은 것으로 착각할 수 있습니다. 그래서 <b>‘어느 제공처의 몇 번 공고인가’를 함께 확인</b>해 구분합니다.</p>
-</div></details></li>
+</div></details>
+<ul>
 <li><b>신청 상태:</b> 신청 기간과 오늘 날짜(서울 기준)로 계산합니다.</li>
 <li><b>수집 실패:</b> 전체 수집을 완료하지 못하면 기존 공개 데이터를 유지합니다.</li>
 <li><b>원문 수집:</b> 상세 RAG용 공식 HTML은 공고 목록과 별도로 수집합니다.</li>
@@ -193,8 +207,8 @@ AI Service 코드가 처리
 <li><b>검색 전 준비:</b> Core가 검색 조건을 확인하고, MySQL에서 검색 가능한 공고와 버전 정보를 읽어 검색 대상을 정합니다.</li>
 <li><b>결과 반환:</b> Elasticsearch 검색 결과는 Core로, Qdrant 검색 결과와 LLM 평가 결과는 AI Service를 거쳐 Core로 돌아옵니다. Core는 두 검색 결과를 받은 뒤 RRF로 결합하고, 이후 받은 AI 평가 결과를 검사해 사용자에게 전달합니다.</li>
 </ul>
-<h2 id="section-5">5. 백엔드 레이어드 구조와 프론트엔드 클린 아키텍처·MVVM·Flux</h2>
-<h3>5.1. 백엔드: 기능 안에서 책임과 경계 구분</h3>
+<h3 id="section-5">3.3. 백엔드 레이어드 구조와 프론트엔드 클린 아키텍처·MVVM·Flux</h3>
+<h4 id="topic-3-3-1">3.3.1. 백엔드: 기능 안에서 책임과 경계 구분</h4>
 <div class="diagram-heading"><b>요청 접수·외부 통신·DB 접근의 역할을 나눴습니다</b></div>
 
 <figure class="diagram" style="--diagram-ratio:1.210526"><a class="zoom-image" href="./assets/govbiz-backend-responsibilities.png" aria-label="요청 접수·외부 통신·DB 접근의 역할을 나눴습니다 — 크게 보기"><img src="./assets/govbiz-backend-responsibilities.png" alt="요청 접수·외부 통신·DB 접근의 역할을 나눴습니다" width="1380" height="1140" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
@@ -252,7 +266,7 @@ if (!sourceText.contains(quote)) return null
 <li><b>DB 접근:</b> Repository가 저장·조회와 업무 모델 ↔ <code>DbRow</code> 변환을 통해, DB 데이터를 서비스에서 사용할 공고 객체로 변환합니다. MyBatis Mapper·XML의 SQL 매핑을 Repository 내부에서 처리해서 경계 안에 둡니다.</li>
 <li><b>업무 규칙:</b> 접수 상태 계산처럼 프레임워크와 무관한 규칙은 Domain에 둡니다.</li>
 </ul>
-<h3>5.2. 프론트엔드: 의존 방향, 화면 로직, 공유 상태 분리</h3>
+<h4 id="topic-3-3-2">3.3.2. 프론트엔드: 의존 방향, 화면 로직, 공유 상태 분리</h4>
 <p>화면·업무·서버 통신을 분리하고 ViewModel을 통해 화면과 업무 호출을 연결하는 구조를 설계했습니다. 아래는 설계 기준과 대표 적용 흐름이며, <b>모든 기능에 일관되게 적용하지는 못했습니다.</b></p>
 <div class="diagram-heading"><b>화면·업무·서버 통신의 역할을 나눴습니다</b></div>
 
@@ -298,7 +312,7 @@ if (!sourceText.contains(quote)) return null
 <li><b>영향:</b> 화면 변경과 요청 흐름 변경을 같은 컴포넌트에서 다루게 되어, 수정 시 함께 살펴봐야 하는 코드와 테스트 범위가 넓어질 수 있습니다.</li>
 <li><b>개선 방향:</b> 화면에 섞인 업무 호출·상태 처리를 역할에 맞게 ViewModel과 UseCase로 나누고, 기능별 코드 리뷰와 의존성 검사로 경계가 유지되는지 확인할 필요가 있습니다.</li>
 </ul>
-<h2 id="section-6">6. Vercel·CodeBuild·ECR·SSM 기반 CD 구축</h2>
+<h3 id="section-6">3.4. Vercel·CodeBuild·ECR·SSM 기반 CD 구축</h3>
 <div class="diagram-heading"><b>배포 경로를 나누고, 검증·교체·복구를 연결했습니다</b></div>
 
 <figure class="diagram" style="--diagram-ratio:0.750000"><a class="zoom-image" href="./assets/govbiz-deployment-overview-notion-v3.png" aria-label="배포 경로를 나누고, 검증·교체·복구를 연결했습니다 — 크게 보기"><img src="./assets/govbiz-deployment-overview-notion-v3.png" alt="배포 경로를 나누고, 검증·교체·복구를 연결했습니다" width="1086" height="1448" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
@@ -320,7 +334,7 @@ if (!sourceText.contains(quote)) return null
 <p><b>운영 설정 관리</b></p>
 <p>검색 엔진·캐시·큐 컨테이너와 영속 볼륨은 유지하고, 운영 비밀값·Compose 전체는 이미지 배포와 별도로 관리합니다. DB migration은 자동으로 되돌리지 않습니다.</p>
 <p>구현 근거: <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/codebuild/verify-backend.sh">배포 전 검증</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/codebuild/release.py">이미지 게시·SSM 호출</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/codebuild/deploy_host.py">교체·복구 구현</a></p>
-<h2 id="section-7">7. 프라이빗 네트워크와 API 라우팅 구성</h2>
+<h3 id="section-7">3.5. 프라이빗 네트워크와 API 라우팅 구성</h3>
 <div class="diagram-heading"><b>서버와 DB를 비공개로 두고, 들어오는 요청과 나가는 호출을 나눴습니다</b></div>
 
 <figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-private-network-notion-v1.png" aria-label="서버와 DB를 비공개로 두고, 들어오는 요청과 나가는 호출을 나눴습니다 — 크게 보기"><img src="./assets/govbiz-private-network-notion-v1.png" alt="서버와 DB를 비공개로 두고, 들어오는 요청과 나가는 호출을 나눴습니다" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
@@ -384,42 +398,77 @@ DB 비공개 배치 및 인증서·호스트명을 검증하는 TLS 연결
 </ul>
 <p>구현 근거: <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/docs/assets/architecture/README-aws-deployed.md">배포 구성 기록</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/frontend/middleware.ts">Vercel 프록시</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/nginx/default.conf.template">Nginx 라우팅</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/compose.prod.yaml">운영 Compose·RDS TLS</a></p>
 <hr>
-<h2 id="section-9">8. 트러블슈팅과 설계 회고</h2>
-<h3>8.1. 한국어 검색에서 누락되던 공고 개선</h3>
-<h4>8.1.1. 문제</h4>
+<h2 id="section-9">4. 트러블슈팅</h2>
+<h3 id="topic-4-1">4.1. 한국어 검색에서 누락되던 공고 개선</h3>
+<h4 id="topic-4-1-1">4.1.1. 문제</h4>
 <p>공고 1,422건 중 300건을 고른 뒤, AI가 각 공고를 읽고 검색 질문을 하나씩 만들었습니다. 질문을 만들 때 선택한 공고를 <b>‘목표 공고’</b>로 미리 기록하고, 전체 1,422건을 검색했을 때 그 공고가 상위 20개 안에 나오는지 확인했습니다.</p>
 <p>처음에는 질문 300개 중 5개에서 목표 공고가 상위 20개 안에 나오지 않았습니다. 아래 횡성군 공고도 그중 하나였습니다.</p>
-<div class="table-scroll" tabindex="0" role="region" aria-label="목표 공고와 검색 질문 예시"><table>
-<thead><tr><th scope="col">구분</th><th scope="col">실제 평가 예시</th></tr></thead>
-<tbody>
-<tr><td>미리 선택한 공고</td><td>[강원] 횡성군 2026년 중소기업육성자금 이차보전 지원 공고</td></tr>
-<tr><td>질문의 근거가 된 공고 내용</td><td>관내 중소기업 및 소상공인 / 대출이자 최대 4% 지원</td></tr>
-<tr><td>공고를 읽고 만든 질문</td><td>“횡성 소상공인의 대출이자를 지원하는 공고 찾아줘”</td></tr>
-<tr><td>확인한 것</td><td>검색 결과 상위 20개에 위 횡성군 공고가 포함되는가?</td></tr>
-<tr><td>설정 변경 전 → 후</td><td>상위 20개 밖 → 1위</td></tr>
-</tbody></table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="내용 비교 표"><table>
+<thead><tr>
+<th scope="col">
+구분
+</th>
+<th scope="col">
+실제 평가 예시
+</th>
+</tr></thead>
+<tr>
+<td>
+미리 선택한 공고
+</td>
+<td>
+[강원] 횡성군 2026년 중소기업육성자금 이차보전 지원 공고
+</td>
+</tr>
+<tr>
+<td>
+질문의 근거가 된 공고 내용
+</td>
+<td>
+관내 중소기업 및 소상공인 / 대출이자 최대 4% 지원
+</td>
+</tr>
+<tr>
+<td>
+공고를 읽고 만든 질문
+</td>
+<td>
+“횡성 소상공인의 대출이자를 지원하는 공고 찾아줘”
+</td>
+</tr>
+<tr>
+<td>
+확인한 것
+</td>
+<td>
+검색 결과 상위 20개에 위 횡성군 공고가 포함되는가?
+</td>
+</tr>
+<tr>
+<td>
+설정 변경 전 → 후
+</td>
+<td>
+상위 20개 밖 → 1위
+</td>
+</tr>
+</table></div>
 <p>다른 관련 공고가 나왔더라도 미리 지정한 공고가 없으면, 이 평가에서는 목표 공고를 찾지 못한 것으로 셌습니다. 실제 사용자가 남긴 질문을 모은 평가와는 구분합니다.</p>
-<h4>8.1.2. 원인 분석</h4>
+<h4 id="topic-4-1-2">4.1.2. 원인 분석</h4>
 <p>Elasticsearch가 질문과 공고의 단어를 어떻게 나누는지 확인했습니다. <code>횡성</code>이 <code>횡</code>으로 분석되고, <code>소상공인</code>은 문맥에 따라 다르게 분해되는 문제가 있었습니다. <code>여행사</code>와 <code>여행업체</code>처럼 뜻이 비슷해도 표현이 달라 놓치는 경우도 확인했습니다.</p>
-<h4>8.1.3. 해결</h4>
+<h4 id="topic-4-1-3">4.1.3. 해결</h4>
 <ul>
 <li><b>복합어 처리:</b> Nori 분해 모드를 <code>mixed</code>에서 <code>discard</code>로 바꿔, 원형과 분해된 단어를 함께 사용하던 방식에서 분해된 단어를 사용하는 방식으로 조정했습니다.</li>
 <li><b>사용자 사전:</b> <code>횡성</code>, <code>소상공인</code> 같은 지명·용어가 검색에 필요한 형태로 분석되도록 등록했습니다.</li>
 <li><b>유사 표현:</b> 검색 시 <code>여행사 ↔ 여행업체</code>를 함께 찾도록 설정했습니다. 신청 범위가 달라지는 <code>융자 = 보조금</code> 같은 동의어는 추가하지 않았습니다.</li>
 </ul>
-<h4>8.1.4. 결과와 한계</h4>
+<h4 id="topic-4-1-4">4.1.4. 결과와 한계</h4>
 <p><b>검증 결과:</b> 같은 공고 1,422건과 질문 300개로 비교한 결과, 목표 공고가 상위 20개에 포함된 질문이 <b>295개에서 299개로 증가</b>했습니다. 기존 누락 5개 중 4개를 회복했으며, 기존에 찾았던 목표 공고가 상위 20개 밖으로 밀려난 경우는 없었습니다.</p>
 <p><b>개선 사례:</b> “횡성 소상공인 대출이자” 질문의 목표 공고는 상위 20개 밖에서 <b>1위</b>로 올라왔습니다. 다만 순위가 하락한 질문 9개와 여전히 찾지 못한 질문 1개도 함께 기록했습니다.</p>
 <p><b>해석 범위:</b> 개발에 사용한 AI 작성 질문으로 평가했으며, 실제 사용자 질문에 대한 일반적인 성능을 입증한 결과는 아닙니다. 여러 설정을 함께 변경했으므로 특정 설정 하나의 효과로 단정하지 않았습니다. 이 결과는 Elasticsearch 키워드 후보 검색의 개선이며, 최종 하이브리드 추천이나 RAG 답변 정확도와는 구분합니다.</p>
 <p>평가 근거: <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/evaluation/support-program-search/runs/lexical-v2-20260913-v1/README.md">한국어 검색 설정 변경 전후 비교 보고서</a></p>
-<h3>8.2. 설계에서 얻은 점</h3>
-<ul>
-<li><b>검색과 자격 판정의 분리:</b> 관련성, 지원 방식, 신청 자격을 한 점수로 섞지 않고 각각 설명할 수 있어야 추천 결과를 해석하기 쉽습니다.</li>
-<li><b>생성 모델 밖의 검증:</b> 인용 ID 복원과 원문 대조처럼 결정적으로 처리할 수 있는 부분은 코드가 담당하도록 설계했습니다. 인용의 존재·출처 검증과 답변 전체의 의미적 정확성은 별도로 평가해야 합니다.</li>
-<li><b>실패를 포함한 배포 설계:</b> 성공 경로뿐 아니라 오래된 빌드 차단, 상태 확인, 이전 이미지 복구까지 구현해야 배포 절차를 재현할 수 있습니다.</li>
-</ul>
 <hr>
-<h2 id="section-10">9. 기술 보고서 PDF</h2>
+<h2 id="section-10">5. 기술 보고서 PDF</h2>
 <p>
 검색·RAG·서비스 아키텍처·배포·네트워크를 구조도 중심으로 정리한 <b>28페이지 기술 보고서</b>입니다.
 </p>
