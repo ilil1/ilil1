@@ -3,7 +3,7 @@
 #  Kim geon woo
 
 4년 차 소프트웨어 엔지니어로서 다양한 Ai Agent 설계·구현부터 LLMOps 까지 Ai 서비스의 통합 시스템을 구축했습니다.  
-LLMOps 의 Evals로 LLM의 응답 품질 평가, Observability 로써 Tracing 및 Monitoring을 하여 안정적인 Ai 서비스 운영 시스템을 구현했습니다.  
+Evals로 LLM의 응답 품질 평가, Observability 로써 Tracing 및 Monitoring을 하는 LLMOps를 설계 및 구현했습니다.
 LLM 서비스와 더불어 ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜닝을 개인 프로젝트로 Ai 에 대한 개발 역량을 넓히고 있습니다.  
 데이터 특성에 맞는 DB 선정·스키마 설계, 확장 가능한 어플리케이션 아키텍처 설계 역량을 갖추고 있습니다.  
 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축한 경험이 있습니다.  
