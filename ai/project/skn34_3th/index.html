@@ -400,8 +400,14 @@ DB 비공개 배치 및 인증서·호스트명을 검증하는 TLS 연결
 <ul>
 <li><b>HWP:</b> Core의 hwplib로 편집 후 다시 열어 검증</li>
 <li><b>HWPX:</b> Hangeul MCP로 분석·기입·검증</li>
-<li><b>PDF:</b> MCP로 원문 처리, Core PDFBox로 지원 입력 필드 기입</li>
+<li><b>PDF:</b> AI Service에서 작성 위치를 확인하고, Core의 PDFBox로 저장된 답변을 기입·검증합니다.</li>
 </ul>
+<p><b>PDF는 위치 확인과 답변 기입을 나눠 처리합니다.</b></p>
+<ul>
+<li><b>위치 확인 — AI Service:</b> <code>pdf-edit-mcp</code>와 확장 도구로 원문의 글자·배치와 입력 가능한 영역을 확인합니다.</li>
+<li><b>답변 기입 — Core:</b> 확인된 위치와 저장된 답변 ID를 연결해 PDFBox로 값을 채우고, 결과 파일을 다시 열어 검증합니다. PDFBox는 MCP 서버가 아니라 Core가 직접 호출하는 Java 라이브러리입니다.</li>
+</ul>
+<p>예를 들어 AI Service가 ‘1페이지의 기업명 입력칸’을 확인하면, Core가 해당 칸에 저장된 기업명 ‘주식회사 고브비즈’를 넣습니다.</p>
 <p><b>사용자 확인:</b> 미지원 항목은 수동으로 작성하며, 생성된 초안은 사용자가 검토합니다. 기관에 자동 제출하지 않습니다.</p>
 <h3>도우미: 회원 권한 안에서 조회하고 결과를 검증</h3>
 <figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-assistant-boundary-notion-v1.png" aria-label="도우미: 회원 권한 안에서 조회하고 결과를 검증 — 크게 보기"><img src="./assets/govbiz-assistant-boundary-notion-v1.png" alt="도우미: 회원 권한 안에서 조회하고 결과를 검증" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
