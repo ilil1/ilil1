@@ -21,7 +21,7 @@
 <li><a href="#section-5">3. 백엔드 레이어드 구조와 프론트엔드 클린 아키텍처·MVVM·Flux</a></li>
 <li><a href="#section-6">4. Vercel·CodeBuild·ECR·SSM 기반 CD 구축</a></li>
 <li><a href="#section-7">5. 프라이빗 네트워크와 API 라우팅 구성</a></li>
-<li><a href="#section-9">검증 결과와 해석 범위</a></li>
+<li><a href="#section-9">트러블슈팅과 설계 회고</a></li>
 <li><a href="#section-10">기술 보고서 PDF</a></li></ol></nav>
 <article id="content"><h2 id="section-1">프로젝트 개요</h2>
 <p>GovBiz는 <b>정부지원사업 탐색부터 신청 준비까지 연결하는 AI 서비스</b>입니다. 여러 기관에 흩어진 공고를 모아, 기업의 조건과 목적에 맞는 사업을 찾고 신청 준비와 진행 상황까지 관리할 수 있도록 돕습니다.</p>
@@ -384,14 +384,19 @@ DB 비공개 배치 및 인증서·호스트명을 검증하는 TLS 연결
 </ul>
 <p>구현 근거: <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/docs/assets/architecture/README-aws-deployed.md">배포 구성 기록</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/frontend/middleware.ts">Vercel 프록시</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/nginx/default.conf.template">Nginx 라우팅</a> · <a href="https://github.com/ilil1/SKN34-3rd-1Team/blob/f9eca8d51ed234e23423569a984243e1a28821a9/infrastructure/compose.prod.yaml">운영 Compose·RDS TLS</a></p>
 <hr>
-<h2 id="section-9">검증 결과와 해석 범위</h2>
-<h3>한국어 분석 설정을 조정해 검색 누락을 줄였습니다</h3>
-<p>지명·복합어·유사 표현 때문에 목표 공고가 검색되지 않는 사례를 분석하고, Elasticsearch의 Nori 설정·사용자 사전·검색 시점 동의어를 보완했습니다.</p>
+<h2 id="section-9">트러블슈팅과 설계 회고</h2>
+<h3>한국어 검색에서 누락되던 공고 개선</h3>
+<h4>문제</h4>
+<p>질문 300개로 검색했을 때, 5개 질문에서 목표 공고가 상위 20개 안에 나오지 않았습니다. “횡성 소상공인 대출이자”도 그중 하나였습니다.</p>
+<h4>원인 분석</h4>
+<p>Elasticsearch가 질문과 공고의 단어를 어떻게 나누는지 확인했습니다. <code>횡성</code>이 <code>횡</code>으로 분석되고, <code>소상공인</code>은 문맥에 따라 다르게 분해되는 문제가 있었습니다. <code>여행사</code>와 <code>여행업체</code>처럼 뜻이 비슷해도 표현이 달라 놓치는 경우도 확인했습니다.</p>
+<h4>해결</h4>
 <ul>
 <li><b>복합어 처리:</b> Nori 분해 모드를 <code>mixed</code>에서 <code>discard</code>로 바꿔, 원형과 분해된 단어를 함께 사용하던 방식에서 분해된 단어를 사용하는 방식으로 조정했습니다.</li>
 <li><b>사용자 사전:</b> <code>횡성</code>, <code>소상공인</code> 같은 지명·용어가 검색에 필요한 형태로 분석되도록 등록했습니다.</li>
 <li><b>유사 표현:</b> 검색 시 <code>여행사 ↔ 여행업체</code>를 함께 찾도록 설정했습니다. 신청 범위가 달라지는 <code>융자 = 보조금</code> 같은 동의어는 추가하지 않았습니다.</li>
 </ul>
+<h4>결과와 한계</h4>
 <p><b>검증 결과:</b> 같은 공고 1,422건과 질문 300개로 비교한 결과, 목표 공고가 상위 20개에 포함된 질문이 <b>295개에서 299개로 증가</b>했습니다. 기존 누락 5개 중 4개를 회복했으며, 기존에 찾았던 목표 공고가 상위 20개 밖으로 밀려난 경우는 없었습니다.</p>
 <p><b>개선 사례:</b> “횡성 소상공인 대출이자” 질문의 목표 공고는 상위 20개 밖에서 <b>1위</b>로 올라왔습니다. 다만 순위가 하락한 질문 9개와 여전히 찾지 못한 질문 1개도 함께 기록했습니다.</p>
 <p><b>해석 범위:</b> 개발에 사용한 AI 작성 질문으로 평가했으며, 실제 사용자 질문에 대한 일반적인 성능을 입증한 결과는 아닙니다. 여러 설정을 함께 변경했으므로 특정 설정 하나의 효과로 단정하지 않았습니다. 이 결과는 Elasticsearch 키워드 후보 검색의 개선이며, 최종 하이브리드 추천이나 RAG 답변 정확도와는 구분합니다.</p>
