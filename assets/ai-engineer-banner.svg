@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" fill="none" role="img" aria-labelledby="title description">
-  <title id="title">Ai Engineer · Backend / Infra</title>
-  <desc id="description">A fresh ivory and mint banner with a shimmering Ai Engineer heading, animated connections, and specialties: Ai Agents · Infra · ML · DL · Fine-tuning · Backend · Frontend · Mobile.</desc>
+  <title id="title">AI Engineer · Backend / Infra</title>
+  <desc id="description">A fresh ivory and mint banner with a shimmering AI Engineer heading, animated connections, and specialties: AI Agent · Infra · ML · DL · Fine-tuning · Backend · Frontend · Mobile.</desc>
   <style>
     .ambient-light { animation: breathe 7s ease-in-out infinite; }
     .signal { stroke-dasharray: 3 32; animation: flow 6s linear infinite; }
@@ -43,7 +43,7 @@
       <stop offset="1" stop-color="#178A79" stop-opacity="0"/>
     </linearGradient>
     <clipPath id="title-clip">
-      <text x="60" y="166" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700" letter-spacing="-2.1">Ai Engineer</text>
+      <text x="60" y="166" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700" letter-spacing="-2.1">AI Engineer</text>
     </clipPath>
     <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
       <circle cx="12" cy="12" r="1" fill="#80B5A6" fill-opacity=".22"/>
@@ -64,14 +64,14 @@
     <rect x=".5" y=".5" width="1279" height="359" rx="23.5" stroke="#DCEAE1"/>
 
     <g font-family="Arial, Helvetica, sans-serif">
-      <text x="60" y="166" fill="#183F38" font-size="76" font-weight="700" letter-spacing="-2.1">Ai Engineer</text>
+      <text x="60" y="166" fill="#183F38" font-size="76" font-weight="700" letter-spacing="-2.1">AI Engineer</text>
       <g clip-path="url(#title-clip)" aria-hidden="true">
         <rect class="title-shimmer" x="-180" y="85" width="160" height="100" fill="url(#title-shine)"/>
       </g>
       <text x="63" y="224" fill="#427B6E" font-size="31" font-weight="400" letter-spacing=".5">Backend <tspan fill="#9DC9B9">/</tspan> Infra</text>
 
       <path d="M63 271H726" stroke="url(#accent)"/>
-      <text x="63" y="302" fill="#536F65" font-size="19" letter-spacing=".25">Ai Agents · Infra · ML · DL · Fine-tuning · Backend · Frontend · Mobile</text>
+      <text x="63" y="302" fill="#536F65" font-size="19" letter-spacing=".25">AI Agent · Infra · ML · DL · Fine-tuning · Backend · Frontend · Mobile</text>
     </g>
 
     <g stroke="url(#connection)" stroke-width="1.5">
