@@ -17,7 +17,7 @@
 <nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li>
 <li><a href="#section-2">2. 시스템 아키텍처</a></li>
 <li><a href="#section-implementation">3. 구현 정보</a>
-<ol><li><a href="#section-3">3.1. Elasticsearch(Nori·BM25)와 Qdrant hybrid 검색에 RRF·LLM 재순위화를 적용, RAG 응답 기능 구현.</a>
+<ol><li><a href="#section-3">3.1. Elasticsearch(Nori·BM25)와 Qdrant hybrid 검색에 RRF·LLM Reranking을 적용, RAG 응답 기능 구현.</a>
 <ol><li><a href="#topic-3-1-1">3.1.1. 해결하려던 문제</a></li>
 <li><a href="#topic-3-1-2">3.1.2. 설계와 구현</a></li></ol></li>
 <li><a href="#section-4">3.2. Core API와 AI Service의 책임 분리</a>
@@ -61,7 +61,7 @@
 </ul>
 <hr>
 <h2 id="section-implementation">3. 구현 정보</h2>
-<h3 id="section-3">3.1. Elasticsearch(Nori·BM25)와 Qdrant hybrid 검색에 RRF·LLM 재순위화를 적용, RAG 응답 기능 구현.</h3>
+<h3 id="section-3">3.1. Elasticsearch(Nori·BM25)와 Qdrant hybrid 검색에 RRF·LLM Reranking을 적용, RAG 응답 기능 구현.</h3>
 <h4 id="topic-3-1-1">3.1.1. 해결하려던 문제</h4>
 <div class="diagram-heading">표현이 달라도 공고를 찾고, <b>신청 조건과 답변 근거를 확인</b>할 수 있어야 했습니다.</div>
 
@@ -77,7 +77,7 @@
 
 <figure class="diagram" style="--diagram-ratio:2.211151"><a class="zoom-image" href="./assets/govbiz-hybrid-search-notion-v2.png" aria-label="두 검색 결과를 합치고, LLM이 추천 순서를 다듬습니다 — 크게 보기"><img src="./assets/govbiz-hybrid-search-notion-v2.png" alt="두 검색 결과를 합치고, LLM이 추천 순서를 다듬습니다" width="1864" height="843" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 
-<p>Elasticsearch의 키워드 검색과 Qdrant의 의미 검색에서 각각 <b>공고 Top-20 후보</b>를 수집하고, RRF로 순위를 결합해 최대 20개 공고를 선정합니다. 이후 LLM 평가를 통해 리랭킹하고, 자격 검토를 거쳐 최대 5개 공고와 추천 이유를 제공합니다.</p>
+<p>Elasticsearch의 키워드 검색과 Qdrant의 의미 검색에서 각각 <b>공고 Top-20 후보</b>를 수집하고, RRF로 순위를 결합해 최대 20개 공고를 선정합니다. 이후 LLM 평가를 통해 리랭킹(Reranking)하고, 자격 검토를 거쳐 최대 5개 공고와 추천 이유를 제공합니다.</p>
 <div class="diagram-heading"><b>검색 품질을 지키는 네 가지 설계 기준</b></div>
 
 <figure class="diagram" style="--diagram-ratio:1.655385"><a class="zoom-image" href="./assets/govbiz-search-safeguards-v4-version-example.png" aria-label="검색 품질을 지키는 네 가지 설계 기준 — 크게 보기"><img src="./assets/govbiz-search-safeguards-v4-version-example.png" alt="검색 품질을 지키는 네 가지 설계 기준" width="1614" height="975" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
