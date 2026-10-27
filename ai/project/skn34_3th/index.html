@@ -68,11 +68,11 @@
 <figure class="diagram" style="--diagram-ratio:2.340244"><a class="zoom-image" href="./assets/govbiz-search-problems-v4-no-title.png" aria-label="표현이 달라도 공고를 찾고, 신청 조건과 답변 근거를 확인할 수 있어야 했습니다. — 크게 보기"><img src="./assets/govbiz-search-problems-v4-no-title.png" alt="표현이 달라도 공고를 찾고, 신청 조건과 답변 근거를 확인할 수 있어야 했습니다." width="1919" height="820" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 
 <h4 id="topic-3-1-2">3.1.2. 설계와 구현</h4>
-<div class="diagram-heading"><b>대화로 조건을 바꾸고, 확인 후 검색합니다</b></div>
+<div class="diagram-heading"><b>대화로 조건을 바꾸고, Human-in-the-loop 로 확인 후 검색합니다</b></div>
 
-<figure class="diagram" style="--diagram-ratio:2.197400"><a class="zoom-image" href="./assets/govbiz-condition-confirmation-notion-v3.png" aria-label="대화로 조건을 바꾸고, 확인 후 검색합니다 — 크게 보기"><img src="./assets/govbiz-condition-confirmation-notion-v3.png" alt="대화로 조건을 바꾸고, 확인 후 검색합니다" width="1859" height="846" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:2.197400"><a class="zoom-image" href="./assets/govbiz-condition-confirmation-notion-v3.png" aria-label="대화로 조건을 바꾸고, Human-in-the-loop 로 확인 후 검색합니다 — 크게 보기"><img src="./assets/govbiz-condition-confirmation-notion-v3.png" alt="대화로 조건을 바꾸고, Human-in-the-loop 로 확인 후 검색합니다" width="1859" height="846" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 
-<p>서버가 AI의 조건 변경안을 검사하고, <b>사용자가 확인한 뒤 검색합니다.</b> 검색 당시 조건은 결과와 함께 보관합니다.</p>
+<p>서버가 AI의 조건 변경안을 검사하고, <b>사용자가 확인한 뒤(Human-in-the-loop) 검색합니다.</b> 검색 당시 조건은 결과와 함께 보관합니다.</p>
 <div class="diagram-heading"><b>두 검색 결과를 합치고, LLM이 추천 순서를 다듬습니다</b></div>
 
 <figure class="diagram" style="--diagram-ratio:2.211151"><a class="zoom-image" href="./assets/govbiz-hybrid-search-notion-v2.png" aria-label="두 검색 결과를 합치고, LLM이 추천 순서를 다듬습니다 — 크게 보기"><img src="./assets/govbiz-hybrid-search-notion-v2.png" alt="두 검색 결과를 합치고, LLM이 추천 순서를 다듬습니다" width="1864" height="843" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
@@ -281,17 +281,17 @@ if (!sourceText.contains(quote)) return null
 <p>의존 방향: <code>Presentation → Domain ← Data</code></p>
 <div class="diagram-heading"><b>MVVM — ViewModel로 화면과 업무 호출 분리</b></div>
 
-<figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-mvvm-hook-notion-v1.png" aria-label="MVVM — ViewModel로 화면과 업무 호출 분리 — 크게 보기"><img src="./assets/govbiz-mvvm-hook-notion-v1.png" alt="MVVM — ViewModel로 화면과 업무 호출 분리" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.682523"><a class="zoom-image" href="./assets/govbiz-mvvm-notion-effect.png" aria-label="MVVM — ViewModel로 화면과 업무 호출 분리 — 크게 보기"><img src="./assets/govbiz-mvvm-notion-effect.png" alt="MVVM — ViewModel로 화면과 업무 호출 분리" width="1627" height="967" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 
 <p><b>공고 목록 조회:</b> <code>View → ViewModel → UseCase → Repository</code></p>
 <ul>
 <li><b>View:</b> 결과·로딩·오류를 표시하고 사용자 동작을 연결합니다.</li>
-<li><b>ViewModel:</b> 조회 결과를 React 로컬 상태로 관리하고, 로딩·오류·재시도를 화면에 제공합니다.</li>
+<li><b>ViewModel:</b> <code>useState</code>로 조회 결과·로딩·오류 상태를 관리하고, 화면에 상태와 재시도 기능을 제공합니다. <code>useEffect</code>는 처음 화면을 열거나 조회 조건이 바뀌거나 재시도할 때 UseCase를 실행합니다. 조건 변경·화면 이탈 시에는 이전 요청을 취소합니다.</li>
 <li><b>UseCase:</b> 업무 규칙을 처리합니다.</li>
 </ul>
-<div class="diagram-heading"><b>Flux — ViewModel 뒤에서 Redux 상태를 단방향 갱신</b></div>
+<div class="diagram-heading"><b>Flux — Redux의 상태 흐름도 ViewModel을 통해 연결</b></div>
 
-<figure class="diagram" style="--diagram-ratio:1.500000"><a class="zoom-image" href="./assets/govbiz-flux-redux-notion-v2.png" aria-label="Flux — ViewModel 뒤에서 Redux 상태를 단방향 갱신 — 크게 보기"><img src="./assets/govbiz-flux-redux-notion-v2.png" alt="Flux — ViewModel 뒤에서 Redux 상태를 단방향 갱신" width="1536" height="1024" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram" style="--diagram-ratio:1.581745"><a class="zoom-image" href="./assets/govbiz-flux-notion-v8.png" aria-label="Flux — Redux의 상태 흐름도 ViewModel을 통해 연결 — 크게 보기"><img src="./assets/govbiz-flux-notion-v8.png" alt="Flux — Redux의 상태 흐름도 ViewModel을 통해 연결" width="1577" height="997" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 
 <p><b>상태 흐름:</b> <code>View → ViewModel → Action/Thunk → Reducer → Store → Selector → ViewModel → View</code></p>
 <ul>
