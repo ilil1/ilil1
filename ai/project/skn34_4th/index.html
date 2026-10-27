@@ -188,15 +188,16 @@
 <h3 id="section-11">자연어 요청을 기존 업무 기능으로 연결</h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-selected-program-flow.png" aria-label="자연어 요청을 기존 업무 기능으로 연결 — 크게 보기"><img src="./assets/govbiz-selected-program-flow.png" alt="자연어 요청을 기존 업무 기능으로 연결" width="2400" height="1890" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <p>“사업을 찾아줘”, “이 공고의 제출 서류가 뭐야?”, “신청서를 준비하고 싶어”를 같은 대화에서 요청할 수 있도록 <b>LLM이 업무를 선택하고 Core가 실행 조건을 검증</b>하게 했습니다.</p>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-roles-flow.png" aria-label="사용자·Core·AI 역할 — 크게 보기"><img src="./assets/govbiz-roles-flow.png" alt="사용자·Core·AI의 요청과 판단 결과 흐름" width="2400" height="750" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+
 
 
 <ul>
-<li><b>AI의 역할:</b> 질문과 검색 문맥을 해석해 업무 경로 하나를 선택하고, 판단 결과를 Core에 반환합니다.</li>
-<li><b>Core의 역할:</b> 관리자 권한을 확인하고 개인정보를 가린 질문을 AI에 전달합니다. 판단 결과와 필요한 조건을 확인해 기존 기능에 연결합니다.</li>
+<li><b>AI의 역할:</b> 질문과 검색 문맥을 해석해 업무 경로 하나를 선택하고, 결과를 정해진 형식으로 Core에 반환합니다.</li>
+<li><b>Core의 역할:</b> 관리자 권한을 확인하고 개인정보를 가린 질문을 AI에 전달합니다. 판단 결과와 업무에 필요한 조건을 확인해 기존 기능에 연결하거나 사용자에게 안내합니다.</li>
 <li><b>사용자의 역할:</b> 검색 조건을 확인하고 공고를 선택하며, 신청 준비·중복 검토 등 후속 작업을 진행합니다.</li>
 </ul>
-<p>검색은 조건 확인 후 실행합니다. 공고 원문 답변은 별도 승인 없이 생성하며, 직접 누른 작업 버튼은 LLM의 경로 선택을 거치지 않습니다.</p>
+<p><b>AI의 업무 선택과 검증</b></p>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-routing-control-detail.png" aria-label="AI의 업무 선택과 검증 — 크게 보기"><img src="./assets/govbiz-routing-control-detail.png" alt="질문 전달, AI 업무 선택, 구조화 응답 검증과 Core 처리 흐름" width="2400" height="2580" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <h3 id="section-12">실제 화면: 대화에서 확인하고 작업 화면으로 이동</h3>
 <div class="columns"><div class="column"><p><b>검색 조건 확인</b></p>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-screen-01-condition-proposal.jpg" aria-label="검색 조건 확인 — 크게 보기"><img src="./assets/govbiz-screen-01-condition-proposal.jpg" alt="검색 조건 확인" width="800" height="882" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
