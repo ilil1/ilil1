@@ -62,3 +62,10 @@ article .table-scroll{margin:24px 0}
 article hr{margin:48px 0}
 article hr+h2{margin-top:0}
 @media(max-width:700px){article{line-height:1.9}article p{margin:20px 0}article ul,article ol{margin:18px 0 24px}article li{margin:14px 0}article h2{margin-top:54px;margin-bottom:24px}article h3{margin-top:42px;margin-bottom:20px}article h4{margin-top:36px;margin-bottom:18px}article .diagram-heading{margin-top:34px;margin-bottom:16px}article .diagram{margin-top:16px;margin-bottom:34px}}
+
+/* Preserve the smaller image sizes and centered alignment from the Notion page. */
+article .diagram a[href$="/govbiz-llm-evaluation-notion-v4.png"],
+article .diagram a[href$="/govbiz-evidence-balanced-chunk-id-v6.png"]{max-width:608px;margin-inline:auto}
+article .diagram a[href$="/govbiz-index-publication-notion-v8.png"],
+article .diagram a[href$="/govbiz-frontend-clean-architecture-notion-v3.png"]{max-width:560px;margin-inline:auto}
+article .diagram a[href$="/govbiz-deployment-overview-notion-v3.png"]{max-width:512px;margin-inline:auto}
