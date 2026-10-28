@@ -69,3 +69,8 @@ article .diagram a[href$="/govbiz-evidence-balanced-chunk-id-v6.png"]{max-width:
 article .diagram a[href$="/govbiz-index-publication-notion-v8.png"],
 article .diagram a[href$="/govbiz-frontend-clean-architecture-notion-v3.png"]{max-width:560px;margin-inline:auto}
 article .diagram a[href$="/govbiz-deployment-overview-notion-v3.png"]{max-width:512px;margin-inline:auto}
+
+/* Preserve deliberate empty blocks from the Notion page. */
+article .diagram-heading.notion-empty-before{margin-top:52px}
+article h2.notion-empty-before{margin-top:66px}
+article h4.notion-empty-before{margin-top:56px}
