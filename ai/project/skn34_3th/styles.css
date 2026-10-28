@@ -47,21 +47,21 @@ code{background:rgba(135,131,120,.15);color:#eb5757;border-radius:3px;padding:2p
 .toc>ol>li:nth-child(3)>ol{padding-left:24px}
 @media(max-width:700px){.toc>ol>li:nth-child(3)>ol{padding-left:18px}}
 
-/* Comfortable spacing between text, lists, headings, and visual blocks. */
-article{line-height:2}
-article p{margin:24px 0}
-article ul,article ol{margin:20px 0 28px}
-article li{margin:16px 0}
-article h2{margin-top:64px;margin-bottom:26px}
-article h3{margin-top:48px;margin-bottom:24px}
-article h4{margin-top:40px;margin-bottom:22px}
-article .diagram-heading{margin-top:40px;margin-bottom:20px;line-height:1.8}
-article .diagram{margin-top:18px;margin-bottom:40px}
-article .technical-detail{margin:24px 0}
-article .table-scroll{margin:24px 0}
-article hr{margin:48px 0}
+/* Match the spacing and line height measured from the Notion page. */
+article{line-height:1.5}
+article p{margin:12px 0}
+article ul,article ol{margin:6px 0 12px}
+article li{margin:6px 0}
+article h2{line-height:1.3;margin-top:36px;margin-bottom:8px}
+article h3{line-height:1.3;margin-top:30px;margin-bottom:8px}
+article h4{font-size:18px;line-height:1.3;margin-top:26px;margin-bottom:8px}
+article .diagram-heading{margin-top:22px;margin-bottom:8px;line-height:1.5}
+article .diagram{margin-top:8px;margin-bottom:8px}
+article .technical-detail{margin:8px 0}
+article .table-scroll{margin:8px 0}
+article hr{margin:24px 0}
 article hr+h2{margin-top:0}
-@media(max-width:700px){article{line-height:1.9}article p{margin:20px 0}article ul,article ol{margin:18px 0 24px}article li{margin:14px 0}article h2{margin-top:54px;margin-bottom:24px}article h3{margin-top:42px;margin-bottom:20px}article h4{margin-top:36px;margin-bottom:18px}article .diagram-heading{margin-top:34px;margin-bottom:16px}article .diagram{margin-top:16px;margin-bottom:34px}}
+@media(max-width:700px){article{line-height:1.5}article p{margin:12px 0}article ul,article ol{margin:6px 0 12px}article li{margin:6px 0}article h2{margin-top:36px;margin-bottom:8px}article h3{margin-top:30px;margin-bottom:8px}article h4{margin-top:26px;margin-bottom:8px}article .diagram-heading{margin-top:22px;margin-bottom:8px}article .diagram{margin-top:8px;margin-bottom:8px}}
 
 /* Preserve the smaller image sizes and centered alignment from the Notion page. */
 article .diagram a[href$="/govbiz-llm-evaluation-notion-v4.png"],
