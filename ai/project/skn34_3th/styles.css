@@ -47,18 +47,18 @@ code{background:rgba(135,131,120,.15);color:#eb5757;border-radius:3px;padding:2p
 .toc>ol>li:nth-child(3)>ol{padding-left:24px}
 @media(max-width:700px){.toc>ol>li:nth-child(3)>ol{padding-left:18px}}
 
-/* Give body text and adjacent Notion blocks room to read. */
-article{line-height:1.8}
-article p{margin:16px 0}
-article ul,article ol{margin:14px 0 20px}
-article li{margin:9px 0}
-article h2{margin-top:52px;margin-bottom:20px}
-article h3{margin-top:36px;margin-bottom:18px}
-article h4{margin-top:32px;margin-bottom:16px}
-article .diagram-heading{margin-top:30px;margin-bottom:14px;line-height:1.65}
-article .diagram{margin-top:12px;margin-bottom:28px}
-article .technical-detail{margin:18px 0}
-article .table-scroll{margin:18px 0}
-article hr{margin:36px 0}
+/* Comfortable spacing between text, lists, headings, and visual blocks. */
+article{line-height:2}
+article p{margin:24px 0}
+article ul,article ol{margin:20px 0 28px}
+article li{margin:16px 0}
+article h2{margin-top:64px;margin-bottom:26px}
+article h3{margin-top:48px;margin-bottom:24px}
+article h4{margin-top:40px;margin-bottom:22px}
+article .diagram-heading{margin-top:40px;margin-bottom:20px;line-height:1.8}
+article .diagram{margin-top:18px;margin-bottom:40px}
+article .technical-detail{margin:24px 0}
+article .table-scroll{margin:24px 0}
+article hr{margin:48px 0}
 article hr+h2{margin-top:0}
-@media(max-width:700px){article{line-height:1.75}article p{margin:14px 0}article ul,article ol{margin:12px 0 18px}article li{margin:8px 0}article h2{margin-top:44px;margin-bottom:18px}article h3{margin-top:32px;margin-bottom:16px}article h4{margin-top:28px;margin-bottom:14px}article .diagram-heading{margin-top:26px;margin-bottom:12px}article .diagram{margin-bottom:24px}}
+@media(max-width:700px){article{line-height:1.9}article p{margin:20px 0}article ul,article ol{margin:18px 0 24px}article li{margin:14px 0}article h2{margin-top:54px;margin-bottom:24px}article h3{margin-top:42px;margin-bottom:20px}article h4{margin-top:36px;margin-bottom:18px}article .diagram-heading{margin-top:34px;margin-bottom:16px}article .diagram{margin-top:16px;margin-bottom:34px}}
