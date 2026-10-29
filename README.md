@@ -18,7 +18,7 @@ ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜�
 (2026.9.20 ~ 2026.10.15)
 
 - **프로젝트 원본 링크 :** [https://github.com/ilil1/SKN34-4th-1Team](https://github.com/ilil1/SKN34-4th-1Team)
-- 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop 흐름을 설계·구현.
+- 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.
 - Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.
 - 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.
 - Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.
