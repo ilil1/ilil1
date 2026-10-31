@@ -57,7 +57,7 @@ ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜�
 - LangGraph 기반 ReAct 스타일의 Planning·Tool Calling Loop와 대화 Context·요청 단위 Memory를 활용한 Agent 구현.
 - Core API(Spring Boot)·AI Service(FastAPI)의 책임 분리 및 서비스 간 API 통신·데이터 흐름 설계.
 - 백엔드의 레이어드 아키텍처와 프론트엔드의 클린아키텍처 및 MVVM / Flux 패턴 설계.
-- Vercel 기반 프론트엔드 및 AWS CodeBuild·ECR·SSM 기반 백엔드 CD 파이프라인 구축.
+- Vercel 기반 Web 및 AWS CodeBuild·ECR·SSM 기반 백엔드 CD 파이프라인 구축.
 - AWS EC2·RDS의 프라이빗 서브넷 배치 및 CloudFront·Nginx 라우팅·NAT Gateway 외부 통신 구성.
 
 #### 사용 기술
