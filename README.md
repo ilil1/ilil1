@@ -54,7 +54,7 @@ ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜�
 - **프로젝트 원본 링크 :** [https://github.com/ilil1/SKN34-3rd-1Team](https://github.com/ilil1/SKN34-3rd-1Team)
 - Elasticsearch(Nori·BM25)와 Qdrant(vector DB) hybrid 검색에 RRF와 LLM Reranking을 적용한 맞춤 공고 검색 기능 구현.
 - Qdrant(Vector DB) 기반 원문 청크 검색과 인용 검증을 적용한 공고 상세 질문 RAG 응답 기능 구현.
-- LangGraph 기반 ReAct 스타일의 Planning·Tool Calling Loop와 대화 Context·요청 단위 Memory를 활용한 에이전트 구현.
+- LangGraph 기반 ReAct 스타일의 Planning·Tool Calling Loop와 대화 Context·요청 단위 Memory를 활용한 Agent 구현.
 - Core API(Spring Boot)·AI Service(FastAPI)의 책임 분리 및 서비스 간 API 통신·데이터 흐름 설계.
 - 백엔드의 레이어드 아키텍처와 프론트엔드의 클린아키텍처 및 MVVM / Flux 패턴 설계.
 - Vercel 기반 프론트엔드 및 AWS CodeBuild·ECR·SSM 기반 백엔드 CD 파이프라인 구축.
