@@ -10,3 +10,17 @@
 /* Notion content: nested contents, tables and paired screenshots. */
 .toc>ol{display:block}.toc>ol>li{margin:12px 0}.toc>ol>li>a{font-weight:700;font-size:15px}.toc ol ol{display:block;border-left:1px solid var(--line);margin:3px 0 4px 6px;padding-left:14px}.toc ol ol a{font-size:13px;padding:3px 0}.diagram{width:100%}.diagram-heading{border:0;padding:0}.columns{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;margin:20px 0}.column{min-width:0}.column>p:first-child{font-weight:700}.column .diagram{margin-top:12px}.columns p{font-size:14px}article>h3{padding:12px 16px;background:var(--wash);border-radius:8px}details .diagram{margin-top:18px}article h2[id],article h3[id]{scroll-margin-top:24px}
 @media(max-width:600px){.columns{grid-template-columns:1fr;gap:16px}.hero-subtitle{font-size:18px}.toc ol ol a{font-size:14px}.diagram figcaption{font-size:11px}}
+
+/* 프로젝트 확장 비교: 작은 화면에서는 항목별로 읽습니다. */
+.scope-comparison th[scope="row"]{background:#fff;color:var(--ink);width:110px;min-width:110px}
+.scope-comparison tbody tr:last-child th{border-bottom:0}
+@media(max-width:600px){
+  .scope-comparison{border:0;overflow:visible}
+  .scope-comparison table,.scope-comparison tbody,.scope-comparison tr,.scope-comparison th,.scope-comparison td{display:block;width:100%;min-width:0}
+  .scope-comparison thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .scope-comparison tr{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:0 0 12px}
+  .scope-comparison th[scope="row"]{background:var(--wash);border-bottom:1px solid var(--line)}
+  .scope-comparison td::before{content:attr(data-label);display:block;color:var(--blue);font-size:13px;font-weight:700;margin-bottom:2px}
+  .scope-comparison td:last-child{border-bottom:0}
+  .scope-comparison tbody tr:last-child th{border-bottom:1px solid var(--line)}
+}
