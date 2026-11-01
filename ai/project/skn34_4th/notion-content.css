@@ -1,0 +1,46 @@
+/* 노션 본문 스타일 */
+.hero{max-width:708px;margin:0 auto}
+.hero h1{font-size:40px;line-height:1.2;letter-spacing:-.03em;font-weight:700}
+article{max-width:708px;margin:0 auto;color:#2c2c2b;font-family:ui-sans-serif,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;word-break:normal;overflow-wrap:break-word}
+article h2{border:0;padding:0;margin:40px 0 12px;color:inherit;font-size:24px;line-height:1.3;letter-spacing:0;font-weight:600}
+article h3,article>h3{margin:30px 0 12px;padding:0;border:0;border-radius:0;background:transparent;color:inherit;font-size:20px;line-height:1.3;letter-spacing:0;font-weight:600}
+article p{margin:8px 0;line-height:1.5}
+article ul,article ol{padding-left:26px;margin:8px 0 12px}
+article li{margin:4px 0;padding:0}
+article li::marker{color:inherit}
+article hr{border:0;border-top:1px solid rgba(55,53,47,.16);margin:32px 0}
+article .diagram-heading{margin:32px 0 12px;padding-left:12px;border:0;border-left:3px solid #337ea9;color:inherit;font-size:16px;line-height:24px;letter-spacing:0}
+article .diagram{width:100%;max-width:100%;margin:8px 0 16px}
+article .diagram a{border:0;border-radius:2px;background:transparent}
+article .diagram a:hover{border:0}
+article .diagram figcaption{display:none}
+article .table-scroll{margin:16px 0;border:0;border-radius:0;overflow-x:auto}
+article table{width:100%;min-width:580px;border-collapse:collapse;border-spacing:0;font-size:14px;line-height:1.45}
+article th,article td{padding:6px 8px;border:1px solid rgba(55,53,47,.16);text-align:left;vertical-align:top}
+article thead th{background:#f7f6f3;color:inherit;font-size:14px;font-weight:600}
+article tbody th,article .scope-comparison th[scope="row"]{min-width:0;background:#fff;color:inherit;font-size:14px;font-weight:400}
+article td:first-child{min-width:0}
+article tr:last-child td,article .scope-comparison tbody tr:last-child th{border-bottom:1px solid rgba(55,53,47,.16)}
+article .scope-comparison th[scope="row"]{width:92px}
+article .technical-detail{margin:8px 0;border:0;border-radius:0;background:transparent}
+article .technical-detail summary{padding:4px 0;border:0;border-radius:0;background:transparent;color:inherit;font-size:16px;font-weight:400;line-height:24px;list-style-position:inside}
+article .technical-detail summary::marker{color:inherit}
+article .technical-detail[open] summary{border:0;border-radius:0}
+article .detail-content{padding:4px 0 8px 24px}
+article .columns{gap:24px;margin:16px 0}
+article .columns p{font-size:16px}
+@media(max-width:700px){.hero h1{font-size:32px;line-height:1.2;letter-spacing:-.03em}article h2{font-size:24px}article h3,article>h3{font-size:20px}article .diagram{width:100%}}
+@media(max-width:600px){
+  article .scope-comparison{border:0;overflow-x:auto}
+  article .scope-comparison table{display:table;width:100%;min-width:580px}
+  article .scope-comparison thead{display:table-header-group;position:static;width:auto;height:auto;overflow:visible;clip-path:none;white-space:normal}
+  article .scope-comparison tbody{display:table-row-group;width:auto}
+  article .scope-comparison tr{display:table-row;width:auto;margin:0;border:0;border-radius:0}
+  article .scope-comparison th,article .scope-comparison td{display:table-cell;width:auto;min-width:0;border:1px solid rgba(55,53,47,.16)}
+  article .scope-comparison th[scope="row"]{width:92px;background:#fff}
+  article .scope-comparison td::before{content:none;display:none}
+  article .scope-comparison td:last-child{border-bottom:1px solid rgba(55,53,47,.16)}
+}
+
+article .report-pdf-preview{display:block;width:100%;height:700px;border:1px solid rgba(55,53,47,.16);border-radius:2px;background:#f7f6f3}
+@media(max-width:600px){article .report-pdf-preview{height:65vh;min-height:400px}}
