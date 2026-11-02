@@ -120,7 +120,7 @@
 <span id="section-3-5-1"></span>
 <h3 id="section-3-5">3.5. 백엔드 레이어드 구조</h3>
 <div class="notion-empty-before diagram-heading"><b>요청 접수·외부 통신·DB 접근의 역할을 나눴습니다</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/redo-c1.png" aria-label="요청 접수·외부 통신·DB 접근의 역할을 나눴습니다 — 크게 보기"><img src="./assets/redo-c1.png" alt="요청 접수·외부 통신·DB 접근의 역할을 나눴습니다" width="1380" height="1140" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-backend-without-divider.png" aria-label="요청 접수·외부 통신·DB 접근의 역할을 나눴습니다 — 크게 보기"><img src="./assets/govbiz-backend-without-divider.png" alt="요청 접수·외부 통신·DB 접근의 역할을 나눴습니다" width="1380" height="1140" loading="lazy" decoding="async"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul><li><b>요청과 업무:</b> 기능별 디렉터리에서 Controller는 HTTP 요청을 받고, Service는 업무 흐름을 조율합니다.</li><li><b>외부 통신:</b> Client가 외부 API를 호출합니다. AI 추천의 공고 ID·점수·근거, RAG 인용 구간처럼 여러 검증이 필요한 응답은 Facade에서 확인하고 내부 결과로 정리합니다. 단순 호출에는 Facade를 추가하지 않습니다.<details class="technical-detail"><summary>코드 예시 — Facade는 AI 추천 응답을 어떻게 검증할까?</summary><div class="detail-content"><p><b>실제 코드 핵심 발췌 — AI 추천 Facade</b></p>
 <p><code>AiSupportProgramRankingFacade.kt</code>에서 검증 흐름을 보여주는 부분만 골랐습니다. 아래 코드는 서로 다른 함수의 발췌이며, 요청 구성·반복문·일부 검증은 생략했습니다.</p>
 <p><b>1. Client로 AI를 호출하고, 응답 검증이 실패하면 오류로 처리합니다.</b></p>
