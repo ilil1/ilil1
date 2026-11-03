@@ -87,7 +87,7 @@ ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜�
 |---|---|
 | Language | Python, Kotlin, Java, Dart, Swift, JavaScript  |
 | AI 에이전트 | LangChain, LangGraph, MCP |
-| AI 평가·모니터링 | Langfuse, Langsmith, MLflow, Evidently |
+| AI 평가·모니터링 | Langfuse, Langsmith, Wandb, MLflow, Evidently |
 | 워크플로 오케스트레이션 | Apache Airflow, Prefect |
 | ML/DL 및 Model | Scikit_Learn, PyTorch, Fine-tuning |
 | 백엔드 | FastAPI, Django, Spring Boot, Laravel |
