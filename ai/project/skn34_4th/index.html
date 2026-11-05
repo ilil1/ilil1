@@ -28,7 +28,7 @@
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-flow-balanced-spacing.png" aria-label="관리자 사용 흐름 — 크게 보기"><img src="./assets/govbiz-admin-flow-balanced-spacing.png" alt="관리자 사용 흐름" loading="lazy" decoding="async" width="1600" height="692"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <div class="diagram-heading" id="project-scope"><b>3차 기반과 4차 확장 범위</b></div>
 <p>3차 프로젝트의 주요 기능을 유지하면서, 클라이언트와 운영·배포 환경을 확장했습니다.</p>
-<p><b>3차 프로젝트:</b> <a href="https://ilil1.github.io/ilil1/ai/project/skn34_3th/">AI Agent 를 활용한 정부지원사업 탐색·신청 관리 플랫폼</a></p>
+<p><b>3차 프로젝트 링크 :</b> <a href="https://ilil1.github.io/ilil1/ai/project/skn34_3th/">AI Agent 를 활용한 정부지원사업 탐색·신청 관리 플랫폼</a></p>
 <div class="table-scroll scope-comparison"><table><thead><tr><th scope="col">영역</th><th scope="col">3차 프로젝트 기반</th><th scope="col">4차 프로젝트 확장</th></tr></thead><tbody>
 <tr><th scope="row">서비스</th><td data-label="3차 프로젝트 기반">공고 검색·근거 답변·신청 준비·중복 검토·협업 파트너 탐색</td><td data-label="4차 프로젝트 확장">LLM 기반 라우팅으로 사용자 요청을 기존 업무 기능에 연결</td></tr>
 <tr><th scope="row">클라이언트</th><td data-label="3차 프로젝트 기반">웹 중심 사용자 경험</td><td data-label="4차 프로젝트 확장">Expo 모바일 추가 · 웹·앱의 공통 계약과 로직 공유</td></tr>
@@ -62,7 +62,7 @@
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-02-ai-service.png" aria-label="서비스·데이터 — 업무를 처리하고 저장하는 방식 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-02-ai-service.png" alt="서비스·데이터 — 업무를 처리하고 저장하는 방식" loading="lazy" decoding="async" width="3200" height="1797"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul><li><b>Core:</b> 사용자 업무와 검색을 처리하고, Catalog의 공고 스냅샷을 조회용 데이터에 반영합니다.</li><li><b>Catalog:</b> 공고를 수집·정규화하고 검색 색인을 관리합니다.</li><li><b>AI:</b> 검색과 생성을 담당합니다.</li><li><b>저장소:</b> 각 서비스는 역할에 맞는 저장소를 사용합니다.</li><li><b>비동기 작업:</b> Core DB에 작업을 기록하고 RabbitMQ에 작업 ID를 전달합니다. 발행 실패 시 다시 시도합니다.</li></ul>
 <h3 id="section-5">2.3. 평가·관측 — 실행 기록과 평가 결과의 연결</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-03-langfuse.png" aria-label="평가·관측 — 실행 기록과 평가 결과의 연결 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-03-langfuse.png" alt="평가·관측 — 실행 기록과 평가 결과의 연결" loading="lazy" decoding="async" width="3200" height="1800"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-03-langfuse-prefect.png" aria-label="평가·관측 — 실행 기록과 평가 결과의 연결 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-03-langfuse-prefect.png" alt="평가·관측 — 실행 기록과 평가 결과의 연결" loading="lazy" decoding="async" width="3200" height="1800"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul><li><b>실사용 추적:</b> AI 서비스가 실행 기록을 Langfuse에 전송합니다.</li><li><b>평가 점수:</b> 평가 실행기가 점수를 계산해 Langfuse에 등록합니다. 실사용 추적과는 별도 경로입니다.</li><li><b>평가 결과:</b> 평가 실행기가 결과 파일을 저장하고, Ops가 보고서를 읽어 검증한 뒤 실행 요약과 비교 결과를 저장합니다.</li><li><b>운영 화면:</b> React는 Ops API에서 평가 결과를 받아 표시합니다.</li></ul>
 <details class="technical-detail"><summary>평가·관측 설정 펼쳐 보기</summary><div class="detail-content">
 <div class="table-scroll"><table><thead><tr><th scope="col">구성 요소</th><th scope="col">세부 설정·역할</th></tr></thead><tbody>
@@ -143,14 +143,14 @@
 </div></details>
 <span id="section-29"></span>
 <p><a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/assets/architecture/govbiz-aws-eks-architecture.png">전체 시스템 구성도 원본 보기</a></p>
-<p>아래 기술별 설명에서는 에이전트·평가 정책·배포 검증·공유 코드의 구현을 자세히 살펴봅니다.</p>
+
 <hr>
 <h2 id="section-10">3. 사용자 의도에 따라 업무를 연결하는 LLM 기반 라우팅 및 Human-in-the-loop</h2>
 <div class="diagram-heading" id="section-11"><b>자연어 요청을 기존 업무 기능으로 연결</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-selected-program-flow-hitl.png" aria-label="자연어 요청을 기존 업무 기능으로 연결 — 크게 보기"><img src="./assets/govbiz-selected-program-flow-hitl.png" alt="자연어 요청을 기존 업무 기능으로 연결" loading="lazy" decoding="async" width="2400" height="1640"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <p>“사업을 찾아줘”, “이 공고의 제출 서류가 뭐야?”, “신청서를 준비하고 싶어”를 같은 대화에서 요청할 수 있도록 <b>LLM이 업무를 선택하고 Core가 실행 조건을 검증</b>하게 했습니다.</p>
 <div class="diagram-heading"><b>AI의 업무 선택과 검증 : 공고 원문 질문의 예시</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-routing-evidence-sequence-rag.png" aria-label="AI의 업무 선택과 검증 : 공고 원문 질문의 예시 — 크게 보기"><img src="./assets/govbiz-routing-evidence-sequence-rag.png" alt="AI의 업무 선택과 검증 : 공고 원문 질문의 예시" loading="lazy" decoding="async" width="2400" height="2413"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" aria-label="AI의 업무 선택과 검증 : 공고 원문 질문의 예시 — 크게 보기"><img src="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" alt="AI의 업무 선택과 검증 : 공고 원문 질문의 예시" loading="lazy" decoding="async" width="2000" height="1796"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>질문 전달:</b> 사용자가 선택한 공고와 질문을 Core에 전달하면, Core는 질문과 공고 선택 여부를 AI에 보냅니다.</li>
 <li><b>업무 선택:</b> AI는 요청을 공고 원문 질문(<code>EVIDENCE</code>)으로 분류하고, 응답 형식과 허용된 업무 값이 맞는지 확인합니다.</li>
@@ -161,17 +161,17 @@
 <hr>
 <h2 id="section-13">4. 평가·추적·실행 관리 체계인 LLMOps</h2>
 <div class="diagram-heading"><b>관리자 기능 — 운영 — 실제 서비스 확인</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-menu-operation.png" aria-label="관리자 기능 — 운영 — 실제 서비스 확인 — 크게 보기"><img src="./assets/govbiz-admin-menu-operation.png" alt="관리자 기능 — 운영 — 실제 서비스 확인" loading="lazy" decoding="async" width="3000" height="1091"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-production-workflow-numbered.png" aria-label="관리자 기능 — 운영 — 실제 서비스 확인 — 크게 보기"><img src="./assets/govbiz-notion-body-production-workflow-numbered.png" alt="관리자 기능 — 운영 — 실제 서비스 확인" loading="lazy" decoding="async" width="2021" height="1120"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>O1 실사용 모니터링:</b> AI 호출 횟수·토큰 사용량·토큰 사용 비용을 확인합니다.</li>
 <li><b>O2 AI 실행 추적:</b> 기록된 실행 단계·입출력·오류를 살펴봅니다.</li>
 <li><b>O3 운영 표본 품질:</b> 저장된 응답 표본을 사람이 검토합니다.</li>
 </ul>
 <div class="diagram-heading"><b>운영 표본 검토</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-menu-sample.png" aria-label="운영 표본에서 평가 자료로 — 크게 보기"><img src="./assets/govbiz-admin-menu-sample.png" alt="운영 표본에서 평가 자료로" loading="lazy" decoding="async" width="3000" height="1295"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-menu-sample-color-swapped.png" aria-label="운영 표본 검토 — 크게 보기"><img src="./assets/govbiz-admin-menu-sample-color-swapped.png" alt="운영 표본 검토" loading="lazy" decoding="async" width="3000" height="1295"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <p><b>운영 표본 활용:</b> 검토 요건을 갖춘 상세 공고 답변은 회귀 후보로 내보낼 수 있습니다. 추가 검토 후 별도로 평가 자료에 등록하며 자동으로 편입되지는 않습니다.</p>
 <div class="diagram-heading"><b>관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-menu-testing.png" aria-label="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지 — 크게 보기"><img src="./assets/govbiz-admin-menu-testing.png" alt="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지" loading="lazy" decoding="async" width="3000" height="1550"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-flow-transaction-order.png" aria-label="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지 — 크게 보기"><img src="./assets/govbiz-test-flow-transaction-order.png" alt="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지" loading="lazy" decoding="async" width="2400" height="1940"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>T1 평가 자료 관리:</b> 평가에 사용할 질문·근거·조건을 준비합니다.</li>
 <li><b>T2 예산 관리:</b> 평가에 사용할 호출과 토큰 한도를 확인합니다.</li>
@@ -181,7 +181,7 @@
 <li><b>T6 정기 실행:</b> 활성화·승인·조건 확인 후 일정에 따라 평가를 접수합니다.</li>
 </ul>
 <div class="diagram-heading"><b>운영 기능 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-operation-architecture-langfuse.png" aria-label="운영 기능 구조도 — 크게 보기"><img src="./assets/govbiz-admin-operation-architecture-langfuse.png" alt="운영 기능 구조도" loading="lazy" decoding="async" width="3500" height="1700"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-operation-return-paths.png" aria-label="운영 기능 구조도 — 크게 보기"><img src="./assets/govbiz-admin-operation-return-paths.png" alt="운영 기능 구조도" loading="lazy" decoding="async" width="3500" height="1700"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>실사용 모니터링 :</b> Core에 기록된 호출·토큰·추정 비용을 조회합니다. OpenAI Usage·Costs API에서 가져온 사용량·비용도 같은 기간 기준으로 비교합니다.</li>
 <li><b>AI 실행 추적 :</b> 설정된 AI 서비스가 실행 단계·시간·오류 등의 추적을 Langfuse에 기록합니다. React 화면은 ops-service를 통해 저장된 추적을 조회합니다.</li>
@@ -205,23 +205,54 @@
 <li><b>기록 범위:</b> 추적은 Langfuse에 보관하며 Ops DB에 복제하지 않습니다. 계측된 기능만 기록되며 질문·답변 원문이 항상 포함되지는 않습니다.</li>
 </ul>
 <div class="diagram-heading"><b>운영 표본 품질 흐름</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-production-quality-sequence.png" aria-label="운영 표본 품질 흐름 — 크게 보기"><img src="./assets/govbiz-production-quality-sequence.png" alt="운영 표본 품질 흐름" loading="lazy" decoding="async" width="3000" height="3465"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/5fd3c334-c8ce-42a4-9ffb-46236295ab28.png" aria-label="운영 표본 품질 흐름 — 크게 보기"><img src="./assets/5fd3c334-c8ce-42a4-9ffb-46236295ab28.png" alt="운영 표본 품질 흐름" loading="lazy" decoding="async" width="2000" height="2041"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>표본 수집:</b> core-service는 설정된 조건에 맞는 성공 사례 일부를 선별해 ops-service에 비동기로 전달합니다.</li>
 <li><b>저장과 구조 검사:</b> Ops MySQL에 표본을 저장하고 ops-sync가 자료의 누락·인용 ID 등을 검사합니다. 구조 검사는 답변의 품질 합격을 뜻하지 않습니다.</li>
 <li><b>사람 검토:</b> 관리자가 질문·근거·결과를 확인하고 검토 결과와 사유를 저장합니다.</li>
 <li><b>회귀 후보:</b> 요건을 갖춘 상세 공고 답변은 회귀 후보로 내보낼 수 있으며, 평가 자료에 넣으려면 별도 검토와 등록이 필요합니다.</li>
 </ul>
-<div class="diagram-heading"><b>테스트 기능 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-testing-architecture.png" aria-label="테스트 기능 구조도 — 크게 보기"><img src="./assets/govbiz-admin-testing-architecture.png" alt="테스트 기능 구조도" loading="lazy" decoding="async" width="3500" height="1700"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<div class="diagram-heading"><b>— 테스트 — 평가 자료 관리 및 성능 대시보드 구조도</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-data-dashboard-storage-path.png" aria-label="— 테스트 — 평가 자료 관리 및 성능 대시보드 구조도 — 크게 보기"><img src="./assets/govbiz-eval-data-dashboard-storage-path.png" alt="— 테스트 — 평가 자료 관리 및 성능 대시보드 구조도" loading="lazy" decoding="async" width="2400" height="1450"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<ul>
+<li><b>평가 자료 관리:</b> 관리자가 질문·원문 근거·기대 조건을 작성하고 검증 후 평가 자료 버전을 게시합니다. 자료 관리만으로 모델 호출이나 평가 실행이 발생하지 않습니다.</li>
+<li><b>성능 대시보드:</b> 비교 조건에 맞는 완료 실측 평가와 직접 복구 결과의 지표·추이를 보여주며, 품질 판정 전에도 조회할 수 있습니다. 지표는 Ops DB에서 조회하고, 검토 상태 카드는 별도 요청으로 결과 저장소와 검토 이력을 확인합니다.</li>
+</ul>
+<div class="diagram-heading"><b>평가 자료 관리 흐름</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-dataset-sequence-current.png" aria-label="평가 자료 관리 흐름 — 크게 보기"><img src="./assets/govbiz-eval-dataset-sequence-current.png" alt="평가 자료 관리 흐름" loading="lazy" decoding="async" width="2400" height="1990"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<ul>
+<li><b>자료 작성:</b> 관리자가 질문·공고 근거·기대 조건을 입력하면 Ops가 평가 자료 초안을 저장합니다.</li>
+<li><b>검증과 게시:</b> 게시 요청 시 입력 형식과 게시 요건을 검증하고, 사용할 평가 자료 버전을 저장합니다.</li>
+<li><b>평가에 사용:</b> 게시된 버전은 새 평가에서 선택할 수 있습니다. 초안 작성과 게시만으로 모델 호출이나 평가 실행이 발생하지 않습니다.</li>
+</ul>
+<div class="diagram-heading"><b>성능 대시보드 흐름</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-dashboard-sequence-current.png" aria-label="성능 대시보드 흐름 — 크게 보기"><img src="./assets/govbiz-eval-dashboard-sequence-current.png" alt="성능 대시보드 흐름" loading="lazy" decoding="async" width="2400" height="1480"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<ul>
+<li><b>결과 조회:</b> 관리자 화면이 대시보드를 요청하면 Ops가 DB에 저장된 평가 실행과 요약을 조회합니다.</li>
+<li><b>비교 대상 선별:</b> 비교 조건을 충족하는 완료된 실측 평가와 직접 복구 결과를 모아 지표·추이를 표시합니다. 저장 응답 재평가는 제외합니다.</li>
+<li><b>조회와 검토:</b> 대시보드는 품질 판정 전에도 조회할 수 있으며, 조회만으로 새 평가나 모델 호출은 발생하지 않습니다. 검토 상태 카드는 별도 요청으로 확인합니다.</li>
+</ul>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-budget-architecture.png" aria-label="평가 예산 관리 구조도 — 크게 보기"><img src="./assets/govbiz-eval-budget-architecture.png" alt="평가 예산 관리 구조도" loading="lazy" decoding="async" width="2400" height="1250"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-history-architecture.png" aria-label="평가 이력 조회 구조도 — 크게 보기"><img src="./assets/govbiz-eval-history-architecture.png" alt="평가 이력 조회 구조도" loading="lazy" decoding="async" width="2400" height="1260"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<ul>
+<li><b>평가 자료 관리 :</b> 평가에 사용할 질문과 근거, 기대 조건을 등록하고 버전별로 관리합니다. 자료 등록만으로 모델이 호출되지는 않습니다.</li>
+</ul>
+<div class="diagram-heading"><b>평가 이력 흐름</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-history-sequence.png" aria-label="평가 이력 흐름 — 크게 보기"><img src="./assets/govbiz-eval-history-sequence.png" alt="평가 이력 흐름" loading="lazy" decoding="async" width="2400" height="2175"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<ul>
+<li><b>평가 이력 :</b> Prefect 실행 상태와 평가 결과를 확인하고, 사람의 검토·품질 판정·비교 기준 지정 이력을 관리합니다.</li>
+</ul>
+<div class="diagram-heading"><b>예산 관리 흐름</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-budget-sequence.png" aria-label="예산 관리 흐름 — 크게 보기"><img src="./assets/govbiz-eval-budget-sequence.png" alt="예산 관리 흐름" loading="lazy" decoding="async" width="2400" height="2025"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<ul>
+<li><b>예산 관리 :</b> 평가 실행에 필요한 호출 수와 입·출력 토큰 한도를 관리하고 예약·정산 이력을 저장합니다.</li>
+</ul>
+<div class="diagram-heading"><b>테스트 기능 구조도 평가와 실행</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-execution-result-box-aligned.png" aria-label="테스트 기능 구조도 평가와 실행 — 크게 보기"><img src="./assets/govbiz-test-execution-result-box-aligned.png" alt="테스트 기능 구조도 평가와 실행" loading="lazy" decoding="async" width="2400" height="1370"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <p><b>테스트 — 평가 실행과 결과 비교</b></p>
 <ul>
-<li><b>평가 자료 관리 · React + Django Ops + MySQL:</b> 평가에 사용할 질문과 근거, 기대 조건을 등록하고 버전별로 관리합니다. 자료 등록만으로 모델이 호출되지는 않습니다.</li>
-<li><b>새 평가 · Django Ops + Prefect + Python 평가 실행기:</b> Ops가 권한·자료·승인·예산을 확인하고 Prefect에 실행을 접수합니다. 평가 실행기는 pandas·Pandera로 데이터를 처리하고 지표와 Evidently 보고서를 만들며, 설정된 경우 Langfuse에 점수를 등록합니다.</li>
-<li><b>평가 이력 · React + Django Ops + MySQL:</b> Prefect 실행 상태와 평가 결과를 확인하고, 사람의 검토·품질 판정·비교 기준 지정 이력을 관리합니다.</li>
-<li><b>성능 대시보드 · React + Django Ops + MySQL:</b> 저장된 평가 결과의 지표를 같은 조건으로 비교합니다. 화면 조회 시 모델이나 평가를 새로 실행하지 않으며, 결과는 평가 자료의 범위로 해석합니다.</li>
-<li><b>예산 관리 · Django Ops + MySQL:</b> 평가 실행에 필요한 호출 수와 입·출력 토큰 한도를 관리하고 예약·정산 이력을 저장합니다.</li>
-<li><b>정기 실행 · Django Ops + Prefect:</b> Ops가 평가 일정과 실행 조건을 관리합니다. 활성화된 일정이 도래하면 실행 조건과 예산을 확인해 Prefect에 평가를 접수합니다.</li>
+<li><b>새 평가 :</b> Ops가 권한·자료·승인·예산을 확인하고 Prefect에 실행을 접수합니다. 평가 실행기는 pandas·Pandera로 데이터를 처리하고 지표와 Evidently 보고서를 만들며, 설정된 경우 Langfuse에 점수를 등록합니다.</li>
+<li><b>정기 실행 :</b> Ops가 평가 일정과 실행 조건을 관리합니다. 활성화된 일정이 도래하면 실행 조건과 예산을 확인해 Prefect에 평가를 접수합니다.</li>
 </ul>
 <p><b>평가 방식:</b> 저장된 응답의 재평가는 새 모델 호출 없이 실행할 수 있습니다. 새 답변을 생성하는 평가는 별도의 승인과 예산이 필요합니다.</p>
 <div class="diagram-heading" id="section-14"><b>모델을 바꾼 효과를 같은 조건에서 비교</b></div>
@@ -243,10 +274,6 @@
 <li><b>회귀 후보:</b> 검토 요건을 갖춘 상세 공고 답변을 후보로 내보낼 수 있으며, 평가 자료 편입은 별도 검토가 필요합니다.</li>
 </ul>
 <p><b>구현 기준:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/frontend/web/src/presentation/features/ops/OpsApp.tsx#L102">운영·테스트 메뉴 정의</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#94-%EC%9A%B4%EC%98%81-%ED%99%94%EB%A9%B4%EC%97%90%EC%84%9C-%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-%EC%9D%BC">운영 화면 기능·측정 범위</a></p>
-<div class="diagram-heading"><b>운영 흐름도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-production-workflow.png" aria-label="운영 흐름도 — 크게 보기"><img src="./assets/govbiz-notion-body-production-workflow.png" alt="운영 흐름도" loading="lazy" decoding="async" width="2021" height="1120"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
-<div class="diagram-heading"><b>테스트 흐름도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-evaluation-workflow-horizontal.png" aria-label="테스트 흐름도 — 크게 보기"><img src="./assets/govbiz-evaluation-workflow-horizontal.png" alt="테스트 흐름도" loading="lazy" decoding="async" width="2560" height="1560"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <h3 id="section-15">4.1. 목적에 맞는 세 가지 평가 경로</h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-06.png" aria-label="4.1. 목적에 맞는 세 가지 평가 경로 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-06.png" alt="4.1. 목적에 맞는 세 가지 평가 경로" loading="lazy" decoding="async" width="2021" height="1120"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <p><b>저장 응답 재평가</b>는 당시 응답을 다시 분석합니다. <b>고정 근거 답변</b>은 같은 근거에서 새 답변을, <b>고정 원문 RAG</b>는 평가 자료 전용 검색과 새 답변을 비교합니다. 운영 원문 재수집·재청킹·운영 검색 색인 전체의 성능 측정과는 구분합니다.</p>
@@ -290,9 +317,9 @@
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/mobile-monorepo.md">공유 구조</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/frontend/packages/shared/src/data/api/supportProgramClient.ts">공통 API 클라이언트</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/frontend/packages/shared/src/data/models/SupportProgramEvidenceAnswerDto.ts">근거 답변 검증</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/frontend/packages/shared/src/data/models/GovAgentDto.ts">GovAgent 응답 검증</a></p>
 <hr>
 <h2 id="section-30">8. 기술 보고서 PDF</h2>
-<p>표지·목차와 사용자·관리자 소개, 원본의 구성을 재배치한 <b>상세 아키텍처 7장</b>, 기술별 구현 설명을 담은 <b>28페이지 PDF</b>입니다. 6~12페이지에서 접속·서비스·평가·노드·외부 통신·빌드·배포 구조를 차례로 볼 수 있습니다.</p>
-<p><a class="pdf-link" href="./assets/GovBiz_AI_Service_Technical_Report_KO.pdf" target="_blank" rel="noopener">기술 보고서 PDF 열기 <span>28페이지 ↗</span></a></p>
-<iframe class="report-pdf-preview" src="./assets/GovBiz_AI_Service_Technical_Report_KO.pdf" title="GovBiz 기술 보고서 PDF 미리보기" loading="lazy"></iframe>
+<p>표지·목차와 사용자·관리자 소개, 원본의 구성을 재배치한 <b>상세 아키텍처 7장</b>, 기술별 구현 설명을 담은 <b>24페이지 PDF</b>입니다. 5~11페이지에서 접속·서비스·평가·노드·외부 통신·빌드·배포 구조를 차례로 볼 수 있습니다.</p>
+<p><a class="pdf-link" href="./assets/GovBiz_Report_Notion_24p_AI_Service.pdf" target="_blank" rel="noopener">기술 보고서 PDF 열기 <span>24페이지 ↗</span></a></p>
+<iframe class="report-pdf-preview" src="./assets/GovBiz_Report_Notion_24p_AI_Service.pdf" title="GovBiz 기술 보고서 PDF 미리보기" loading="lazy"></iframe>
 </article>
 </main>
 <dialog class="image-viewer" aria-labelledby="viewer-title"><div class="viewer-toolbar"><p id="viewer-title">이미지 확대</p><button class="viewer-close" type="button" autofocus>닫기 ✕</button></div><div class="viewer-scroll"><img alt=""></div><a class="viewer-original" href="#" target="_blank" rel="noopener">원본 이미지 새 탭에서 보기 ↗</a></dialog></body></html>
