@@ -148,7 +148,20 @@
 <h2 id="section-10">3. 사용자 의도에 따라 업무를 연결하는 LLM 기반 라우팅 및 Human-in-the-loop</h2>
 <div class="diagram-heading" id="section-11"><b>자연어 요청을 기존 업무 기능으로 연결</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-selected-program-flow-hitl.png" aria-label="자연어 요청을 기존 업무 기능으로 연결 — 크게 보기"><img src="./assets/govbiz-selected-program-flow-hitl.png" alt="자연어 요청을 기존 업무 기능으로 연결" loading="lazy" decoding="async" width="2400" height="1640"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
-<p>“사업을 찾아줘”, “이 공고의 제출 서류가 뭐야?”, “신청서를 준비하고 싶어”를 같은 대화에서 요청할 수 있도록 <b>LLM이 업무를 선택하고 Core가 실행 조건을 검증</b>하게 했습니다.</p>
+<ul>
+<li>
+<b>공고 선택:</b> 사용자가 지원사업 검색 결과에서 작업할 공고를 선택합니다.
+</li>
+<li>
+<b>업무 판단:</b> Core가 질문과 검색 문맥을 AI에 전달하면, AI가 요청에 맞는 업무 경로 하나를 선택합니다.
+</li>
+<li>
+<b>기능 연결:</b> Core는 공고 선택 여부와 업무별 조건을 확인하고 원문 질문·신청 문서 준비·중복 지원 검토·파트너 조회 중 적절한 기능으로 연결하거나 안내합니다.
+</li>
+<li>
+<b>Human-in-the-loop:</b> 사용자가 공고를 선택하고 신청 준비나 중복 검토에 필요한 내용을 확인하며 후속 작업을 직접 진행합니다.
+</li>
+</ul>
 <div class="diagram-heading"><b>AI의 업무 선택과 검증 : 공고 원문 질문의 예시</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" aria-label="AI의 업무 선택과 검증 : 공고 원문 질문의 예시 — 크게 보기"><img src="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" alt="AI의 업무 선택과 검증 : 공고 원문 질문의 예시" loading="lazy" decoding="async" width="2000" height="1796"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
@@ -161,17 +174,17 @@
 <hr>
 <h2 id="section-13">4. 평가·추적·실행 관리 체계인 LLMOps</h2>
 <div class="diagram-heading"><b>관리자 기능 — 운영 — 실제 서비스 확인</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-production-workflow-numbered.png" aria-label="관리자 기능 — 운영 — 실제 서비스 확인 — 크게 보기"><img src="./assets/govbiz-notion-body-production-workflow-numbered.png" alt="관리자 기능 — 운영 — 실제 서비스 확인" loading="lazy" decoding="async" width="2021" height="1120"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-operation-menu-numbers-left.png" aria-label="관리자 기능 — 운영 — 실제 서비스 확인 — 크게 보기"><img src="./assets/govbiz-operation-menu-numbers-left.png" alt="관리자 기능 — 운영 — 실제 서비스 확인" loading="lazy" decoding="async" width="2000" height="1045"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>O1 실사용 모니터링:</b> AI 호출 횟수·토큰 사용량·토큰 사용 비용을 확인합니다.</li>
 <li><b>O2 AI 실행 추적:</b> 기록된 실행 단계·입출력·오류를 살펴봅니다.</li>
 <li><b>O3 운영 표본 품질:</b> 저장된 응답 표본을 사람이 검토합니다.</li>
 </ul>
 <div class="diagram-heading"><b>운영 표본 검토</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-menu-sample-color-swapped.png" aria-label="운영 표본 검토 — 크게 보기"><img src="./assets/govbiz-admin-menu-sample-color-swapped.png" alt="운영 표본 검토" loading="lazy" decoding="async" width="3000" height="1295"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-menu-sample-color-swapped.png" aria-label="운영 표본에서 평가 자료로 — 크게 보기"><img src="./assets/govbiz-admin-menu-sample-color-swapped.png" alt="운영 표본에서 평가 자료로" loading="lazy" decoding="async" width="3000" height="1295"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <p><b>운영 표본 활용:</b> 검토 요건을 갖춘 상세 공고 답변은 회귀 후보로 내보낼 수 있습니다. 추가 검토 후 별도로 평가 자료에 등록하며 자동으로 편입되지는 않습니다.</p>
 <div class="diagram-heading"><b>관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-flow-transaction-order.png" aria-label="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지 — 크게 보기"><img src="./assets/govbiz-test-flow-transaction-order.png" alt="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지" loading="lazy" decoding="async" width="2400" height="1940"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-flow-record-labels.png" aria-label="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지 — 크게 보기"><img src="./assets/govbiz-test-flow-record-labels.png" alt="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지" loading="lazy" decoding="async" width="2400" height="1730"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>T1 평가 자료 관리:</b> 평가에 사용할 질문·근거·조건을 준비합니다.</li>
 <li><b>T2 예산 관리:</b> 평가에 사용할 호출과 토큰 한도를 확인합니다.</li>
@@ -180,32 +193,56 @@
 <li><b>T5 성능 대시보드:</b> 저장된 평가 결과를 같은 조건으로 비교합니다.</li>
 <li><b>T6 정기 실행:</b> 활성화·승인·조건 확인 후 일정에 따라 평가를 접수합니다.</li>
 </ul>
-<div class="diagram-heading"><b>운영 기능 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-operation-return-paths.png" aria-label="운영 기능 구조도 — 크게 보기"><img src="./assets/govbiz-admin-operation-return-paths.png" alt="운영 기능 구조도" loading="lazy" decoding="async" width="3500" height="1700"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<p><b>평가 실행과 검토 단계</b></p>
 <ul>
-<li><b>실사용 모니터링 :</b> Core에 기록된 호출·토큰·추정 비용을 조회합니다. OpenAI Usage·Costs API에서 가져온 사용량·비용도 같은 기간 기준으로 비교합니다.</li>
-<li><b>AI 실행 추적 :</b> 설정된 AI 서비스가 실행 단계·시간·오류 등의 추적을 Langfuse에 기록합니다. React 화면은 ops-service를 통해 저장된 추적을 조회합니다.</li>
-<li><b>운영 표본 품질 :</b> 설정에 따라 저장된 공고 답변·검색 등 운영 표본을 관리자가 검토하고 이력을 남깁니다. 저장된 표본의 검토 결과이며 서비스 전체의 정확도는 아닙니다.</li>
+<li><b>접수·실행 기록:</b> Ops가 실행 요청을 기록하고, 유료 평가의 사용량을 예약한 뒤 평가 실행을 요청합니다. 접수·진행·실패 상태는 평가 이력에서 확인합니다.</li>
+<li><b>평가 실행:</b> Prefect가 실행을 관리하고 평가 실행기가 선택한 자료와 방식에 따라 지표와 보고서를 만듭니다.</li>
+<li><b>결과 저장·검증:</b> 실행기가 결과 파일을 저장하면 Ops가 완료된 결과를 읽고 검증해 요약과 비교 결과를 기록합니다.</li>
+<li><b>비교 기준 지정:</b> 현재 유효한 합격 결과 중 추가 요건을 충족한 실행을 관리자가 별도로 비교 기준으로 지정합니다.</li>
 </ul>
-<div class="diagram-heading"><b>실사용 모니터링 흐름</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/b55b7398-c61e-4206-8c72-be46f24f62bf.png" aria-label="실사용 모니터링 흐름 — 크게 보기"><img src="./assets/b55b7398-c61e-4206-8c72-be46f24f62bf.png" alt="실사용 모니터링 흐름" loading="lazy" decoding="async" width="1994" height="1542"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<div class="diagram-heading"><b>운영 기능 구조도</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-operation-number-prefix.png" aria-label="운영 기능 구조도 — 크게 보기"><img src="./assets/govbiz-admin-operation-number-prefix.png" alt="운영 기능 구조도" loading="lazy" decoding="async" width="3500" height="1700"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<ul>
+<li><b>O1 실사용 모니터링 :</b> Core에 기록된 호출·토큰·추정 비용을 조회합니다. OpenAI Usage·Costs API에서 가져온 사용량·비용도 같은 기간 기준으로 비교합니다.</li>
+<li><b>O2 AI 실행 추적:</b> 설정된 AI 서비스가 실행 단계·시간·오류 등의 추적 기록을 Langfuse에 전송합니다. 관리자가 화면에서 추적을 조회하면, ops-service가 Langfuse API에서 기록을 가져와 화면에 전달합니다.</li>
+<li><b>O3 운영 표본 품질 :</b> 설정에 따라 저장된 공고 답변·검색 등 운영 표본을 관리자가 검토하고 이력을 남깁니다. 저장된 표본의 검토 결과이며 서비스 전체의 정확도는 아닙니다.</li>
+</ul>
+<div class="diagram-heading"><b>O1 실사용 모니터링 흐름도</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/b55b7398-c61e-4206-8c72-be46f24f62bf.png" aria-label="O1 실사용 모니터링 흐름도 — 크게 보기"><img src="./assets/b55b7398-c61e-4206-8c72-be46f24f62bf.png" alt="O1 실사용 모니터링 흐름도" loading="lazy" decoding="async" width="1994" height="1542"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <p>
 호출·토큰·추정 비용을 Core에서 기록하는 이유는 <b>Core가 사용자 계정과 업무 맥락을 알고 있기 때문</b>입니다. 예를 들어 AI 서비스는 모델 호출을 수행하지만, Core는 그 호출이 어느 사용자의 <b>공고 질문</b>이나 <b>문서 작성</b>에서 발생했는지 연결하기 좋습니다.
 </p>
 <ol>
 <li><b>사용자·기능 확인:</b> core-service가 요청한 사용자와 어떤 기능인지 연결합니다.</li>
-<li><b>사용량 수집:</b> ai-service가 OpenAI 응답의 토큰 사용량을 수집해 Core에 전달합니다.</li>
-<li><b>추정 비용 기록:</b> Core가 모델별 단가를 적용해 사용량·추정 비용을 MySQL에 저장합니다.</li>
+<li><b>사용량 수집:</b> ai-service가 OpenAI 응답의 토큰 사용량을 수집해 core-service에 전달합니다.</li>
+<li><b>추정 비용 기록:</b> core-service가 모델별 단가를 적용해 사용량·추정 비용을 MySQL에 저장합니다.</li>
 </ol>
-<div class="diagram-heading"><b>AI 실행 추적 흐름</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/0c13925d-8608-4796-b780-cf479cace587.png" aria-label="AI 실행 추적 흐름 — 크게 보기"><img src="./assets/0c13925d-8608-4796-b780-cf479cace587.png" alt="AI 실행 추적 흐름" loading="lazy" decoding="async" width="2000" height="1585"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<div class="diagram-heading"><b>O2 AI 실행 추적 흐름도</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/0c13925d-8608-4796-b780-cf479cace587.png" aria-label="O2 AI 실행 추적 흐름도 — 크게 보기"><img src="./assets/0c13925d-8608-4796-b780-cf479cace587.png" alt="O2 AI 실행 추적 흐름도" loading="lazy" decoding="async" width="2000" height="1585"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>추적 기록:</b> 연동 설정이 활성화되면 core-service와 ai-service가 계측된 실행 기록을 Langfuse로 전송합니다.</li>
-<li><b>관리자 확인:</b> ops-service는 core-service에서 관리자 권한을 확인한 뒤 Langfuse의 추적을 읽어 화면에 전달합니다.</li>
-<li><b>기록 범위:</b> 추적은 Langfuse에 보관하며 Ops DB에 복제하지 않습니다. 계측된 기능만 기록되며 질문·답변 원문이 항상 포함되지는 않습니다.</li>
+<li><b>관리자 확인:</b> ops-service는 core-service에서 관리자 권한을 확인한 뒤 Langfuse의 추적을 조회 API 를 사용해서 읽어 화면에 전달합니다.</li>
+<li><b>기록 범위:</b> 추적은 Langfuse에 보관하며 ops-service DB에 복제하지 않습니다. 계측된 기능만 기록되며 질문·답변 원문이 항상 포함되지는 않습니다.</li>
 </ul>
-<div class="diagram-heading"><b>운영 표본 품질 흐름</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/5fd3c334-c8ce-42a4-9ffb-46236295ab28.png" aria-label="운영 표본 품질 흐름 — 크게 보기"><img src="./assets/5fd3c334-c8ce-42a4-9ffb-46236295ab28.png" alt="운영 표본 품질 흐름" loading="lazy" decoding="async" width="2000" height="2041"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<div class="diagram-heading"><b>core-service 추적 기록 전송 방식</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-core-tracing-transport-overview.png" aria-label="core-service 추적 기록 전송 방식 — 크게 보기"><img src="./assets/govbiz-core-tracing-transport-overview.png" alt="core-service 추적 기록 전송 방식" loading="lazy" decoding="async" width="2600" height="1130"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<ul>
+<li><b>추적 생성:</b> core-service가 지원사업 검색·공고 원문 답변·AI 도우미의 계측된 실행 단계와 시간·성공 여부를 기록합니다.</li>
+<li><b>전송:</b> 연동이 활성화되면 OpenTelemetry가 기록을 모아 Langfuse의 <code>POST /api/public/otel/v1/traces</code>로 비동기 전송합니다. Langfuse 프로젝트 키로 인증합니다.</li>
+<li><b>조회:</b> 관리자가 화면에서 조회하면 ops-service가 Langfuse의 <code>/api/public/v2/observations</code>에서 기록을 읽어 전달합니다. 기록 전송과 관리자 조회는 별도 경로입니다.</li>
+</ul>
+<p>구현 근거: <a href="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN34-4th-1Team/blob/main/backend/core-service/src/main/kotlin/ai/govbiz/core/_common/config/LlmTracingConfig.kt#L19-L43">Core 추적 설정</a> · <a href="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN34-4th-1Team/blob/main/backend/ops-service/apps/evaluations/trace_client.py#L70-L101">Ops 추적 조회</a></p>
+<div class="diagram-heading"><b>ai-service 추적 기록 전송 방식</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ai-tracing-parent-context.png" aria-label="ai-service 추적 기록 전송 방식 — 크게 보기"><img src="./assets/govbiz-ai-tracing-parent-context.png" alt="ai-service 추적 기록 전송 방식" loading="lazy" decoding="async" width="2600" height="1430"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<ul>
+<li><b>추적 생성:</b> AI 서비스가 검색·공고 근거 답변·도우미 등 계측된 기능의 실행 단계와 시간·상태를 기록합니다. 모델 이름과 사용량이 제공된 경우 토큰 수도 기록할 수 있습니다.</li>
+<li><b>전송:</b> 연동이 활성화되면 Langfuse Python SDK가 추적 기록을 모아 비동기로 전송합니다. 기본 경로는 <code>POST /api/public/otel/v1/traces</code>이며, 설정에 따라 경로를 변경할 수 있습니다.</li>
+<li><b>core-service와 연결:</b> 일부 경로에서는 core-service가 보낸 유효한 <code>traceparent</code>를 이어받아 같은 요청의 추적에 연결합니다. 유효한 부모 정보가 없으면 별도 추적으로 시작합니다.</li>
+<li><b>조회와 기록 범위:</b> 관리자가 조회하면 ops-service가 Langfuse API에서 기록을 가져옵니다. AI 추적에는 질문·답변·문서 본문을 넣지 않도록 처리하며, 실행 기록과 평가 점수 등록은 별개입니다.</li>
+</ul>
+<p>구현 근거: <a href="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN34-4th-1Team/blob/main/backend/ai-service/app/tracing.py">AI 서비스 추적 코드</a> · <a href="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN34-4th-1Team/blob/main/backend/ai-service/app/config.py">AI 추적 설정</a></p>
+<div class="diagram-heading"><b>O3 운영 표본 품질 흐름도</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/5fd3c334-c8ce-42a4-9ffb-46236295ab28.png" aria-label="O3 운영 표본 품질 흐름도 — 크게 보기"><img src="./assets/5fd3c334-c8ce-42a4-9ffb-46236295ab28.png" alt="O3 운영 표본 품질 흐름도" loading="lazy" decoding="async" width="2000" height="2041"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>표본 수집:</b> core-service는 설정된 조건에 맞는 성공 사례 일부를 선별해 ops-service에 비동기로 전달합니다.</li>
 <li><b>저장과 구조 검사:</b> Ops MySQL에 표본을 저장하고 ops-sync가 자료의 누락·인용 ID 등을 검사합니다. 구조 검사는 답변의 품질 합격을 뜻하지 않습니다.</li>
@@ -213,20 +250,20 @@
 <li><b>회귀 후보:</b> 요건을 갖춘 상세 공고 답변은 회귀 후보로 내보낼 수 있으며, 평가 자료에 넣으려면 별도 검토와 등록이 필요합니다.</li>
 </ul>
 <div class="diagram-heading"><b>— 테스트 — 평가 자료 관리 및 성능 대시보드 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-data-dashboard-storage-path.png" aria-label="— 테스트 — 평가 자료 관리 및 성능 대시보드 구조도 — 크게 보기"><img src="./assets/govbiz-eval-data-dashboard-storage-path.png" alt="— 테스트 — 평가 자료 관리 및 성능 대시보드 구조도" loading="lazy" decoding="async" width="2400" height="1450"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-data-dashboard-storage-path-compact.png" aria-label="— 테스트 — 평가 자료 관리 및 성능 대시보드 구조도 — 크게 보기"><img src="./assets/govbiz-eval-data-dashboard-storage-path-compact.png" alt="— 테스트 — 평가 자료 관리 및 성능 대시보드 구조도" loading="lazy" decoding="async" width="2400" height="1220"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>평가 자료 관리:</b> 관리자가 질문·원문 근거·기대 조건을 작성하고 검증 후 평가 자료 버전을 게시합니다. 자료 관리만으로 모델 호출이나 평가 실행이 발생하지 않습니다.</li>
 <li><b>성능 대시보드:</b> 비교 조건에 맞는 완료 실측 평가와 직접 복구 결과의 지표·추이를 보여주며, 품질 판정 전에도 조회할 수 있습니다. 지표는 Ops DB에서 조회하고, 검토 상태 카드는 별도 요청으로 결과 저장소와 검토 이력을 확인합니다.</li>
 </ul>
-<div class="diagram-heading"><b>평가 자료 관리 흐름</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-dataset-sequence-current.png" aria-label="평가 자료 관리 흐름 — 크게 보기"><img src="./assets/govbiz-eval-dataset-sequence-current.png" alt="평가 자료 관리 흐름" loading="lazy" decoding="async" width="2400" height="1990"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<div class="diagram-heading"><b>T1 평가 자료 관리 흐름도</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-dataset-sequence-current.png" aria-label="T1 평가 자료 관리 흐름도 — 크게 보기"><img src="./assets/govbiz-eval-dataset-sequence-current.png" alt="T1 평가 자료 관리 흐름도" loading="lazy" decoding="async" width="2400" height="1990"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>자료 작성:</b> 관리자가 질문·공고 근거·기대 조건을 입력하면 Ops가 평가 자료 초안을 저장합니다.</li>
 <li><b>검증과 게시:</b> 게시 요청 시 입력 형식과 게시 요건을 검증하고, 사용할 평가 자료 버전을 저장합니다.</li>
 <li><b>평가에 사용:</b> 게시된 버전은 새 평가에서 선택할 수 있습니다. 초안 작성과 게시만으로 모델 호출이나 평가 실행이 발생하지 않습니다.</li>
 </ul>
-<div class="diagram-heading"><b>성능 대시보드 흐름</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-dashboard-sequence-current.png" aria-label="성능 대시보드 흐름 — 크게 보기"><img src="./assets/govbiz-eval-dashboard-sequence-current.png" alt="성능 대시보드 흐름" loading="lazy" decoding="async" width="2400" height="1480"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
+<div class="diagram-heading"><b>T5 성능 대시보드 흐름</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-dashboard-sequence-current.png" aria-label="T5 성능 대시보드 흐름 — 크게 보기"><img src="./assets/govbiz-eval-dashboard-sequence-current.png" alt="T5 성능 대시보드 흐름" loading="lazy" decoding="async" width="2400" height="1480"></a><figcaption>이미지를 누르면 확대해서 읽을 수 있습니다.</figcaption></figure>
 <ul>
 <li><b>결과 조회:</b> 관리자 화면이 대시보드를 요청하면 Ops가 DB에 저장된 평가 실행과 요약을 조회합니다.</li>
 <li><b>비교 대상 선별:</b> 비교 조건을 충족하는 완료된 실측 평가와 직접 복구 결과를 모아 지표·추이를 표시합니다. 저장 응답 재평가는 제외합니다.</li>
