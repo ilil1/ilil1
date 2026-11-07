@@ -5,12 +5,17 @@ article{max-width:708px;margin:0 auto;color:#2c2c2b;font-family:ui-sans-serif,-a
 article h2{border:0;padding:0;margin:40px 0 12px;color:inherit;font-size:24px;line-height:1.3;letter-spacing:0;font-weight:600}
 article h3,article>h3{margin:30px 0 12px;padding:0;border:0;border-radius:0;background:transparent;color:inherit;font-size:20px;line-height:1.3;letter-spacing:0;font-weight:600}
 article p{margin:8px 0;line-height:1.5}
+article span[color="red"]{color:#d44c47}
 article ul,article ol{padding-left:26px;margin:8px 0 12px}
 article li{margin:4px 0;padding:0}
 article li::marker{color:inherit}
 article hr{border:0;border-top:1px solid rgba(55,53,47,.16);margin:32px 0}
-article .diagram-heading{margin:32px 0 12px;padding-left:12px;border:0;border-left:3px solid #337ea9;color:inherit;font-size:16px;line-height:24px;letter-spacing:0}
-article .diagram{width:100%;max-width:100%;margin:8px 0 16px}
+/* 노션의 빈 문단은 실제 블록으로 보존하고, 제목의 기본 여백과 겹치지 않게 합니다. */
+article .notion-empty{height:24px;margin:0;padding:0}
+article .diagram-heading{margin:8px 0;padding-left:12px;border:0;border-left:3px solid #337ea9;color:inherit;font-size:16px;line-height:24px;letter-spacing:0}
+article .notion-empty + :is(h2,h3,.diagram-heading){margin-top:8px}
+article .notion-empty + :is(p,ul,ol,.diagram,.table-scroll,.technical-detail){margin-top:0}
+article .diagram{width:100%;max-width:100%;margin:8px 0}
 article .diagram a{border:0;border-radius:2px;background:transparent}
 article .diagram a:hover{border:0}
 article .diagram figcaption{display:none}
