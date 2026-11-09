@@ -17,7 +17,6 @@ ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜�
 (2026.9.20 ~ 2026.10.15)
 
 - **프로젝트 원본 링크 :** [https://github.com/ilil1/SKN34-4th-1Team](https://github.com/ilil1/SKN34-4th-1Team)  
-
 - 프로젝트 전반의 서비스·운영 아키텍처 및 디렉터리 구조 설계·구현  
 - 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.
 - Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.
@@ -54,7 +53,6 @@ ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜�
 (2026.9.2 ~ 2026.9.17)
 
 - **프로젝트 원본 링크 :** [https://github.com/ilil1/SKN34-3rd-1Team](https://github.com/ilil1/SKN34-3rd-1Team)  
-
 - Elasticsearch(Nori·BM25)와 Qdrant(vector DB) hybrid 검색에 RRF와 LLM Reranking을 적용한 맞춤 공고 검색 기능 구현.
 - Qdrant(Vector DB) 기반 원문 청크 검색과 인용 검증을 적용한 공고 상세 질문 RAG 응답 기능 구현.
 - LangGraph 기반 ReAct 스타일의 Planning·Tool Calling Loop와 대화 Context·요청 단위 Memory를 활용한 Agent 구현.
