@@ -2,458 +2,202 @@
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="GovBiz 고도화 프로젝트의 LLM 기반 업무 라우팅, LLMOps, EKS·GitOps, 마이크로서비스 및 웹·모바일 공유 구조 기술 보고서."><title>GovBiz | 에이전트·LLMOps·EKS·서비스 아키텍처</title><link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./notion-content.css"><link rel="stylesheet" href="./header-toc.css"><link rel="stylesheet" href="./pdf-button.css"><script src="./script.js" defer></script></head>
 <body><a class="skip-link" href="#content">본문으로 바로 가기</a><header class="site-header" id="top"><a class="brand" href="#top">GovBiz<span>TECHNICAL PORTFOLIO</span></a><a href="https://github.com/ilil1/SKN34-4th-1Team">프로젝트 GitHub ↗</a></header>
 <main><header class="hero"><h1>GovBiz</h1><p class="hero-subtitle">[고도화] AI Agent 를 활용한 정부지원사업 탐색·신청 관리 플랫폼</p></header>
-<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol>
-<li><a href="#section-1">1. 프로젝트 개요</a></li>
-<li><a href="#section-2">2. 시스템 아키텍처</a><ol>
-<li><a href="#section-3">2.1. 접속 경로 — 웹·앱에서 백엔드까지</a></li>
-<li><a href="#section-4">2.2. 서비스·데이터 — 업무를 처리하고 저장하는 방식</a></li>
-<li><a href="#section-5">2.3. 평가·관측 — 실행 기록과 평가 결과의 연결</a></li>
-<li><a href="#section-6">2.4. 서버 배치 — Pod를 배치하고 확장하는 방식</a></li>
-<li><a href="#section-7">2.5. 외부 통신·저장소 — 외부 API와 영속 데이터</a></li>
-<li><a href="#section-8">2.6. 빌드·발행 — 코드에서 이미지와 배포 파일까지</a></li>
-<li><a href="#section-9">2.7. GitOps 배포 — 변경 반영과 실행 상태 검증</a></li>
-</ol></li>
-<li><a href="#section-10">3. 사용자 의도에 따라 업무를 연결하는 LLM 기반 라우팅 및 Human-in-the-loop</a></li>
-<li><a href="#section-13">4. 평가·추적·실행 관리 체계인 LLMOps</a></li>
-<li><a href="#section-18">5. AWS EKS·Helm·Argo CD 기반 GitOps</a><ol><li><a href="#section-19">5.1. 사용자 요청과 배포 제어의 경로를 분리</a></li><li><a href="#section-20">5.2. 검증에서 배포까지 이어지는 GitOps 흐름</a></li><li><a href="#section-21">5.3. Argo CD가 반영하고, 성공 확인 후 웹을 전환</a></li><li><a href="#section-22">5.4. 실제 Kubernetes 서비스·Pod 배치</a></li></ol></li>
-<li><a href="#section-23">6. Core·Catalog·AI·Ops 마이크로서비스</a><ol><li><a href="#section-24">6.1. 업무 책임과 데이터 소유권을 함께 분리</a></li><li><a href="#section-25">6.2. 준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존</a></li></ol></li>
-<li><a href="#section-26">7. React 웹·React Native 앱의 공통 업무 계층</a><ol><li><a href="#section-27">7.1. 업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리</a></li><li><a href="#section-28">7.2. 실제 화면: 같은 근거 답변 기능을 웹과 앱에서 제공</a></li></ol></li>
-<li><a href="#section-30">8. 기술 보고서 PDF</a></li>
-</ol></nav><article id="content">
+<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li><li><a href="#section-2">2. 시스템 아키텍처</a><ol><li><a href="#section-3">2.1. 접속 경로 — 웹·앱에서 백엔드까지</a></li><li><a href="#section-4">2.2. 서비스·데이터 — 업무를 처리하고 저장하는 방식</a></li><li><a href="#section-5">2.3. 평가·관측 — 실행 기록과 평가 결과의 연결</a></li><li><a href="#section-6">2.4. 서버 배치 — Pod를 배치하고 확장하는 방식</a></li><li><a href="#section-7">2.5. 외부 통신·저장소 — 외부 API와 영속 데이터</a></li><li><a href="#section-8">2.6. 빌드·발행 — 코드에서 이미지와 배포 파일까지</a></li><li><a href="#section-9">2.7. GitOps 배포 — 변경 반영과 실행 상태 검증</a></li></ol></li><li><a href="#section-10">3.  사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</a></li><li><a href="#section-13">4. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</a></li><li><a href="#section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</a><ol><li><a href="#section-20">5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름</a></li><li><a href="#section-22">5.2. 실제 Kubernetes 서비스·Pod 배치</a></li></ol></li><li><a href="#section-23">6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</a><ol><li><a href="#section-24">6.1. 업무 책임과 데이터 소유권을 함께 분리</a></li><li><a href="#section-25">6.2. 준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존</a></li></ol></li><li><a href="#section-26">7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</a><ol><li><a href="#section-27">7.1. 업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리</a></li><li><a href="#section-28">7.2. 실제 화면: 같은 근거 답변 기능을 웹과 앱에서 제공</a></li></ol></li><li><a href="#section-30">8. 기술 보고서 PDF</a></li></ol></nav><article id="content">
 <h2 id="section-1">1. 프로젝트 개요</h2>
 <p>GovBiz는 <b>정부지원사업 탐색부터 신청 준비까지 연결하는 AI 서비스</b>입니다. 여러 기관에 흩어진 공고를 모아, 기업의 조건과 목적에 맞는 사업을 찾고 신청 준비와 진행 상황까지 관리할 수 있도록 돕습니다.</p>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>사용자 사용 흐름</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-user-flow-title-gap.png" aria-label="사용자 사용 흐름 — 크게 보기"><img src="./assets/govbiz-user-flow-title-gap.png" alt="사용자 사용 흐름" width="1600" height="643" loading="lazy" decoding="async"></a></figure>
-<div class="notion-empty" aria-hidden="true"></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-user-flow-title-gap.png" aria-label="사용자 사용 흐름 — 크게 보기"><img src="./assets/govbiz-user-flow-title-gap.png" alt="사용자 사용 흐름" loading="lazy" decoding="async"></a></figure>
 <div class="diagram-heading"><b>관리자 사용 흐름</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-flow-balanced-spacing.png" aria-label="관리자 사용 흐름 — 크게 보기"><img src="./assets/govbiz-admin-flow-balanced-spacing.png" alt="관리자 사용 흐름" width="1600" height="692" loading="lazy" decoding="async"></a></figure>
-<div class="notion-empty" aria-hidden="true"></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-flow-balanced-spacing.png" aria-label="관리자 사용 흐름 — 크게 보기"><img src="./assets/govbiz-admin-flow-balanced-spacing.png" alt="관리자 사용 흐름" loading="lazy" decoding="async"></a></figure>
 <div class="diagram-heading" id="project-scope"><b>3차 기반과 4차 확장 범위</b></div>
 <p>3차 프로젝트의 주요 기능을 유지하면서, 클라이언트와 운영·배포 환경을 확장했습니다.</p>
 <p><b>3차 프로젝트 링크 :</b> <a href="https://ilil1.github.io/ilil1/ai/project/skn34_3th/">AI Agent 를 활용한 정부지원사업 탐색·신청 관리 플랫폼</a></p>
-<div class="table-scroll"><table>
-<colgroup>
-<col width="92" />
-<col width="278" />
-<col width="322" />
-</colgroup>
-<tr>
-<th scope="col">영역</th>
-<th scope="col">3차 프로젝트 기반</th>
-<th scope="col">4차 프로젝트 확장</th>
-</tr>
-<tr>
-<td>서비스</td>
-<td>공고 검색·근거 답변·신청 준비·중복 검토·협업 파트너 탐색</td>
-<td>LLM 기반 라우팅으로 사용자 요청을 기존 업무 기능에 연결</td>
-</tr>
-<tr>
-<td>클라이언트</td>
-<td>웹 중심 사용자 경험</td>
-<td>Expo 모바일 추가 · 웹·앱의 공통 계약과 로직 공유</td>
-</tr>
-<tr>
-<td>품질 운영</td>
-<td>검색·RAG 품질 평가 및 일부 실행 결과 보존</td>
-<td><b>운영:</b> 실행 추적·사용량·표본 검토<br /><b>평가:</b> 고정 자료 평가·모델 비교·사람 검토·품질 판정<br /><b>실행 관리:</b> Prefect 실행·예산·일정 관리</td>
-</tr>
-<tr>
-<td>실행 환경</td>
-<td>EC2 + Docker Compose</td>
-<td>Kubernetes(EKS) + EC2 노드</td>
-</tr>
-<tr>
-<td>배포 반영</td>
-<td>SSM으로 EC2에 배포 명령을 전달하고, 기존 Compose 설정을 사용해 Core·AI 컨테이너를 새 이미지로 교체</td>
-<td>Argo CD가 Git의 배포 설정을 EKS에 자동 반영</td>
-</tr>
-<tr>
-<td>자동 확장</td>
-<td>자동 확장 구성 기록 없음</td>
-<td>HPA(Pod) + Cluster Autoscaler(EC2)</td>
-</tr>
-</table></div>
+<div class="table-scroll"><table><tr><th scope="col">영역</th><th scope="col">3차 프로젝트 기반</th><th scope="col">4차 프로젝트 확장</th></tr>
+<tr><td>서비스</td><td>공고 검색·근거 답변·신청 준비·중복 검토·협업 파트너 탐색</td><td>LLM 기반 라우팅으로 사용자 요청을 기존 업무 기능에 연결</td></tr>
+<tr><td>클라이언트</td><td>웹 중심 사용자 경험</td><td>Expo 모바일 추가 · 웹·앱의 공통 계약과 로직 공유</td></tr>
+<tr><td>품질 운영</td><td>검색·RAG 품질 평가 및 일부 실행 결과 보존</td><td><b>운영:</b> 실행 추적·사용량·표본 검토<br /><b>평가:</b> 고정 자료 평가·모델 비교·사람 검토·품질 판정<br /><b>실행 관리:</b> Prefect 실행·예산·일정 관리</td></tr>
+<tr><td>실행 환경</td><td>EC2 + Docker Compose</td><td>Kubernetes(EKS) + EC2 노드</td></tr>
+<tr><td>배포 반영</td><td>SSM으로 EC2에 배포 명령을 전달하고, 기존 Compose 설정을 사용해 Core·AI 컨테이너를 새 이미지로 교체</td><td>Argo CD가 Git의 배포 설정을 EKS에 자동 반영</td></tr>
+<tr><td>자동 확장</td><td>자동 확장 구성 기록 없음</td><td>HPA(Pod) + Cluster Autoscaler(EC2)</td></tr></table></div>
 <hr>
 <h2 id="section-2">2. 시스템 아키텍처</h2>
-<p>구조도를 <b>접속 → 서비스·데이터 → 평가·관측 → 서버 배치 → 외부 통신 → 빌드 → 배포</b> 순서로 살펴봅니다. 세부 설정은 각 그림 아래에서 펼쳐 볼 수 있습니다.</p>
-<h3 id="section-3">2.1. 접속 경로 — 웹·앱에서 백엔드까지</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-01-lines-clean.png" aria-label="접속 경로 — 웹·앱에서 백엔드까지 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-01-lines-clean.png" alt="접속 경로 — 웹·앱에서 백엔드까지" width="3200" height="1797" loading="lazy" decoding="async"></a></figure>
+<p>아래 구조도는 <b>접속 → 서비스·데이터 → 평가·관측 → 서버 배치 → 외부 통신 → 빌드 → 배포</b> 순서로 살펴봅니다. 세부 설정은 각 그림 아래에서 펼쳐 볼 수 있습니다.</p>
+<span id="section-19"></span><h3 id="section-3">2.1. 접속 경로 — 웹·앱에서 백엔드까지</h3>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-01-lines-clean.png" aria-label="2.1. 접속 경로 — 웹·앱에서 백엔드까지 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-01-lines-clean.png" alt="2.1. 접속 경로 — 웹·앱에서 백엔드까지" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>웹·앱 요청:</b> 인증과 프록시를 거쳐 Gateway에 도착합니다.</li>
 <li><b>서비스 연결:</b> Gateway가 URL에 따라 Core·Ops 등 내부 서비스로 전달합니다.</li>
 <li><b>Argo CD:</b> 관리 화면은 별도 관리자 경로로 접속합니다.</li>
 </ul>
-<details class="technical-detail"><summary>접속·인증 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
-<colgroup>
-<col />
-<col width="494" />
-</colgroup>
-<tr>
-<th scope="col">구성 요소</th>
-<th scope="col">세부 설정·역할</th>
-</tr>
-<tr>
-<td>브라우저</td>
-<td>사용자 화면 · 관리자 Ops</td>
-</tr>
-<tr>
-<td>iOS · Android</td>
-<td>React Native / Expo</td>
-</tr>
-<tr>
-<td>Vercel · React 웹</td>
-<td><a href="http://govbiz.vercel.app">govbiz.vercel.app</a> · /api 서버 미들웨어 · 웹 쿠키 · 앱 Bearer 인증</td>
-</tr>
-<tr>
-<td>CloudFront</td>
-<td>API / Argo 경로: 캐시 끔 · VPC origin → 내부 ALB · Argo 접속: 관리자 IPv4 제한</td>
-</tr>
-<tr>
-<td>내부 ALB</td>
-<td>target-type: ip · 정상 Gateway Pod IP로 분산</td>
-</tr>
-<tr>
-<td>Nginx API Gateway</td>
-<td>EKS · govbiz-eks / Pod 1~3개 · 프록시 비밀값 검증 · URL → ClusterIP Service</td>
-</tr>
-<tr>
-<td>Core · :8080</td>
-<td>/api/* · → Ready Pod</td>
-</tr>
-<tr>
-<td>Ops · :8000</td>
-<td>/api/v1/ops/* · → Pod 1개</td>
-</tr>
-<tr>
-<td>Argo · :8080</td>
-<td>HTTPS · /argocd/* · → 웹 Pod 1개</td>
-</tr>
-<tr>
-<td>배포 관리자 접속</td>
-<td>관리자 브라우저 → CloudFront /argocd/ 직접 접속 · 관리자 IP + origin 비밀값 + HTTPS + Argo admin 로그인</td>
-</tr>
-</table></div>
+<details class="technical-detail"><summary>접속·인증 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table><tr><th scope="col">구성 요소</th><th scope="col">세부 설정·역할</th></tr>
+<tr><td>브라우저</td><td>사용자 화면 · 관리자 Ops</td></tr>
+<tr><td>iOS · Android</td><td>React Native / Expo</td></tr>
+<tr><td>Vercel · React 웹</td><td><a href="http://govbiz.vercel.app">govbiz.vercel.app</a> · /api 서버 미들웨어 · 웹 쿠키 · 앱 Bearer 인증</td></tr>
+<tr><td>CloudFront</td><td>API / Argo 경로: 캐시 끔 · VPC origin → 내부 ALB · Argo 접속: 관리자 IPv4 제한</td></tr>
+<tr><td>내부 ALB</td><td>target-type: ip · 정상 Gateway Pod IP로 분산</td></tr>
+<tr><td>Nginx API Gateway</td><td>EKS · govbiz-eks / Pod 1~3개 · 프록시 비밀값 검증 · URL → ClusterIP Service</td></tr>
+<tr><td>Core · :8080</td><td>/api/* · → Ready Pod</td></tr>
+<tr><td>Ops · :8000</td><td>/api/v1/ops/* · → Pod 1개</td></tr>
+<tr><td>Argo · :8080</td><td>HTTPS · /argocd/* · → 웹 Pod 1개</td></tr>
+<tr><td>배포 관리자 접속</td><td>관리자 브라우저 → CloudFront /argocd/ 직접 접속 · 관리자 IP + origin 비밀값 + HTTPS + Argo admin 로그인</td></tr></table></div>
 <p>앱의 Vercel 경로는 API 주소 설정에 따라 합류합니다. 실기기 운영 검증은 별도입니다.</p>
 </div></details>
 <h3 id="section-4">2.2. 서비스·데이터 — 업무를 처리하고 저장하는 방식</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-02-ai-service.png" aria-label="서비스·데이터 — 업무를 처리하고 저장하는 방식 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-02-ai-service.png" alt="서비스·데이터 — 업무를 처리하고 저장하는 방식" width="3200" height="1797" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-service-data-vector-index.png" aria-label="2.2. 서비스·데이터 — 업무를 처리하고 저장하는 방식 — 크게 보기"><img src="./assets/govbiz-service-data-vector-index.png" alt="2.2. 서비스·데이터 — 업무를 처리하고 저장하는 방식" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>Core:</b> 사용자 업무와 검색을 처리하고, Catalog의 공고 스냅샷을 조회용 데이터에 반영합니다.</li>
-<li><b>Catalog:</b> 공고를 수집·정규화하고 검색 색인을 관리합니다.</li>
-<li><b>AI:</b> 검색과 생성을 담당합니다.</li>
+<li><b>Core-service:</b> 사용자 업무와 검색을 처리하고, Catalog의 공고 스냅샷을 조회용 데이터에 반영합니다.</li>
+<li><b>Catalog-service:</b> 공고를 수집·정규화하고 검색 색인을 관리합니다.</li>
+<li><b>AI-service:</b> 검색과 생성을 담당합니다.</li>
 <li><b>저장소:</b> 각 서비스는 역할에 맞는 저장소를 사용합니다.</li>
-<li><b>비동기 작업:</b> Core DB에 작업을 기록하고 RabbitMQ에 작업 ID를 전달합니다. 발행 실패 시 다시 시도합니다.</li>
+<li><b>비동기 작업:</b> Core DB에 작업을 기록하고 RabbitMQ에 작업 ID를 전달합니다.</li>
 </ul>
 <h3 id="section-5">2.3. 평가·관측 — 실행 기록과 평가 결과의 연결</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-03-langfuse-prefect.png" aria-label="평가·관측 — 실행 기록과 평가 결과의 연결 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-03-langfuse-prefect.png" alt="평가·관측 — 실행 기록과 평가 결과의 연결" width="3200" height="1800" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-03-langfuse-prefect.png" aria-label="2.3. 평가·관측 — 실행 기록과 평가 결과의 연결 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-03-langfuse-prefect.png" alt="2.3. 평가·관측 — 실행 기록과 평가 결과의 연결" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>실사용 추적:</b> AI 서비스가 실행 기록을 Langfuse에 전송합니다.</li>
 <li><b>평가 점수:</b> 평가 실행기가 점수를 계산해 Langfuse에 등록합니다. 실사용 추적과는 별도 경로입니다.</li>
 <li><b>평가 결과:</b> 평가 실행기가 결과 파일을 저장하고, Ops가 보고서를 읽어 검증한 뒤 실행 요약과 비교 결과를 저장합니다.</li>
 <li><b>운영 화면:</b> React는 Ops API에서 평가 결과를 받아 표시합니다.</li>
 </ul>
-<details class="technical-detail"><summary>평가·관측 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
-<colgroup>
-<col />
-<col width="417" />
-</colgroup>
-<tr>
-<th scope="col">구성 요소</th>
-<th scope="col">세부 설정·역할</th>
-</tr>
-<tr>
-<td>Django Ops · :8000</td>
-<td>govbiz-msa / Ops API + ops-sync: 같은 Pod · Core 관리자 인증 · 승인·예산·취소 · 사람 검토·품질 판정·기준 · Prefect 상태·보고서 동기화 · 저장 → Ops MySQL 8.4 (독립 DB / PVC) · 저장 항목: 실행·검토·판정·기준·예산·일정</td>
-</tr>
-<tr>
-<td>Prefect Server · :4200</td>
-<td>govbiz-evaluation / ClusterIP · Service DNS · flow 접수 · 실행 상태·로그 · SQLite → Prefect 전용 PVC · Ops와 내부 HTTP로 연결</td>
-</tr>
-<tr>
-<td>evaluation-runner</td>
-<td>Deployment · 평가 실행기 · pandas → Pandera → 지표 계산 · Evidently 보고서 · Langfuse 점수 · 저장 응답 재평가 / 승인된 실행</td>
-</tr>
-<tr>
-<td>ops-artifacts · :8010</td>
-<td>평가 자료·보고서 / 결과 PVC · 실행기 쓰기 · 결과 서버 읽기 전용 · 전용 토큰 인증</td>
-</tr>
-<tr>
-<td>Langfuse</td>
-<td>평가 점수 등록 · 운영 trace와 함께 확인</td>
-</tr>
-<tr>
-<td>AI Service SDK</td>
-<td>govbiz-msa / 운영 trace · 설정 시 전송</td>
-</tr>
-<tr>
-<td>Langfuse Web :3000 + Worker</td>
-<td>govbiz-observability · 운영 trace와 평가 점수 관리</td>
-</tr>
-<tr>
-<td>관측 저장소</td>
-<td>PostgreSQL · ClickHouse · Redis · MinIO · 업무 DB·Redis와 별도 관리</td>
-</tr>
-</table></div>
+<details class="technical-detail"><summary>평가·관측 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table><tr><th scope="col">구성 요소</th><th scope="col">세부 설정·역할</th></tr>
+<tr><td>Django Ops · :8000</td><td>govbiz-msa / Ops API + ops-sync: 같은 Pod · Core 관리자 인증 · 승인·예산·취소 · 사람 검토·품질 판정·기준 · Prefect 상태·보고서 동기화 · 저장 → Ops MySQL 8.4 (독립 DB / PVC) · 저장 항목: 실행·검토·판정·기준·예산·일정</td></tr>
+<tr><td>Prefect Server · :4200</td><td>govbiz-evaluation / ClusterIP · Service DNS · flow 접수 · 실행 상태·로그 · SQLite → Prefect 전용 PVC · Ops와 내부 HTTP로 연결</td></tr>
+<tr><td>evaluation-runner</td><td>Deployment · 평가 실행기 · pandas → Pandera → 지표 계산 · Evidently 보고서 · Langfuse 점수 · 저장 응답 재평가 / 승인된 실행</td></tr>
+<tr><td>ops-artifacts · :8010</td><td>평가 자료·보고서 / 결과 PVC · 실행기 쓰기 · 결과 서버 읽기 전용 · 전용 토큰 인증</td></tr>
+<tr><td>Langfuse</td><td>평가 점수 등록 · 운영 trace와 함께 확인</td></tr>
+<tr><td>AI Service SDK</td><td>govbiz-msa / 운영 trace · 설정 시 전송</td></tr>
+<tr><td>Langfuse Web :3000 + Worker</td><td>govbiz-observability · 운영 trace와 평가 점수 관리</td></tr>
+<tr><td>관측 저장소</td><td>PostgreSQL · ClickHouse · Redis · MinIO · 업무 DB·Redis와 별도 관리</td></tr></table></div>
 <p>Ops → ops-artifacts: 인증된 보고서 조회 · 실행기 → Ops 내부 API: 설정된 경우에 호출</p>
 </div></details>
 <h3 id="section-6">2.4. 서버 배치 — Pod를 배치하고 확장하는 방식</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-04.png" aria-label="서버 배치 — Pod를 배치하고 확장하는 방식 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-04.png" alt="서버 배치 — Pod를 배치하고 확장하는 방식" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-04.png" aria-label="2.4. 서버 배치 — Pod를 배치하고 확장하는 방식 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-04.png" alt="2.4. 서버 배치 — Pod를 배치하고 확장하는 방식" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>실행 위치:</b> 업무·저장소와 관측·평가 구성 요소를 나누어 배치합니다.</li>
 <li><b>Pod 분산:</b> Core·AI Pod를 여러 서버에 나누어 배치합니다.</li>
 <li><b>HPA:</b> 부하에 따라 Pod 수를 조절합니다.</li>
 <li><b>노드 확장:</b> 실행 자원이 부족할 때 서버를 추가해 자원을 확보합니다.</li>
 </ul>
-<details class="technical-detail"><summary>노드·확장 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
-<colgroup>
-<col />
-<col width="462" />
-</colgroup>
-<tr>
-<th scope="col">구성 요소</th>
-<th scope="col">세부 설정·역할</th>
-</tr>
-<tr>
-<td>application · EC2 1대</td>
-<td>업무·저장소 노드 · Core Pod 1 · AI Pod 1 · Catalog · Ops(API + sync) · Core / Catalog / Ops MySQL · Redis · Elasticsearch · Qdrant · RabbitMQ</td>
-</tr>
-<tr>
-<td>observability · EC2 1대</td>
-<td>관측·평가·Argo + 분산 Pod · Core Pod 2 · AI Pod 2 · Langfuse Web·Worker·저장소 · Argo CD Pod 5개 · Prefect · 평가 실행기 · 결과 서버</td>
-</tr>
-<tr>
-<td>HPA → Pod 개수 조절</td>
-<td>CPU requests 대비 평균 60% · Core·AI: 2~3개 / Gateway: 1~3개</td>
-</tr>
-<tr>
-<td>배치 대기 Pod</td>
-<td>자원이 부족하거나 분산 조건을 만족하지 못함</td>
-</tr>
-<tr>
-<td>application · EC2 1대 추가</td>
-<td>Core Pod 3 · AI Pod 3 배치 · 같은 서비스는 EC2당 최대 1개 · 자원·배치 조건에 맞춰 스케줄 · 전체 EC2: 기본 2대 · 최대 3대</td>
-</tr>
-<tr>
-<td>안전하게 줄이는 조건</td>
-<td>HPA: 5분 안정화 · 추가 노드: 10분 불필요 + 안전한 이동 조건 · PDB: 자발적 중단 제한</td>
-</tr>
-</table></div>
+<details class="technical-detail"><summary>노드·확장 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table><tr><th scope="col">구성 요소</th><th scope="col">세부 설정·역할</th></tr>
+<tr><td>application · EC2 1대</td><td>업무·저장소 노드 · Core Pod 1 · AI Pod 1 · Catalog · Ops(API + sync) · Core / Catalog / Ops MySQL · Redis · Elasticsearch · Qdrant · RabbitMQ</td></tr>
+<tr><td>observability · EC2 1대</td><td>관측·평가·Argo + 분산 Pod · Core Pod 2 · AI Pod 2 · Langfuse Web·Worker·저장소 · Argo CD Pod 5개 · Prefect · 평가 실행기 · 결과 서버</td></tr>
+<tr><td>HPA → Pod 개수 조절</td><td>CPU requests 대비 평균 60% · Core·AI: 2~3개 / Gateway: 1~3개</td></tr>
+<tr><td>배치 대기 Pod</td><td>자원이 부족하거나 분산 조건을 만족하지 못함</td></tr>
+<tr><td>application · EC2 1대 추가</td><td>Core Pod 3 · AI Pod 3 배치 · 같은 서비스는 EC2당 최대 1개 · 자원·배치 조건에 맞춰 스케줄 · 전체 EC2: 기본 2대 · 최대 3대</td></tr>
+<tr><td>안전하게 줄이는 조건</td><td>HPA: 5분 안정화 · 추가 노드: 10분 불필요 + 안전한 이동 조건 · PDB: 자발적 중단 제한</td></tr></table></div>
 <p>평가 실행기와 결과 서버는 같은 노드에 배치합니다. Namespace는 논리 구분이고 EC2는 실행 위치입니다.</p>
 </div></details>
 <h3 id="section-7">2.5. 외부 통신·저장소 — 외부 API와 영속 데이터</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-05.png" aria-label="외부 통신·저장소 — 외부 API와 영속 데이터 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-05.png" alt="외부 통신·저장소 — 외부 API와 영속 데이터" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-05.png" aria-label="2.5. 외부 통신·저장소 — 외부 API와 영속 데이터 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-05.png" alt="2.5. 외부 통신·저장소 — 외부 API와 영속 데이터" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>외부 API:</b> 비공개 네트워크의 Pod가 NAT Gateway를 통해 공고 API와 OpenAI에 요청합니다.</li>
 <li><b>EBS:</b> 서비스 데이터를 볼륨에 보존합니다.</li>
 <li><b>ECR:</b> 실행 이미지를 보관합니다.</li>
 <li><b>S3:</b> 이전 백업을 보관합니다.</li>
 </ul>
-<details class="technical-detail"><summary>외부 통신·저장소 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
-<colgroup>
-<col />
-<col width="431" />
-</colgroup>
-<tr>
-<th scope="col">구성 요소</th>
-<th scope="col">세부 설정·역할</th>
-</tr>
-<tr>
-<td>Private Subnet · EKS Pod</td>
-<td>Catalog :8081 → 공식 공고 수집·정규화 · AI Service :8000 → 답변 생성·임베딩</td>
-</tr>
-<tr>
-<td>NAT Gateway · 1개</td>
-<td>Public Subnet / 요청·응답 중계</td>
-</tr>
-<tr>
-<td>Internet Gateway</td>
-<td>서브넷 밖의 VPC 경계 · 인터넷 출입구</td>
-</tr>
-<tr>
-<td>공식 공고 API</td>
-<td>기업마당 · K-Startup · 과기정통부 · 충남 수출지원</td>
-</tr>
-<tr>
-<td>OpenAI</td>
-<td>Responses · Embeddings</td>
-</tr>
-<tr>
-<td>EBS gp3 · 데이터 보존</td>
-<td>EBS CSI → 암호화 PVC 13개 · 업무 7 · 평가 2 · 관측 4 · StorageClass: Retain · AZ 종속 · MySQL은 EKS StatefulSet 유지</td>
-</tr>
-<tr>
-<td>ECR · private 이미지</td>
-<td>CodeBuild가 이미지 5개 발행 · EKS 노드가 digest로 pull · immutable git-SHA 태그 · 검증 소스와 실행 이미지 연결</td>
-</tr>
-<tr>
-<td>S3 · 이전 백업 보관</td>
-<td>암호화 백업·메타데이터 · 비공개 · 버전 관리 · SHA-256 · 이전 백업 → EBS 데이터 복원 · 상시 DB 백업·자동 복제와 구분</td>
-</tr>
-</table></div>
+<details class="technical-detail"><summary>외부 통신·저장소 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table><tr><th scope="col">구성 요소</th><th scope="col">세부 설정·역할</th></tr>
+<tr><td>Private Subnet · EKS Pod</td><td>Catalog :8081 → 공식 공고 수집·정규화 · AI Service :8000 → 답변 생성·임베딩</td></tr>
+<tr><td>NAT Gateway · 1개</td><td>Public Subnet / 요청·응답 중계</td></tr>
+<tr><td>Internet Gateway</td><td>서브넷 밖의 VPC 경계 · 인터넷 출입구</td></tr>
+<tr><td>공식 공고 API</td><td>기업마당 · K-Startup · 과기정통부 · 충남 수출지원</td></tr>
+<tr><td>OpenAI</td><td>Responses · Embeddings</td></tr>
+<tr><td>EBS gp3 · 데이터 보존</td><td>EBS CSI → 암호화 PVC 13개 · 업무 7 · 평가 2 · 관측 4 · StorageClass: Retain · AZ 종속 · MySQL은 EKS StatefulSet 유지</td></tr>
+<tr><td>ECR · private 이미지</td><td>CodeBuild가 이미지 5개 발행 · EKS 노드가 digest로 pull · immutable git-SHA 태그 · 검증 소스와 실행 이미지 연결</td></tr>
+<tr><td>S3 · 이전 백업 보관</td><td>암호화 백업·메타데이터 · 비공개 · 버전 관리 · SHA-256 · 이전 백업 → EBS 데이터 복원 · 상시 DB 백업·자동 복제와 구분</td></tr></table></div>
 <p>Pod가 시작한 연결의 응답만 반환합니다. NAT를 통해 외부에서 Pod로 새 연결을 시작할 수 없습니다.</p>
 <p>API 키·제공처 활성화 설정이 필요합니다. 평가 실행기의 외부 모델 호출은 원본 Chart에서 비활성입니다.</p>
 </div></details>
 <h3 id="section-8">2.6. 빌드·발행 — 코드에서 이미지와 배포 파일까지</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-06.png" aria-label="빌드·발행 — 코드에서 이미지와 배포 파일까지 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-06.png" alt="빌드·발행 — 코드에서 이미지와 배포 파일까지" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-06.png" aria-label="2.6. 빌드·발행 — 코드에서 이미지와 배포 파일까지 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-06.png" alt="2.6. 빌드·발행 — 코드에서 이미지와 배포 파일까지" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>CI 검증:</b> 동일한 소스 커밋의 필수 CI를 확인합니다.</li>
 <li><b>이미지 발행:</b> 이미지를 빌드해 ECR에 발행합니다.</li>
 <li><b>배포 설정:</b> Helm으로 배포 파일을 만들고 이미지 digest를 고정합니다.</li>
 <li><b>버전 관리:</b> Git의 release 경로와 태그로 배포 상태를 관리합니다.</li>
 </ul>
-<details class="technical-detail"><summary>빌드·발행 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
-<colgroup>
-<col />
-<col width="469" />
-</colgroup>
-<tr>
-<th scope="col">구성 요소</th>
-<th scope="col">세부 설정·역할</th>
-</tr>
-<tr>
-<td>GitHub Actions</td>
-<td>개인 main · 필수 CI 5개 · 같은 최신 SHA 통과 확인 · 배포 순서·조건 조율</td>
-</tr>
-<tr>
-<td>AWS CodeBuild</td>
-<td>서비스 이미지 5개 빌드 · Helm·배포 스크립트 실행</td>
-</tr>
-<tr>
-<td>이미지 경로</td>
-<td>실행할 프로그램</td>
-</tr>
-<tr>
-<td>Git 경로</td>
-<td>원하는 리소스 상태</td>
-</tr>
-<tr>
-<td>Amazon ECR · private</td>
-<td>Core · Catalog · AI · Ops · evaluation-runner · immutable git-SHA 태그 · digest로 실행 버전 고정 · Ops 이미지는 결과 서버에도 재사용</td>
-</tr>
-<tr>
-<td>Helm · YAML 생성</td>
-<td>Chart + EKS 설정 · 이미지 digest를 명세에 고정 · Kubernetes 배포 파일 생성</td>
-</tr>
-<tr>
-<td>EKS 노드</td>
-<td>ECR → 지정한 digest의 · 실행 이미지 pull</td>
-</tr>
-<tr>
-<td>배포 스크립트</td>
-<td>release/에 YAML 저장 · Git 커밋 생성 · immutable release 태그 발행</td>
-</tr>
-<tr>
-<td>실제 실행 대상</td>
-<td>이미지 5개를 사용해 · 업무·평가 Deployment 6개 실행</td>
-</tr>
-<tr>
-<td>Git 태그 → Argo CD</td>
-<td>규칙에 맞는 최신 태그 감지 · 태그 커밋의 release/ YAML 조회 · Kubernetes API로 설정 반영</td>
-</tr>
-</table></div>
+<details class="technical-detail"><summary>빌드·발행 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table><tr><th scope="col">구성 요소</th><th scope="col">세부 설정·역할</th></tr>
+<tr><td>GitHub Actions</td><td>개인 main · 필수 CI 5개 · 같은 최신 SHA 통과 확인 · 배포 순서·조건 조율</td></tr>
+<tr><td>AWS CodeBuild</td><td>서비스 이미지 5개 빌드 · Helm·배포 스크립트 실행</td></tr>
+<tr><td>이미지 경로</td><td>실행할 프로그램</td></tr>
+<tr><td>Git 경로</td><td>원하는 리소스 상태</td></tr>
+<tr><td>Amazon ECR · private</td><td>Core · Catalog · AI · Ops · evaluation-runner · immutable git-SHA 태그 · digest로 실행 버전 고정 · Ops 이미지는 결과 서버에도 재사용</td></tr>
+<tr><td>Helm · YAML 생성</td><td>Chart + EKS 설정 · 이미지 digest를 명세에 고정 · Kubernetes 배포 파일 생성</td></tr>
+<tr><td>EKS 노드</td><td>ECR → 지정한 digest의 · 실행 이미지 pull</td></tr>
+<tr><td>배포 스크립트</td><td>release/에 YAML 저장 · Git 커밋 생성 · immutable release 태그 발행</td></tr>
+<tr><td>실제 실행 대상</td><td>이미지 5개를 사용해 · 업무·평가 Deployment 6개 실행</td></tr>
+<tr><td>Git 태그 → Argo CD</td><td>규칙에 맞는 최신 태그 감지 · 태그 커밋의 release/ YAML 조회 · Kubernetes API로 설정 반영</td></tr></table></div>
 </div></details>
 <h3 id="section-9">2.7. GitOps 배포 — 변경 반영과 실행 상태 검증</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-07.png" aria-label="GitOps 배포 — 변경 반영과 실행 상태 검증 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-07.png" alt="GitOps 배포 — 변경 반영과 실행 상태 검증" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-07.png" aria-label="2.7. GitOps 배포 — 변경 반영과 실행 상태 검증 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-07.png" alt="2.7. GitOps 배포 — 변경 반영과 실행 상태 검증" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>배포 반영:</b> Argo CD가 Git의 배포 설정과 클러스터 상태를 비교해 Kubernetes API에 반영합니다.</li>
 <li><b>배포 검증:</b> Git 리비전·hook·이미지 digest·Ready 상태를 확인합니다.</li>
 <li><b>웹 전환:</b> 검증 후 웹도 같은 소스 버전으로 전환합니다.</li>
 </ul>
-<details class="technical-detail"><summary>Argo·배포 검증 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
-<colgroup>
-<col />
-<col width="421" />
-</colgroup>
-<tr>
-<th scope="col">구성 요소</th>
-<th scope="col">세부 설정·역할</th>
-</tr>
-<tr>
-<td>repo-server</td>
-<td>Git 태그의 release/ YAML 조회 · 리소스 내용을 controller에 제공</td>
-</tr>
-<tr>
-<td>application-controller</td>
-<td>Git 설정과 클러스터 상태 비교 · Kubernetes API로 앱 동기화</td>
-</tr>
-<tr>
-<td>Kubernetes API</td>
-<td>Argo 권한 확인 · 원하는 상태 반영 · EC2에 배치된 업무 Pod가 아님</td>
-</tr>
-<tr>
-<td>govbiz-eks Application</td>
-<td>동기화 대상 Deployment 6개 · Core · Catalog · AI · Ops · 평가 실행기 · 결과 서버 · Service · 배포 hook 등 반영 · PreSync prepare / resume Jobs</td>
-</tr>
-<tr>
-<td>ApplicationSet controller</td>
-<td>Application 생성·관리</td>
-</tr>
-<tr>
-<td>Redis · Argo 내부 캐시</td>
-<td>업무·Langfuse Redis와 별도</td>
-</tr>
-<tr>
-<td>argocd-server · 상시 배포 관리 웹</td>
-<td>Gateway → HTTPS ClusterIP :8080 · → Deployment / ReplicaSet → Pod 1개</td>
-</tr>
-<tr>
-<td>리비전·hook·이미지·Ready 검증</td>
-<td>기대 Git 리비전 · 성공한 hook · 실제 image digest · 앱 준비 상태 확인</td>
-</tr>
-<tr>
-<td>Vercel 웹 전환</td>
-<td>같은 소스 SHA로 배포</td>
-</tr>
-</table></div>
+<details class="technical-detail"><summary>Argo·배포 검증 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table><tr><th scope="col">구성 요소</th><th scope="col">세부 설정·역할</th></tr>
+<tr><td>repo-server</td><td>Git 태그의 release/ YAML 조회 · 리소스 내용을 controller에 제공</td></tr>
+<tr><td>application-controller</td><td>Git 설정과 클러스터 상태 비교 · Kubernetes API로 앱 동기화</td></tr>
+<tr><td>Kubernetes API</td><td>Argo 권한 확인 · 원하는 상태 반영 · EC2에 배치된 업무 Pod가 아님</td></tr>
+<tr><td>govbiz-eks Application</td><td>동기화 대상 Deployment 6개 · Core · Catalog · AI · Ops · 평가 실행기 · 결과 서버 · Service · 배포 hook 등 반영 · PreSync prepare / resume Jobs</td></tr>
+<tr><td>ApplicationSet controller</td><td>Application 생성·관리</td></tr>
+<tr><td>Redis · Argo 내부 캐시</td><td>업무·Langfuse Redis와 별도</td></tr>
+<tr><td>argocd-server · 상시 배포 관리 웹</td><td>Gateway → HTTPS ClusterIP :8080 · → Deployment / ReplicaSet → Pod 1개</td></tr>
+<tr><td>리비전·hook·이미지·Ready 검증</td><td>기대 Git 리비전 · 성공한 hook · 실제 image digest · 앱 준비 상태 확인</td></tr>
+<tr><td>Vercel 웹 전환</td><td>같은 소스 SHA로 배포</td></tr></table></div>
 </div></details>
 <p><a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/assets/architecture/govbiz-aws-eks-architecture.png">전체 시스템 구성도 원본 보기</a></p>
-<div class="notion-empty" aria-hidden="true"></div>
 <hr>
-<h2 id="section-10">3. 사용자 의도에 따라 업무를 연결하는 LLM 기반 라우팅 및 Human-in-the-loop</h2>
-<div class="notion-empty" aria-hidden="true"></div>
+<h2 id="section-10">3.  사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</h2>
 <div class="diagram-heading" id="section-11"><b>자연어 요청을 기존 업무 기능으로 연결</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-selected-program-flow-hitl.png" aria-label="자연어 요청을 기존 업무 기능으로 연결 — 크게 보기"><img src="./assets/govbiz-selected-program-flow-hitl.png" alt="자연어 요청을 기존 업무 기능으로 연결" width="2400" height="1640" loading="lazy" decoding="async"></a></figure>
-<ul><li><p><b>공고 선택:</b> 사용자가 지원사업 검색 결과에서 작업할 공고를 선택합니다.</p>
-</li><li><p><b>업무 판단:</b> Core가 질문과 검색 문맥을 AI에 전달하면, AI가 요청에 맞는 업무 경로 하나를 선택합니다.</p>
-</li><li><p><b>기능 연결:</b> Core는 공고 선택 여부와 업무별 조건을 확인하고 원문 질문·신청 문서 준비·중복 지원 검토·파트너 조회 중 적절한 기능으로 연결하거나 안내합니다.</p>
-</li><li><p><b>Human-in-the-loop:</b> 사용자가 공고를 선택하고 신청 준비나 중복 검토에 필요한 내용을 확인하며 후속 작업을 직접 진행합니다.</p>
-</li></ul>
-<div class="notion-empty" aria-hidden="true"></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-selected-program-flow-hitl.png" aria-label="자연어 요청을 기존 업무 기능으로 연결 — 크게 보기"><img src="./assets/govbiz-selected-program-flow-hitl.png" alt="자연어 요청을 기존 업무 기능으로 연결" loading="lazy" decoding="async"></a></figure>
+<ul>
+<li>
+<b>공고 선택:</b> 사용자가 지원사업 검색 결과에서 작업할 공고를 선택합니다.
+</li>
+<li>
+<b>업무 판단:</b> Core가 질문과 검색 문맥을 AI에 전달하면, AI가 요청에 맞는 업무 경로 하나를 선택합니다.
+</li>
+<li>
+<b>기능 연결:</b> Core는 공고 선택 여부와 업무별 조건을 확인하고 원문 질문·신청 문서 준비·중복 지원 검토·파트너 조회 중 적절한 기능으로 연결하거나 안내합니다.
+</li>
+<li>
+<b>Human-in-the-loop:</b> 사용자가 공고를 선택하고 신청 준비나 중복 검토에 필요한 내용을 확인하며 후속 작업을 직접 진행합니다.
+</li>
+</ul>
+
+
+
+
+
 <div class="diagram-heading"><b>AI의 업무 선택과 검증 : 공고 원문 질문의 예시</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" aria-label="AI의 업무 선택과 검증 : 공고 원문 질문의 예시 — 크게 보기"><img src="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" alt="AI의 업무 선택과 검증 : 공고 원문 질문의 예시" width="2000" height="1796" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" aria-label="AI의 업무 선택과 검증 : 공고 원문 질문의 예시 — 크게 보기"><img src="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" alt="AI의 업무 선택과 검증 : 공고 원문 질문의 예시" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>질문 전달:</b> 사용자가 선택한 공고와 질문을 Core에 전달하면, Core는 질문과 공고 선택 여부를 AI에 보냅니다.</li>
 <li><b>업무 선택:</b> AI는 요청을 공고 원문 질문(<code>EVIDENCE</code>)으로 분류하고, 응답 형식과 허용된 업무 값이 맞는지 확인합니다.</li>
 <li><b>공고 확인:</b> Core는 공고가 선택되어 있으면 원문 답변 기능을 실행하고, 선택되지 않았다면 먼저 선택하도록 안내합니다.</li>
 <li><b>답변과 근거:</b> 공고 원문을 검색해 답변을 생성하고, Core가 사용한 구간 ID를 확인한 뒤 답변과 근거 또는 근거 부족 안내를 반환합니다.</li>
-<li><b><span style="color:#e03e3e">RAG 과정 상세보기 :</span></b> <a href="https://ilil1.github.io/ilil1/ai/project/skn34_3th/#section-3-2">https://ilil1.github.io/ilil1/ai/project/skn34_3th/#section-3-2</a></li>
+<li><b><span color="red">RAG 과정 상세보기 :</span></b> <a href="https://ilil1.github.io/ilil1/ai/project/skn34_3th/#section-3-2">https://ilil1.github.io/ilil1/ai/project/skn34_3th/#section-3-2</a></li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <hr>
-<h2 id="section-13">4. 평가·추적·실행 관리 체계인 LLMOps</h2>
-<div class="notion-empty" aria-hidden="true"></div>
+<h2 id="section-13">4. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</h2>
 <div class="diagram-heading"><b>관리자 기능 — 운영 — 실제 서비스 확인</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-operation-menu-numbers-left.png" aria-label="관리자 기능 — 운영 — 실제 서비스 확인 — 크게 보기"><img src="./assets/govbiz-operation-menu-numbers-left.png" alt="관리자 기능 — 운영 — 실제 서비스 확인" width="2000" height="1045" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-operation-menu-numbers-left.png" aria-label="관리자 기능 — 운영 — 실제 서비스 확인 — 크게 보기"><img src="./assets/govbiz-operation-menu-numbers-left.png" alt="관리자 기능 — 운영 — 실제 서비스 확인" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>O1 실사용 모니터링:</b> AI 호출 횟수·토큰 사용량·토큰 사용 비용을 확인합니다.</li>
 <li><b>O2 AI 실행 추적:</b> 기록된 실행 단계·입출력·오류를 살펴봅니다.</li>
 <li><b>O3 운영 표본 품질:</b> 저장된 응답 표본을 사람이 검토합니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
-<div class="diagram-heading"><b>운영 표본 검토</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-menu-sample-color-swapped.png" aria-label="운영 표본 검토 — 크게 보기"><img src="./assets/govbiz-admin-menu-sample-color-swapped.png" alt="운영 표본 검토" width="3000" height="1295" loading="lazy" decoding="async"></a></figure>
+<div class="diagram-heading" id="section-16"><b>운영 표본 검토</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-admin-menu-sample-color-swapped.png" aria-label="운영 표본 검토 — 크게 보기"><img src="./assets/govbiz-admin-menu-sample-color-swapped.png" alt="운영 표본 검토" loading="lazy" decoding="async"></a></figure>
 <p><b>운영 표본 활용:</b> 검토 요건을 갖춘 상세 공고 답변은 회귀 후보로 내보낼 수 있습니다. 추가 검토 후 별도로 평가 자료에 등록하며 자동으로 편입되지는 않습니다.</p>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>테스트 메뉴 번호 안내</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-menu-number-legend-centered.png" aria-label="테스트 메뉴 번호 안내 — 크게 보기"><img src="./assets/govbiz-test-menu-number-legend-centered.png" alt="테스트 메뉴 번호 안내" width="3200" height="1300" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-menu-number-legend-centered.png" aria-label="테스트 메뉴 번호 안내 — 크게 보기"><img src="./assets/govbiz-test-menu-number-legend-centered.png" alt="테스트 메뉴 번호 안내" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>T1~T5:</b> 평가 자료와 예산 준비부터 평가 실행, 결과 확인과 비교까지의 흐름을 기준으로 번호를 배치했습니다.</li>
 <li><b>T6:</b> T6 정기 실행은 T5 다음에 진행하는 마지막 단계가 아니라, 관리자가 직접 실행하는 T3과 별도로 평가를 요청하는 방법입니다. 두 경로 모두 이후 공통 접수와 평가 실행으로 이어집니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-flow-record-labels.png" aria-label="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지 — 크게 보기"><img src="./assets/govbiz-test-flow-record-labels.png" alt="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지" width="2400" height="1730" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-flow-record-labels.png" aria-label="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지 — 크게 보기"><img src="./assets/govbiz-test-flow-record-labels.png" alt="관리자 기능 — 테스트 — 평가 준비부터 결과 비교까지" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>T1 평가 자료 관리:</b> 평가에 사용할 질문·근거·조건을 준비합니다.</li>
 <li><b>T2 예산 관리:</b> 평가에 사용할 호출과 토큰 한도를 확인합니다.</li>
@@ -469,39 +213,32 @@
 </ul>
 </li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>— 운영 —  O1 실사용 모니터링 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/original-o1.png" aria-label="— 운영 —  O1 실사용 모니터링 구조도 — 크게 보기"><img src="./assets/original-o1.png" alt="— 운영 —  O1 실사용 모니터링 구조도" width="2400" height="750" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/original-o1.png" aria-label="— 운영 —  O1 실사용 모니터링 구조도 — 크게 보기"><img src="./assets/original-o1.png" alt="— 운영 —  O1 실사용 모니터링 구조도" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>실사용 모니터링:</b> Core MySQL에 기록된 호출·토큰·추정 비용과 OpenAI Usage·Costs API에서 가져온 사용량·비용을 같은 기간 기준으로 확인합니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>O1 실사용 모니터링 흐름도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/b55b7398-c61e-4206-8c72-be46f24f62bf.png" aria-label="O1 실사용 모니터링 흐름도 — 크게 보기"><img src="./assets/b55b7398-c61e-4206-8c72-be46f24f62bf.png" alt="O1 실사용 모니터링 흐름도" width="1994" height="1542" loading="lazy" decoding="async"></a></figure>
-<p>
-호출·토큰·추정 비용을 Core에서 기록하는 이유는 <b>Core가 사용자 계정과 업무 맥락을 알고 있기 때문</b>입니다. 예를 들어 AI 서비스는 모델 호출을 수행하지만, Core는 그 호출이 어느 사용자의 <b>공고 질문</b>이나 <b>문서 작성</b>에서 발생했는지 연결하기 좋습니다. 
-</p><ol>
+<figure class="diagram"><a class="zoom-image" href="./assets/b55b7398-c61e-4206-8c72-be46f24f62bf.png" aria-label="O1 실사용 모니터링 흐름도 — 크게 보기"><img src="./assets/b55b7398-c61e-4206-8c72-be46f24f62bf.png" alt="O1 실사용 모니터링 흐름도" loading="lazy" decoding="async"></a></figure>
+<ul>
 <li><b>사용자·기능 확인:</b> core-service가 요청한 사용자와 어떤 기능인지 연결합니다.</li>
 <li><b>사용량 수집:</b> ai-service가 OpenAI 응답의 토큰 사용량을 수집해 core-service에 전달합니다.</li>
 <li><b>추정 비용 기록:</b> core-service가 모델별 단가를 적용해 사용량·추정 비용을 MySQL에 저장합니다.</li>
-</ol>
-<div class="notion-empty" aria-hidden="true"></div>
-<div class="diagram-heading"><b>— 운영 — O2 AI 실행 추적 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/original-o2.png" aria-label="— 운영 — O2 AI 실행 추적 구조도 — 크게 보기"><img src="./assets/original-o2.png" alt="— 운영 — O2 AI 실행 추적 구조도" width="2400" height="890" loading="lazy" decoding="async"></a></figure>
+</ul>
+<div class="diagram-heading" id="section-17"><b>— 운영 — O2 AI 실행 추적 구조도</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/original-o2.png" aria-label="— 운영 — O2 AI 실행 추적 구조도 — 크게 보기"><img src="./assets/original-o2.png" alt="— 운영 — O2 AI 실행 추적 구조도" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>O2 AI 실행 추적:</b> 설정된 core-service와 ai-service가 계측된 실행 단계·시간·오류 등의 추적 기록을 Langfuse에 전송합니다. 관리자가 화면에서 추적을 조회하면, ops-service가 Langfuse API에서 기록을 가져와 화면에 전달합니다. 일부 호출은 traceparent를 전달해 Core와 AI의 추적을 연결합니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>O2 AI 실행 추적 흐름도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ai-execution-trace-sequence-traceparent.png" aria-label="O2 AI 실행 추적 흐름도 — 크게 보기"><img src="./assets/govbiz-ai-execution-trace-sequence-traceparent.png" alt="O2 AI 실행 추적 흐름도" width="3000" height="2388" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ai-execution-trace-sequence-traceparent.png" aria-label="O2 AI 실행 추적 흐름도 — 크게 보기"><img src="./assets/govbiz-ai-execution-trace-sequence-traceparent.png" alt="O2 AI 실행 추적 흐름도" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>추적 기록:</b> 연동 설정이 활성화되면 core-service와 ai-service가 계측된 실행 기록을 Langfuse로 전송합니다. 일부 호출은 traceparent를 전달해 Core와 AI의 추적을 연결합니다.</li>
 <li><b>관리자 확인:</b> ops-service는 core-service에서 관리자 권한을 확인한 뒤 Langfuse의 추적을 조회 API 를 사용해서 읽어 화면에 전달합니다.</li>
 <li><b>기록 범위:</b> 추적은 Langfuse에 보관하며 ops-service DB에 복제하지 않습니다. 계측된 기능만 기록되며 질문·답변 원문이 항상 포함되지는 않습니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>core-service 추적 기록 전송 방식</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-core-tracing-transport-overview.png" aria-label="core-service 추적 기록 전송 방식 — 크게 보기"><img src="./assets/govbiz-core-tracing-transport-overview.png" alt="core-service 추적 기록 전송 방식" width="2600" height="1130" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-core-tracing-transport-overview.png" aria-label="core-service 추적 기록 전송 방식 — 크게 보기"><img src="./assets/govbiz-core-tracing-transport-overview.png" alt="core-service 추적 기록 전송 방식" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>추적 생성:</b> core-service가 지원사업 검색·공고 원문 답변·AI 도우미의 계측된 실행 단계와 시간·성공 여부를 기록합니다.</li>
 <li><b>전송:</b> 연동이 활성화되면 OpenTelemetry가 기록을 모아 Langfuse의 <code>POST /api/public/otel/v1/traces</code>로 비동기 전송합니다. Langfuse 프로젝트 키로 인증합니다.</li>
@@ -515,9 +252,8 @@
 </ul>
 </li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>ai-service 추적 기록 전송 방식</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ai-tracing-parent-context.png" aria-label="ai-service 추적 기록 전송 방식 — 크게 보기"><img src="./assets/govbiz-ai-tracing-parent-context.png" alt="ai-service 추적 기록 전송 방식" width="2600" height="1430" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ai-tracing-parent-context.png" aria-label="ai-service 추적 기록 전송 방식 — 크게 보기"><img src="./assets/govbiz-ai-tracing-parent-context.png" alt="ai-service 추적 기록 전송 방식" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>추적 생성:</b> AI 서비스가 검색·공고 근거 답변·도우미 등 계측된 기능의 실행 단계와 시간·상태를 기록합니다. 모델 이름과 사용량이 제공된 경우 토큰 수도 기록할 수 있습니다.</li>
 <li><b>전송:</b> 연동이 활성화되면 Langfuse Python SDK가 추적 기록을 모아 비동기로 전송합니다. 기본 경로는 <code>POST /api/public/otel/v1/traces</code>이며, 설정에 따라 경로를 변경할 수 있습니다.</li>
@@ -532,106 +268,100 @@
 </ul>
 </li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>— 운영 — O3 운영 표본 품질 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/original-o3.png" aria-label="— 운영 — O3 운영 표본 품질 구조도 — 크게 보기"><img src="./assets/original-o3.png" alt="— 운영 — O3 운영 표본 품질 구조도" width="2400" height="890" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/original-o3.png" aria-label="— 운영 — O3 운영 표본 품질 구조도 — 크게 보기"><img src="./assets/original-o3.png" alt="— 운영 — O3 운영 표본 품질 구조도" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>O3 운영 표본 품질 :</b> 설정에 따라 저장된 공고 답변·검색 등 운영 표본을 관리자가 검토하고 이력을 남깁니다. 저장된 표본의 검토 결과이며 서비스 전체의 정확도는 아닙니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>O3 운영 표본 품질 흐름도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-production-quality-simplified-ops-concise.png" aria-label="O3 운영 표본 품질 흐름도 — 크게 보기"><img src="./assets/govbiz-production-quality-simplified-ops-concise.png" alt="O3 운영 표본 품질 흐름도" width="1576" height="1726" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-production-quality-simplified-ops-concise.png" aria-label="O3 운영 표본 품질 흐름도 — 크게 보기"><img src="./assets/govbiz-production-quality-simplified-ops-concise.png" alt="O3 운영 표본 품질 흐름도" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>표본 수집:</b> core-service는 설정된 조건에 맞는 성공 사례 일부를 선별해 ops-service에 비동기로 전달합니다. 이후 Ops MySQL에 표본을 저장합니다.</li>
 <li><b>사람 검토:</b> 관리자가 질문·근거·결과를 확인하고 검토 결과와 사유를 저장합니다.</li>
 <li><b>회귀 후보:</b> 요건을 갖춘 상세 공고 답변은 회귀 후보로 내보낼 수 있으며, 평가 자료에 넣으려면 별도 검토와 등록이 필요합니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>— 테스트 — T1 평가 자료 관리 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz_eval_ui_corrected.png" aria-label="— 테스트 — T1 평가 자료 관리 구조도 — 크게 보기"><img src="./assets/govbiz_eval_ui_corrected.png" alt="— 테스트 — T1 평가 자료 관리 구조도" width="2400" height="1250" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz_eval_ui_corrected.png" aria-label="— 테스트 — T1 평가 자료 관리 구조도 — 크게 보기"><img src="./assets/govbiz_eval_ui_corrected.png" alt="— 테스트 — T1 평가 자료 관리 구조도" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>자료 작성과 저장:</b> 관리자가 공고 내용과 질문을 입력하고, 답변 가능 여부와 AI 답변의 출처를 설정한 뒤 비교용 답변을 작성합니다. 필요한 경우 사람이 확인할 내용과 잘못된 답변 예시도 추가할 수 있습니다. ops-service는 자료를 검증해 초안과 게시 버전을 Ops MySQL에 저장합니다.</li>
 <li><b>관리자 인증:</b> ops-service는 core-service에 요청해 현재 관리자 세션과 권한을 확인합니다.</li>
 <li><b>기존 공고 검색:</b> 관리자는 core-service에서 공고를 검색해 제목과 제공된 요약·지원 대상을 가져올 수 있습니다. 필요한 원문 근거는 직접 확인하고 보완합니다.</li>
 <li><b>평가 자료 활용:</b> 기본 제공 자료 또는 직접 만든 자료의 게시 버전을 새 평가에서 선택할 수 있습니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>T1</b> <b>평가 자료 관리 흐름도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz_eval_sequence_ui_corrected.png" aria-label="T1 평가 자료 관리 흐름도 — 크게 보기"><img src="./assets/govbiz_eval_sequence_ui_corrected.png" alt="T1 평가 자료 관리 흐름도" width="1800" height="1590" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz_eval_sequence_ui_corrected.png" aria-label="T1 평가 자료 관리 흐름도 — 크게 보기"><img src="./assets/govbiz_eval_sequence_ui_corrected.png" alt="T1 평가 자료 관리 흐름도" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>01 초안 작성과 저장:</b> 관리자는 자료 이름을 입력해 초안을 임시 저장할 수 있습니다. 공고 내용·질문·답변 가능 여부·출처·비교용 답변을 작성하며, 사람이 확인할 내용과 잘못된 답변 예시는 선택해 추가합니다. ops-service는 core-service에서 관리자 권한을 확인하고 입력 형식을 검증한 뒤 초안을 Ops MySQL에 저장합니다.</li>
 <li><b>02 평가 자료 버전 게시:</b> 관리자가 저장된 초안의 게시를 요청하면 ops-service가 관리자 권한과 게시 요건을 확인합니다. 검증을 통과한 자료는 별도 버전으로 저장하며, 이전 게시 버전과 평가 이력은 유지됩니다.</li>
 <li><b>03 새 평가에서 자료 선택:</b> 관리자가 새 평가 화면을 열면 ops-service가 기본 제공 자료와 보관되지 않은 자료의 최신 게시 버전을 목록으로 제공합니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>— 테스트 —  T2 예산 관리 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-budget-t1-title.svg" aria-label="— 테스트 —  T2 예산 관리 구조도 — 크게 보기"><img src="./assets/govbiz-budget-t1-title.svg" alt="— 테스트 —  T2 예산 관리 구조도" width="1800" height="515" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-budget-t1-title.svg" aria-label="— 테스트 —  T2 예산 관리 구조도 — 크게 보기"><img src="./assets/govbiz-budget-t1-title.svg" alt="— 테스트 —  T2 예산 관리 구조도" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>전체 사용 한도:</b> 관리자가 AI 요청 횟수와 입력·출력 토큰의 누적 한도를 설정합니다. 날짜가 바뀌어도 유지되며, 확인된 사용량과 아직 정리되지 않은 예약을 함께 고려해 남은 한도를 보여줍니다.</li>
 <li><b>하루 평가 한도:</b> 필요할 때 서울 시간 자정을 기준으로 하루 한도를 별도로 설정할 수 있습니다. 하루 한도를 적용해도 전체 한도는 함께 확인합니다.</li>
 <li><b>평가 필요량 확인:</b> 평가 자료·모델·횟수를 선택하면 실행에 필요한 최대 요청 횟수와 토큰 양을 계산합니다. 계산한 값을 한도 입력에 활용하거나 직접 입력할 수 있으며, 이 단계에서 평가나 모델 호출이 실행되지는 않습니다.</li>
 <li><b>사용·예약 내역:</b> ops-service가 Ops MySQL의 장부를 조회해 사용·예약 합계, 평가별 예약 상태와 한도 변경 이력을 보여줍니다. 표시되는 한도와 사용량은 실제 청구 금액이 아닙니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>T2 예산 관리 흐름도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-budget-flow-t1-matched.svg" aria-label="T2 예산 관리 흐름도 — 크게 보기"><img src="./assets/govbiz-budget-flow-t1-matched.svg" alt="T2 예산 관리 흐름도" width="1800" height="1585" loading="lazy" decoding="async"></a></figure>
-<p><br />• <b>01 예산 관리 화면 열기:</b> Ops MySQL에서 전체·하루 한도와 사용·예약 내역을 조회해 표시합니다.<br />• <b>02 전체 사용 한도 설정:</b> 관리자는 평가 자료와 모델의 최대 필요량을 참고하거나 직접 호출 수와 입력·출력 토큰 한도를 입력합니다. ops-service가 기존 할당량과 변경 충돌을 확인한 뒤 한도와 변경 이력을 저장합니다.<br />• <b>03 하루 한도 설정과 내역 확인:</b> 관리자는 필요할 때 하루 한도를 설정하거나 변경하고, 평가별 사용·예약 내역과 한도 변경 이력을 확인합니다. ops-service는 입력값과 현재 예약을 확인해 저장하고 결과를 화면에 반환합니다.</p>
-<div class="notion-empty" aria-hidden="true"></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-budget-flow-t1-matched.svg" aria-label="T2 예산 관리 흐름도 — 크게 보기"><img src="./assets/govbiz-budget-flow-t1-matched.svg" alt="T2 예산 관리 흐름도" loading="lazy" decoding="async"></a></figure>
+<p><br />• <b>01 예산 관리 화면 열기:</b> Ops MySQL에서 전체·하루 한도와 사용·예약 내역을 조회해 표시합니다.<br />• <b>02 전체 사용 한도 설정:</b> 관리자는 평가 자료와 모델의 최대 필요량을 참고하거나 직접 호출 수와 입력·출력 토큰 한도를 입력합니다. ops-service가 기존 할당량과 변경 충돌을 확인한 뒤 한도와 변경 이력을 저장합니다.<br />• <b>03 하루 한도 설정과 내역 확인:</b> 관리자는 하루 한도를 설정하거나 변경하고, 평가별 사용·예약 내역과 한도 변경 이력을 확인합니다. ops-service는 입력값과 현재 예약을 확인해 저장하고 결과를 화면에 반환합니다.</p>
 <div class="diagram-heading"><b>— 테스트 — T3 새 평가 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-new-evaluation-title.svg" aria-label="— 테스트 — T3 새 평가 구조도 — 크게 보기"><img src="./assets/govbiz-new-evaluation-title.svg" alt="— 테스트 — T3 새 평가 구조도" width="1800" height="990" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-t3-prev2-short-lines.png" aria-label="— 테스트 — T3 새 평가 구조도 — 크게 보기"><img src="./assets/govbiz-t3-prev2-short-lines.png" alt="— 테스트 — T3 새 평가 구조도" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>평가 준비와 접수:</b> 관리자는 평가 자료와 답변 확인 방법, 비교 기준을 선택합니다. 새 응답을 생성할 때는 모델과 실행 설정을 확인하고 자료 전송 및 최대 호출 예산에 동의한 뒤 평가를 접수합니다.</li>
-<li><b>예산 확인과 예약:</b> 새 응답 생성 요청을 받은 ops-service는 전체·하루 한도와 사용·예약 내역을 확인하고, 필요한 호출 수와 토큰을 예약합니다. 저장된 답변을 다시 확인하는 평가는 새 모델 호출과 예산 예약 없이 실행합니다.</li>
-<li><b>호출 승인과 정산:</b> 평가 실행기는 새 응답을 생성할 때 모델 호출 전에 ops-service에 승인을 요청하고, 호출 후 확인된 사용량을 정산합니다. 한도·예약·호출별 사용량은 Ops MySQL에서 관리합니다.</li>
+<li><b>평가 준비와 접수:</b> 관리자는 평가 자료를 선택하고, 저장된 답변을 다시 확인할지 새 응답을 생성할지 확인합니다. 이후 비교할 답변을 선택하며, 새 응답을 생성할 때는 모델과 전송 자료·최대 호출 예산을 확인하고 동의한 뒤 평가를 실행합니다.</li>
+<li><b>예산 확인과 예약:</b> 새 응답 생성 요청을 받은 ops-service는 전체 한도와 설정된 하루 한도, 사용·예약 내역을 확인해 필요한 호출 수와 토큰을 예약합니다. 예약이 성공해야 Prefect에 실행을 요청하며, 실패하면 평가 접수를 중단합니다. 저장된 답변을 다시 확인하는 평가는 새 모델 호출과 예산 예약 없이 실행합니다.</li>
+<li><b>호출 승인과 정산:</b> 새 응답을 생성할 때 평가 실행기는 모델 호출마다 ops-service에 승인을 요청합니다. ops-service는 예약 조건과 모델·호출 순서·취소 여부 등을 확인해 승인하거나 거절합니다. 승인이 거절되거나 확인되지 않으면 해당 모델 호출을 막고 평가를 중단합니다. 호출 후 확인된 사용량은 정산합니다.</li>
 <li><b>평가 실행과 결과 저장:</b> ops-service가 Prefect에 실행을 요청하면 평가 실행기가 선택한 방식으로 답변을 평가하고 지표와 보고서를 생성합니다. 결과 파일은 결과 저장소에 보관하고 실행 상태와 결과 요약은 동기화하여 확인할 수 있습니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>T3 새 평가 흐름도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-new-evaluation-flow.svg" aria-label="T3 새 평가 흐름도 — 크게 보기"><img src="./assets/govbiz-new-evaluation-flow.svg" alt="T3 새 평가 흐름도" width="1800" height="1845" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-new-evaluation-flow.svg" aria-label="T3 새 평가 흐름도 — 크게 보기"><img src="./assets/govbiz-new-evaluation-flow.svg" alt="T3 새 평가 흐름도" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>01 평가 자료와 실행 방법 선택:</b> 관리자 화면이 평가 자료 목록을 요청하면 ops-service가 관리자 권한을 확인하고 선택할 수 있는 자료를 제공합니다. 관리자는 평가 자료, 답변 확인 방법과 비교 기준을 선택합니다.</li>
 <li><b>02 평가 접수와 예산 예약:</b> 관리자가 선택한 조건으로 평가를 요청하면 ops-service가 요청을 검증하고 실행 기록을 저장한 뒤 Prefect에 실행을 요청합니다. 새 응답 생성인 경우 전체·하루 예산 한도를 확인하고 필요한 호출 수와 토큰을 예약합니다.</li>
 <li><b>03 평가 실행과 결과 저장:</b> 평가 실행기가 선택한 방식으로 평가하고 결과와 보고서를 저장합니다. 새 응답을 생성할 때는 모델 호출 전 승인을 요청하고, 호출 후 확인된 사용량을 정산합니다. ops-service는 완료된 결과를 확인해 실행 상태와 결과 요약을 저장합니다. 저장된 답변을 다시 확인하는 경우 모델 호출과 예산 예약은 발생하지 않습니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>— 테스트 —  T4 평가 이력 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-history-architecture.png" aria-label="— 테스트 —  T4 평가 이력 구조도 — 크게 보기"><img src="./assets/govbiz-eval-history-architecture.png" alt="— 테스트 —  T4 평가 이력 구조도" width="2400" height="1260" loading="lazy" decoding="async"></a></figure>
-<div class="notion-empty" aria-hidden="true"></div>
-<div class="diagram-heading"><b>T4 평가 이력 흐름도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-history-sequence.png" aria-label="T4 평가 이력 흐름도 — 크게 보기"><img src="./assets/govbiz-eval-history-sequence.png" alt="T4 평가 이력 흐름도" width="2400" height="2175" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-t4-history-style-matched.png" aria-label="— 테스트 —  T4 평가 이력 구조도 — 크게 보기"><img src="./assets/govbiz-t4-history-style-matched.png" alt="— 테스트 —  T4 평가 이력 구조도" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>평가 이력 :</b> Prefect 실행 상태와 평가 결과를 확인하고, 사람의 검토·품질 판정·비교 기준 지정 이력을 관리합니다.</li>
+<li><b>평가 이력 조회:</b> 관리자 화면에서 평가 목록이나 상세 결과를 요청하면 ops-service가 관리자 권한을 확인하고, Ops MySQL에 저장된 실행 상태와 평가 요약을 조회합니다.</li>
+<li><b>실행 상태 동기화:</b> ops-sync가 화면과 별도로 Prefect의 실행 상태를 주기적으로 확인하고, 확인된 상태와 결과 요약을 Ops MySQL에 반영합니다. 상세 조회 시에도 ops-service가 필요에 따라 상태를 확인합니다.</li>
+<li><b>결과 파일 확인:</b> ops-service와 ops-sync는 설정에 따라 ops-artifacts를 거치거나 결과 저장소에서 파일을 직접 읽습니다. 결과 파일을 검증한 뒤 완료 상태와 요약을 반영합니다. 관리자가 보고서나 검토 자료를 요청하면 ops-service가 이를 제공합니다.</li>
+<li><b>검토와 비교 기준 관리:</b> 관리자는 평가 결과와 근거를 검토하고 품질 판정을 요청할 수 있습니다. 검토와 판정 이력은 Ops MySQL에 저장되며, 조건을 충족한 결과를 비교 기준으로 지정하거나 해제할 수 있습니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
+<div class="diagram-heading"><b>T4 평가 이력 흐름도</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-t4-flow-t3-style.png" aria-label="T4 평가 이력 흐름도 — 크게 보기"><img src="./assets/govbiz-t4-flow-t3-style.png" alt="T4 평가 이력 흐름도" loading="lazy" decoding="async"></a></figure>
+<ul>
+<li><b>01 평가 이력 조회:</b> 관리자 화면이 목록을 요청하면 ops-service가 Ops MySQL에 저장된 실행 기록과 마지막으로 확인된 상태를 반환합니다.</li>
+<li><b>02 상세 상태와 결과 확인:</b> 실행을 선택하면 ops-service가 저장된 기록을 읽고, 필요 시 Prefect 상태와 결과 파일을 확인합니다. 결과를 검증한 뒤 필요한 상태와 요약을 DB에 반영합니다. ops-sync도 화면과 별도로 상태를 확인합니다.</li>
+<li><b>03 검토와 품질 판정:</b> 관리자가 결과를 확인하고 사람 검토를 저장하거나 품질 판정을 요청하면, ops-service가 각각의 결과와 이력을 DB에 저장합니다.</li>
+<li><b>04 비교 기준 관리:</b> 관리자가 기준 지정 또는 해제를 요청하면 ops-service가 필요한 조건을 확인하고 기준과 변경 이력을 저장한 뒤 결과를 반환합니다.</li>
+</ul>
 <div class="diagram-heading"><b>— 테스트 —  T5 성능 대시보드 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-dashboard-structure-split.png" aria-label="— 테스트 —  T5 성능 대시보드 구조도 — 크게 보기"><img src="./assets/govbiz-eval-dashboard-structure-split.png" alt="— 테스트 —  T5 성능 대시보드 구조도" width="4800" height="2080" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-dashboard-structure-split.png" aria-label="— 테스트 —  T5 성능 대시보드 구조도 — 크게 보기"><img src="./assets/govbiz-eval-dashboard-structure-split.png" alt="— 테스트 —  T5 성능 대시보드 구조도" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>T5 성능 대시보드 → Ops MySQL:</b> 모델·평가 자료·기간을 선택하면 ops-service가 DB에 저장된 평가 요약을 읽어 답변 상태 일치율, 근거 인용 재현율, 지연 시간 등을 보여줍니다. 데이터가 없는 지표는 ‘미측정’으로 표시될 수 있으며, 조회만으로 새 평가를 실행하지 않습니다.</li>
 <li><b>ops-service → 결과 저장소:</b> 대시보드의 최근 실측 평가에서 ‘사람 검토’, ‘품질 판정’, ‘활성 비교 기준’을 보여줄 때, ops-service가 결과·근거 파일과 DB의 검토 이력을 함께 확인합니다. 파일은 설정에 따라 ops-artifacts를 거치거나 직접 읽습니다.</li>
 </ul>
 <p><b>예시:</b> ‘평가 자료 관리’에서 ‘제출 서류가 무엇인가요?’라는 질문과 공고 근거를 저장합니다. 해당 자료의 실측 결과가 이미 있다면 ‘성능 대시보드’에서 지표와 검토 상태를 확인할 수 있습니다. 지표는 평가 자료 범위의 결과이며 서비스 전체의 정확도를 뜻하지 않습니다.</p>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>T5</b> <b>성능 대시보드 흐름도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-dashboard-sequence-current.png" aria-label="T5 성능 대시보드 흐름도 — 크게 보기"><img src="./assets/govbiz-eval-dashboard-sequence-current.png" alt="T5 성능 대시보드 흐름도" width="2400" height="1480" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eval-dashboard-sequence-current.png" aria-label="T5 성능 대시보드 흐름도 — 크게 보기"><img src="./assets/govbiz-eval-dashboard-sequence-current.png" alt="T5 성능 대시보드 흐름도" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>결과 조회:</b> 관리자 화면이 대시보드를 요청하면 Ops가 DB에 저장된 평가 실행과 요약을 조회합니다.</li>
 <li><b>비교 대상 선별:</b> 비교 조건을 충족하는 완료된 실측 평가와 직접 복구 결과를 모아 지표·추이를 표시합니다. 저장 응답 재평가는 제외합니다.</li>
 <li><b>조회와 검토:</b> 대시보드는 품질 판정 전에도 조회할 수 있으며, 조회만으로 새 평가나 모델 호출은 발생하지 않습니다. 검토 상태 카드는 별도 요청으로 확인합니다.</li>
 <li><b>평가 자료 관리 :</b> 평가에 사용할 질문과 근거, 기대 조건을 등록하고 버전별로 관리합니다. 자료 등록만으로 모델이 호출되지는 않습니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>— 테스트 — T6 평가와 실행</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-execution-result-box-aligned.png" aria-label="— 테스트 — T6 평가와 실행 — 크게 보기"><img src="./assets/govbiz-test-execution-result-box-aligned.png" alt="— 테스트 — T6 평가와 실행" width="2400" height="1370" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-execution-result-box-aligned.png" aria-label="— 테스트 — T6 평가와 실행 — 크게 보기"><img src="./assets/govbiz-test-execution-result-box-aligned.png" alt="— 테스트 — T6 평가와 실행" loading="lazy" decoding="async"></a></figure>
 <p><b>테스트 — 평가 실행과 결과 비교</b></p>
 <ul>
 <li><b>새 평가 :</b> Ops가 권한·자료·승인·예산을 확인하고 Prefect에 실행을 접수합니다. 평가 실행기는 pandas·Pandera로 데이터를 처리하고 지표와 Evidently 보고서를 만들며, 설정된 경우 Langfuse에 점수를 등록합니다.</li>
 <li><b>정기 실행 :</b> Ops가 평가 일정과 실행 조건을 관리합니다. 활성화된 일정이 도래하면 실행 조건과 예산을 확인해 Prefect에 평가를 접수합니다.</li>
 </ul>
 <p><b>평가 방식:</b> 저장된 응답의 재평가는 새 모델 호출 없이 실행할 수 있습니다. 새 답변을 생성하는 평가는 별도의 승인과 예산이 필요합니다.</p>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-14"><b>모델을 바꾼 효과를 같은 조건에서 비교</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-llmops-roles-flow-small-arrows.png" aria-label="모델을 바꾼 효과를 같은 조건에서 비교 — 크게 보기"><img src="./assets/govbiz-llmops-roles-flow-small-arrows.png" alt="모델을 바꾼 효과를 같은 조건에서 비교" width="2700" height="1958" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-llmops-roles-flow-small-arrows.png" aria-label="모델을 바꾼 효과를 같은 조건에서 비교 — 크게 보기"><img src="./assets/govbiz-llmops-roles-flow-small-arrows.png" alt="모델을 바꾼 효과를 같은 조건에서 비교" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>운영 관리:</b> React는 운영 화면을 제공하고, Django Ops는 정책·권한·이력을 관리합니다.</li>
 <li><b>평가 실행:</b> Prefect가 별도 평가 실행을 관리합니다.</li>
@@ -639,9 +369,8 @@
 <li><b>실행 추적:</b> Langfuse로 실행 중의 호출 기록을 수집·추적합니다.</li>
 <li><b>평가 결과:</b> Evidently로 결과를 비교하며, 보고서와 Langfuse 점수 등록은 별도로 처리합니다.</li>
 </ul>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>평가 실행 절차와 결과 해석</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-evaluation-overview.png" aria-label="평가 실행 절차와 결과 해석 — 크게 보기"><img src="./assets/govbiz-test-evaluation-overview.png" alt="평가 실행 절차와 결과 해석" width="3200" height="2060" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-evaluation-overview.png" aria-label="평가 실행 절차와 결과 해석 — 크게 보기"><img src="./assets/govbiz-test-evaluation-overview.png" alt="평가 실행 절차와 결과 해석" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>테스트 실행:</b> 자료·대상·예산 준비 → 실행 접수 → 근거·답변 검토 → 품질 판정 → 합격 후 비교 기준 지정</li>
 <li><b>성능 대시보드:</b> 평가 자료 범위의 결과를 보여줍니다.</li>
@@ -650,52 +379,55 @@
 <li><b>회귀 후보:</b> 검토 요건을 갖춘 상세 공고 답변을 후보로 내보낼 수 있으며, 평가 자료 편입은 별도 검토가 필요합니다.</li>
 </ul>
 <p><b>구현 기준:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/frontend/web/src/presentation/features/ops/OpsApp.tsx#L102">운영·테스트 메뉴 정의</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#94-%EC%9A%B4%EC%98%81-%ED%99%94%EB%A9%B4%EC%97%90%EC%84%9C-%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-%EC%9D%BC">운영 화면 기능·측정 범위</a></p>
-<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-15"><b>4.1. 목적에 맞는 세 가지 평가 경로</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-06.png" aria-label="4.1. 목적에 맞는 세 가지 평가 경로 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-06.png" alt="4.1. 목적에 맞는 세 가지 평가 경로" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-06.png" aria-label="4.1. 목적에 맞는 세 가지 평가 경로 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-06.png" alt="4.1. 목적에 맞는 세 가지 평가 경로" loading="lazy" decoding="async"></a></figure>
 <p><b>저장 응답 재평가</b>는 당시 응답을 다시 분석합니다. <b>고정 근거 답변</b>은 같은 근거에서 새 답변을, <b>고정 원문 RAG</b>는 평가 자료 전용 검색과 새 답변을 비교합니다. 운영 원문 재수집·재청킹·운영 검색 색인 전체의 성능 측정과는 구분합니다.</p>
-<div class="diagram-heading" id="section-16"><b>4.2. 자동 지표 이후에도 사람의 검토가 필요</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-07.png" aria-label="4.2. 자동 지표 이후에도 사람의 검토가 필요 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-07.png" alt="4.2. 자동 지표 이후에도 사람의 검토가 필요" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
-<p><b>자료·사례 검토 → 실행 검토 승인 → 품질 판정 → 비교 기준 지정</b>을 이력으로 보존합니다. 예산은 호출 수·입출력 토큰으로 예약하고, 취소 후 사용량 미확정을 0으로 정산하지 않습니다.</p>
-<div class="diagram-heading" id="section-17"><b>4.3. 실제 운영 화면: 실행 추적과 평가 보고서</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-08.png" aria-label="4.3. 실제 운영 화면: 실행 추적과 평가 보고서 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-08.png" alt="4.3. 실제 운영 화면: 실행 추적과 평가 보고서" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
-<p>화면은 2026-10-15 운영 기록입니다. <b>운영 관측은 수집된 호출·trace·표본의 기록</b>, <b>성능 대시보드는 고정 자료의 평가 결과</b>이며 실서비스 전체 정확도를 나타내지 않습니다. 기존 관리자 로그인 연동은 React Ops 화면에 적용되며 Langfuse·Prefect 자체 UI의 인증은 별도입니다.</p>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/backend/ops-service/README.md">Ops 운영 API</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/evaluation/support-program-evidence/ops_flow.py">평가 실행 흐름</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/evaluation/support-program-evidence/llmops.py">분석·보고서·점수 등록</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/assets/demos/llmops/2026-10-15/README.md">운영 화면 원본</a></p>
 <hr>
-<h2 id="section-18">5. AWS EKS·Helm·Argo CD 기반 GitOps</h2>
-<h3 id="section-19">5.1. 사용자 요청과 배포 제어의 경로를 분리</h3>
-<p><b>React 웹은 Vercel, 백엔드·저장소·평가·관측 서비스는 EKS</b>에 배치했습니다. 사용자 API 요청은 CloudFront·내부 ALB·Nginx를 거쳐 Core·Ops로 전달됩니다.</p>
-<h3 id="section-20">5.2. 검증에서 배포까지 이어지는 GitOps 흐름</h3>
-<p>개인 저장소 <b>main의 같은 최신 SHA에 대한 필수 CI</b>를 확인한 뒤 CodeBuild에서 이미지를 만들고, ECR digest와 Helm 배포 YAML·불변 Git 태그를 연결합니다.</p>
-<h3 id="section-21">5.3. Argo CD가 반영하고, 성공 확인 후 웹을 전환</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-11.png" aria-label="Argo CD가 반영하고, 성공 확인 후 웹을 전환 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-11.png" alt="Argo CD가 반영하고, 성공 확인 후 웹을 전환" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
-<p>CodeBuild는 클러스터 상태를 조회·검증하고 Argo CD가 Kubernetes 리소스를 동기화합니다. 지정한 리비전·배포 hook·실제 이미지·준비 상태를 확인한 후 같은 소스의 웹을 전환합니다.</p>
-<h3 id="section-22">5.4. 실제 Kubernetes 서비스·Pod 배치</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-12.png" aria-label="실제 Kubernetes 서비스·Pod 배치 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-12.png" alt="실제 Kubernetes 서비스·Pod 배치" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
-<p>같은 서비스의 Pod를 노드에 분산하고, 영속 데이터는 PVC·EBS gp3로 보존합니다. <b>단일 AZ 구성</b>이며 다중 AZ 고가용성과는 구분합니다. 문서에 남은 배포 성공 기록과 현재 클러스터 상태도 별개의 근거입니다.</p>
+<h2 id="section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</h2>
+<span id="section-21"></span><h3 id="section-20">5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름</h3>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-cicd-hooks.svg" aria-label="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름 — 크게 보기"><img src="./assets/govbiz-cicd-hooks.svg" alt="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름" loading="lazy" decoding="async"></a></figure>
+<p>서비스 코드를 검증한 뒤, 실행 이미지와 배포 설정을 각각 저장하고 Argo CD가 Git의 설정을 EKS에 반영하도록 구성했습니다. 그림의 주황색 화살표는 배포 진행 순서, 파란색 화살표는 ECR 이미지와 digest의 전달 경로를 나타냅니다.</p>
+<p><b>CI — 코드 검증</b></p>
+<ol>
+<li><b>GitHub Actions:</b> 개인 저장소 main의 같은 최신 커밋에 대해 변경 범위에 필요한 필수 CI가 통과했는지 확인합니다. 검증이 실패하거나 누락되면 배포를 진행하지 않습니다.</li>
+</ol>
+<p><b>CD — 이미지 생성부터 서비스 반영까지</b></p>
+<ol>
+<li><b>이미지 빌드·저장:</b> CodeBuild가 검증된 커밋으로 Core·Catalog·AI·Ops·평가 실행기 이미지 5개를 빌드해 ECR에 저장합니다. 각 이미지의 digest는 실행할 이미지의 내용을 정확히 지정하는 데 사용합니다.</li>
+<li><b>배포 YAML 생성:</b> CodeBuild에서 Helm Chart와 EKS 설정, 이미지 digest를 조합해 Kubernetes 배포 YAML을 생성합니다.</li>
+<li><b>Git 배포 태그 발행:</b> 배포 스크립트가 생성한 YAML을 별도 커밋의 <code>release/</code>에 저장하고, 그 커밋을 가리키는 불변 배포 태그를 발행합니다.</li>
+<li><b>Argo CD 동기화:</b> Argo CD가 Git 태그를 주기적으로 확인해 규칙에 맞는 가장 높은 버전을 선택하고, 해당 커밋의 배포 YAML을 EKS에 반영합니다.</li>
+<li><b>EKS 서비스 갱신:</b> 배포 전 PreSync에서 평가 접수를 중지하고 진행 중인 작업을 확인한 뒤 필요한 DB 마이그레이션을 수행합니다. 이후 EKS 노드가 YAML에 지정된 이미지를 ECR에서 가져와 애플리케이션을 갱신합니다. 배포 대상에는 Core·Catalog·AI·Ops, 평가 실행기와 보고서 서비스가 포함되며, 보고서 서비스는 Ops 이미지를 함께 사용합니다.</li>
+<li><b>배포 확인과 웹 전환:</b> PostSync에서 평가 관련 연결을 확인하고 배포 과정에서 변경한 접수 상태를 복구합니다. 지정한 리비전, 배포 hook, 실제 이미지와 앱 준비 상태도 확인한 뒤 같은 커밋의 웹을 Vercel 운영 주소로 전환합니다. 확인에 실패하면 웹 전환을 진행하지 않습니다.</li>
+</ol>
+<p>DB·큐·검색 엔진·PVC·네트워크·Langfuse는 이 과정에서 자동 교체하지 않고 별도로 관리합니다.</p>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/assets/architecture/govbiz-aws-eks-architecture.png">운영 전체 구성도 원본</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/continuous-deployment.md">자동 배포 계약·적용 기록</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/.github/workflows/eks-release.yml">배포 워크플로</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/gitops.py">리비전·hook·이미지 검증</a></p>
+<h3 id="section-22">5.2. 실제 Kubernetes 서비스·Pod 배치</h3>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-12.png" aria-label="5.2. 실제 Kubernetes 서비스·Pod 배치 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-12.png" alt="5.2. 실제 Kubernetes 서비스·Pod 배치" loading="lazy" decoding="async"></a></figure>
+<p>같은 서비스의 Pod를 노드에 분산하고, 영속 데이터는 PVC·EBS gp3로 보존합니다. <b>단일 AZ 구성</b>이며 다중 AZ 고가용성과는 구분합니다. 문서에 남은 배포 성공 기록과 현재 클러스터 상태도 별개의 근거입니다.</p>
 <hr>
-<h2 id="section-23">6. Core·Catalog·AI·Ops 마이크로서비스</h2>
+<h2 id="section-23">6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</h2>
 <h3 id="section-24">6.1. 업무 책임과 데이터 소유권을 함께 분리</h3>
 <p><b>Core는 사용자 업무, Catalog는 공고 수집·원본, AI는 모델·검색 실행, Ops는 평가 운영</b>을 소유합니다. Core·Catalog·Ops는 각각의 MySQL을 사용하며, Core는 Catalog DB를 직접 읽지 않습니다.</p>
 <h3 id="section-25">6.2. 준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-14.png" aria-label="준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-14.png" alt="준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-14.png" aria-label="6.2. 준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-14.png" alt="6.2. 준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존" loading="lazy" decoding="async"></a></figure>
 <p>Catalog는 전체 수집과 검색 준비를 마친 snapshot을 게시합니다. Core는 HTTP 수신과 계약 검증을 끝낸 뒤, <b>짧은 transaction으로 조회용 복제본과 checkpoint를 반영</b>합니다. 제공처 API 오류·페이지 누락·계약 불일치가 있으면 기존 공고를 유지합니다.</p>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/catalog-service-extraction.md">서비스 분리 설계</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/backend/core-service/src/main/kotlin/ai/govbiz/core/supportprogram/service/projection/CatalogProjectionService.kt">Core 반영 흐름</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md">현재 서비스 구성</a></p>
 <hr>
-<h2 id="section-26">7. React 웹·React Native 앱의 공통 업무 계층</h2>
+<h2 id="section-26">7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</h2>
 <h3 id="section-27">7.1. 업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리</h3>
 <p>공통 패키지에 <b>도메인·유스케이스·API 클라이언트·Zod 응답 검증</b>을 두고, 화면·세션 저장·인증 전송은 각 플랫폼이 담당하도록 설계했습니다.</p>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-15.png" aria-label="업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-15.png" alt="업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-15.png" aria-label="7.1. 업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-15.png" alt="7.1. 업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리" loading="lazy" decoding="async"></a></figure>
 <p>웹은 쿠키 세션과 <code>coreFetch</code>, 앱은 Bearer 인증과 앱용 <code>fetch</code>를 공통 클라이언트에 주입합니다. 공통 패키지는 React에 의존하지 않으며 별도 서버도 아닙니다.</p>
 <h3 id="section-28">7.2. 실제 화면: 같은 근거 답변 기능을 웹과 앱에서 제공</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-16.png" aria-label="실제 화면: 같은 근거 답변 기능을 웹과 앱에서 제공 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-16.png" alt="실제 화면: 같은 근거 답변 기능을 웹과 앱에서 제공" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-16.png" aria-label="7.2. 실제 화면: 같은 근거 답변 기능을 웹과 앱에서 제공 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-16.png" alt="7.2. 실제 화면: 같은 근거 답변 기능을 웹과 앱에서 제공" loading="lazy" decoding="async"></a></figure>
 <p>근거 답변의 구조·상태·공식 인용 URL을 공통 경계에서 검사합니다. GovAgent 응답에서는 사용자가 선택한 공고 ID도 대조합니다. <b>모든 API와 UI가 공유된 것은 아니며</b>, 기기·스토어 배포 검증은 공통 코드·JS 번들 검증과 구분합니다.</p>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/mobile-monorepo.md">공유 구조</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/frontend/packages/shared/src/data/api/supportProgramClient.ts">공통 API 클라이언트</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/frontend/packages/shared/src/data/models/SupportProgramEvidenceAnswerDto.ts">근거 답변 검증</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/frontend/packages/shared/src/data/models/GovAgentDto.ts">GovAgent 응답 검증</a></p>
 <hr>
 <h2 id="section-30">8. 기술 보고서 PDF</h2>
 <p>표지·목차와 사용자·관리자 소개, 원본의 구성을 재배치한 <b>상세 아키텍처 7장</b>, 기술별 구현 설명을 담은 <b>24페이지 PDF</b>입니다. 5~11페이지에서 접속·서비스·평가·노드·외부 통신·빌드·배포 구조를 차례로 볼 수 있습니다.</p>
-<p><a class="pdf-link" href="./assets/GovBiz_Report_Notion_24p_AI_Service.pdf" target="_blank" rel="noopener">기술 보고서 PDF 열기 <span>24페이지 ↗</span></a></p><iframe class="report-pdf-preview" src="./assets/GovBiz_Report_Notion_24p_AI_Service.pdf" title="GovBiz 기술 보고서 PDF 미리보기" loading="lazy"></iframe>
+<p><a class="pdf-link" href="./assets/GovBiz_Report_Notion_24p_AI_Service.pdf" target="_blank" rel="noopener">기술 보고서 PDF 열기 <span>↗</span></a></p><iframe class="report-pdf-preview" src="./assets/GovBiz_Report_Notion_24p_AI_Service.pdf" title="GovBiz 기술 보고서 PDF 미리보기" loading="lazy"></iframe>
 
 </article>
 </main>

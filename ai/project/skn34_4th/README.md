@@ -10,4 +10,4 @@
 
 [HTML 보기](https://ilil1.github.io/ilil1/ai/project/skn34_4th/) · [프로젝트 저장소](https://github.com/ilil1/SKN34-4th-1Team)
 
-HTML은 2026-11-08 기준 노션의 본문, 구조도와 설명을 반영합니다. PDF는 별도로 작성된 기술 보고서입니다.
+HTML은 2026-11-11 기준 노션의 본문, 구조도와 설명을 반영합니다. PDF는 별도로 작성된 기술 보고서입니다.
