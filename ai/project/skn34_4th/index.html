@@ -419,7 +419,7 @@
 <h2 id="section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</h2>
 <div class="notion-empty" aria-hidden="true"></div>
 <span id="section-21"></span><div class="diagram-heading" id="section-20"><b>5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-cicd-hooks.svg?v=codebuild" aria-label="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름 — 크게 보기"><img src="./assets/govbiz-cicd-hooks.svg?v=codebuild" alt="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-cicd-ci-clarified.svg" aria-label="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름 — 크게 보기"><img src="./assets/govbiz-cicd-ci-clarified.svg" alt="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름" loading="lazy" decoding="async"></a></figure>
 <ol>
 <li><b>이미지 빌드·저장:</b> CodeBuild가 ECR에서 검증된 커밋의 Core·Catalog·AI·Ops·평가 실행기 이미지 태그를 각각 조회합니다. 없는 이미지만 빌드해 ECR에 푸시한 뒤 digest를 조회합니다. 각 이미지의 저장소 주소와 digest는 CodeBuild의 임시 파일 <code>release.json</code>에 기록합니다.</li>
 <li><b>배포 YAML 생성:</b> 같은 CodeBuild 환경의 배포 스크립트가 <code>release.json</code>을 읽고 이미지 digest를 Helm 설정값에 넣습니다. Helm Chart와 EKS 설정을 조합해 <code>helm template</code>으로 Kubernetes 배포 YAML을 생성합니다.</li>
