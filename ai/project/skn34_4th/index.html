@@ -449,6 +449,10 @@
 <h3 id="section-22">5.2. 실제 Kubernetes 서비스·Pod 배치</h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-12.png" aria-label="5.2. 실제 Kubernetes 서비스·Pod 배치 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-12.png" alt="5.2. 실제 Kubernetes 서비스·Pod 배치" loading="lazy" decoding="async"></a></figure>
 <p>EKS에서 애플리케이션의 실행·연결·확장과 데이터 보관을 다음과 같이 구성했습니다. 아래 수치는 프로젝트의 배포 설정과 기록 기준입니다.</p>
+<div class="notion-empty" aria-hidden="true"></div>
+<div class="diagram-heading"><b>Namespace별 워크로드 구성</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-kubernetes-resources-overview.png" aria-label="Namespace별 워크로드 구성 — 크게 보기"><img src="./assets/govbiz-kubernetes-resources-overview.png" alt="Namespace별 워크로드 구성" loading="lazy" decoding="async"></a></figure>
+<div class="notion-empty" aria-hidden="true"></div>
 <p><b>클러스터와 서비스 배치</b></p>
 <ul>
 <li><b>Namespace와 Node:</b> 업무 서비스는 <code>govbiz-msa</code>, 평가 도구는 <code>govbiz-evaluation</code>, 관측 도구는 <code>govbiz-observability</code>, 배포 도구는 <code>argocd</code>로 논리적으로 구분합니다. Namespace는 관리 공간이고, Node는 실제 Pod가 실행되는 EC2입니다.</li>
@@ -456,6 +460,10 @@
 <li><b>실행과 연결:</b> Deployment가 원하는 앱 버전과 Pod 개수를 관리하고, ReplicaSet이 그 개수를 맞춥니다. 다른 서비스는 고정된 접속 이름을 제공하는 ClusterIP Service를 통해 준비된 Pod로 요청을 보냅니다. Deployment와 ReplicaSet은 요청을 중계하지 않습니다.</li>
 <li><b>API 요청 경로:</b> 웹의 요청은 Vercel → CloudFront → 내부 ALB → EKS의 Nginx Gateway를 거쳐 Core·Ops Service로 전달됩니다. Core는 필요할 때 AI Service를 호출합니다. 모바일이 같은 API 주소를 사용하는 경우 해당 경로에 합류하며, 실기기 운영 검증은 별도입니다.</li>
 </ul>
+<div class="notion-empty" aria-hidden="true"></div>
+<div class="diagram-heading"><b>Pod 실행·요청 전달·데이터 보관</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-kubernetes-resources-flow.png" aria-label="Pod 실행·요청 전달·데이터 보관 — 크게 보기"><img src="./assets/govbiz-kubernetes-resources-flow.png" alt="Pod 실행·요청 전달·데이터 보관" loading="lazy" decoding="async"></a></figure>
+<div class="notion-empty" aria-hidden="true"></div>
 <p><b>자동 확장과 안정적인 교체</b></p>
 <ul>
 <li><b>HPA — Pod 개수 조절:</b> Metrics Server의 지표를 사용해 컨테이너 CPU 요청량 대비 평균 사용률 60%를 기준으로 Core·AI는 각각 2~3개, Gateway는 1~3개로 조절합니다. 부하가 줄면 5분 안정화 구간을 거쳐 축소합니다.</li>
@@ -463,6 +471,10 @@
 <li><b>분산과 배포 방식:</b> Core·AI는 같은 서비스의 Pod가 한 Node에 함께 배치되지 않도록 하며, RollingUpdate로 기존 Pod를 최대 1개씩 교체합니다. Catalog·Ops 등 단일 실행 서비스는 Recreate 방식이므로 교체 중 잠시 접속이 끊길 수 있습니다.</li>
 <li><b>PDB — 자발적 퇴거 보호:</b> Core·AI는 각각 최소 1개가 사용 가능하도록 설정해 노드 축소 같은 자발적 퇴거를 제한합니다. PDB가 갑작스러운 노드 장애를 막거나 DB 고가용성을 보장하는 것은 아닙니다.</li>
 </ul>
+<div class="notion-empty" aria-hidden="true"></div>
+<div class="diagram-heading"><b>클러스터 관리·요청 경로·자동 확장</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-kubernetes-resources-platform.png" aria-label="클러스터 관리·요청 경로·자동 확장 — 크게 보기"><img src="./assets/govbiz-kubernetes-resources-platform.png" alt="클러스터 관리·요청 경로·자동 확장" loading="lazy" decoding="async"></a></figure>
+<div class="notion-empty" aria-hidden="true"></div>
 <p><b>데이터와 배포 관리</b></p>
 <ul>
 <li><b>StatefulSet·PVC·EBS:</b> MySQL 등 상태를 가진 저장소는 StatefulSet으로 Pod와 저장소 연결을 관리합니다. PVC는 저장 공간 요청이고 PV는 연결된 볼륨 정보입니다. EKS는 EBS CSI와 <code>gp3</code> StorageClass를 사용하며, 기존 PVC와 볼륨을 유지하면 Pod 교체 후에도 데이터를 다시 사용할 수 있습니다. <code>Retain</code>으로 남은 볼륨을 재사용하려면 별도 복구 절차가 필요합니다.</li>
