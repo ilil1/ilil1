@@ -420,7 +420,7 @@
 <hr>
 <h2 id="section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</h2>
 <span id="section-21"></span><h3 id="section-20">5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-cicd-hooks.svg" aria-label="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름 — 크게 보기"><img src="./assets/govbiz-cicd-hooks.svg" alt="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-cicd-hooks.svg?v=codebuild" aria-label="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름 — 크게 보기"><img src="./assets/govbiz-cicd-hooks.svg?v=codebuild" alt="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름" loading="lazy" decoding="async"></a></figure>
 <p>서비스 코드를 검증한 뒤, 실행 이미지와 배포 설정을 각각 저장하고 Argo CD가 Git의 설정을 EKS에 반영하도록 구성했습니다. 그림의 주황색 화살표는 배포 진행 순서, 파란색 화살표는 ECR 이미지와 digest의 전달 경로를 나타냅니다.</p>
 <p><b>CI — 코드 검증</b></p>
 <ol>
