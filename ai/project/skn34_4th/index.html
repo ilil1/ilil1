@@ -2,7 +2,7 @@
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="GovBiz 고도화 프로젝트의 LLM 기반 업무 라우팅, LLMOps, EKS·GitOps, 마이크로서비스 및 웹·모바일 공유 구조 기술 보고서."><title>GovBiz | 에이전트·LLMOps·EKS·서비스 아키텍처</title><link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./notion-content.css?v=20261111-spacing"><link rel="stylesheet" href="./header-toc.css"><link rel="stylesheet" href="./pdf-button.css"><script src="./script.js" defer></script></head>
 <body><a class="skip-link" href="#content">본문으로 바로 가기</a><header class="site-header" id="top"><a class="brand" href="#top">GovBiz<span>TECHNICAL PORTFOLIO</span></a><a href="https://github.com/ilil1/SKN34-4th-1Team">프로젝트 GitHub ↗</a></header>
 <main><header class="hero"><h1>GovBiz</h1><p class="hero-subtitle">[고도화] AI Agent 를 활용한 정부지원사업 탐색·신청 관리 플랫폼</p></header>
-<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li><li><a href="#section-2">2. 시스템 아키텍처</a><ol><li><a href="#section-3">2.1. 접속 경로 — 웹·앱에서 백엔드까지</a></li><li><a href="#section-4">2.2. 서비스·데이터 — 업무를 처리하고 저장하는 방식</a></li><li><a href="#section-5">2.3. 평가·관측 — 실행 기록과 평가 결과의 연결</a></li><li><a href="#section-6">2.4. 서버 배치 — Pod를 배치하고 확장하는 방식</a></li><li><a href="#section-7">2.5. 외부 통신·저장소 — 외부 API와 영속 데이터</a></li><li><a href="#section-8">2.6. 빌드·발행 — 코드에서 이미지와 배포 파일까지</a></li><li><a href="#section-9">2.7. GitOps 배포 — 변경 반영과 실행 상태 검증</a></li></ol></li><li><a href="#section-10">3.  사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</a></li><li><a href="#section-13">4. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</a></li><li><a href="#section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</a></li><li><a href="#section-23">6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</a><ol><li><a href="#section-24">6.1. 업무 책임과 데이터 소유권을 함께 분리</a></li><li><a href="#section-25">6.2. 준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존</a></li><li><a href="#section-31">6.3. 검색 요청에서 Core와 AI가 협력하는 방식</a></li><li><a href="#section-32">6.4. 평가 접수와 긴 평가 실행을 사용자 업무에서 분리</a></li></ol></li><li><a href="#section-26">7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</a><ol><li><a href="#section-27">7.1. 업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리</a></li><li><a href="#section-28">7.2. 실제 화면: 같은 근거 답변 기능을 웹과 앱에서 제공</a></li></ol></li><li><a href="#section-30">8. 기술 보고서 PDF</a></li></ol></nav><article id="content">
+<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li><li><a href="#section-2">2. 시스템 아키텍처</a><ol><li><a href="#section-3">2.1. 접속 경로 — 웹·앱에서 백엔드까지</a></li><li><a href="#section-4">2.2. 서비스·데이터 — 업무를 처리하고 저장하는 방식</a></li><li><a href="#section-5">2.3. 평가·관측 — 실행 기록과 평가 결과의 연결</a></li><li><a href="#section-6">2.4. 서버 배치 — Pod를 배치하고 확장하는 방식</a></li><li><a href="#section-7">2.5. 외부 통신·저장소 — 외부 API와 영속 데이터</a></li><li><a href="#section-8">2.6. 빌드·발행 — 코드에서 이미지와 배포 파일까지</a></li><li><a href="#section-9">2.7. GitOps 배포 — 변경 반영과 실행 상태 검증</a></li></ol></li><li><a href="#section-10">3.  사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</a></li><li><a href="#section-13">4. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</a></li><li><a href="#section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</a></li><li><a href="#section-23">6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</a></li><li><a href="#section-26">7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</a><ol><li><a href="#section-27">7.1. 업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리</a></li><li><a href="#section-28">7.2. 실제 화면: 같은 근거 답변 기능을 웹과 앱에서 제공</a></li></ol></li><li><a href="#section-30">8. 기술 보고서 PDF</a></li></ol></nav><article id="content">
 <h2 id="section-1">1. 프로젝트 개요</h2>
 <p>GovBiz는 <b>정부지원사업 탐색부터 신청 준비까지 연결하는 AI 서비스</b>입니다. 여러 기관에 흩어진 공고를 모아, 기업의 조건과 목적에 맞는 사업을 찾고 신청 준비와 진행 상황까지 관리할 수 있도록 돕습니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
@@ -646,8 +646,8 @@
 <hr>
 <h2 id="section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</h2>
 <div class="notion-empty" aria-hidden="true"></div>
-<span id="section-19"></span><span id="section-21"></span><div class="diagram-heading" id="section-20"><b>5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-cicd-ci-clarified.svg" aria-label="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름 — 크게 보기"><img src="./assets/govbiz-cicd-ci-clarified.svg" alt="5.1. CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름" width="1300" height="1791" loading="lazy" decoding="async"></a></figure>
+<span id="section-19"></span><span id="section-21"></span><div class="diagram-heading" id="section-20"><b>CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-cicd-git-push.svg" aria-label="CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름 — 크게 보기"><img src="./assets/govbiz-cicd-git-push.svg" alt="CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름" width="1300" height="1791" loading="lazy" decoding="async"></a></figure>
 <ol>
 <li><b>이미지 빌드·저장:</b> CodeBuild가 ECR에서 검증된 커밋의 Core·Catalog·AI·Ops·평가 실행기 이미지 태그를 각각 조회합니다. 없는 이미지만 빌드해 ECR에 푸시한 뒤 digest를 조회합니다. 각 이미지의 저장소 주소와 digest는 CodeBuild의 임시 파일 <code>release.json</code>에 기록합니다.</li>
 <li><b>배포 YAML 생성:</b> 같은 CodeBuild 환경의 배포 스크립트가 <code>release.json</code>을 읽고 이미지 digest를 Helm 설정값에 넣습니다. Helm Chart와 EKS 설정을 조합해 <code>helm template</code>으로 Kubernetes 배포 YAML을 생성합니다.</li>
@@ -657,14 +657,13 @@
 <li><b>배포 확인과 웹 전환:</b> PostSync에서 평가 관련 연결을 확인하고 배포 과정에서 변경한 접수 상태를 복구합니다. 지정한 리비전, 배포 hook, 실제 이미지와 앱 준비 상태도 확인한 뒤 같은 커밋의 웹을 Vercel 운영 주소로 전환합니다. 확인에 실패하면 웹 전환을 진행하지 않습니다.</li>
 </ol>
 <div class="notion-empty" aria-hidden="true"></div>
-<p id="section-22"><b>5.2. 실제 Kubernetes 서비스·Pod 배치</b></p>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-12.png" aria-label="5.2. 실제 Kubernetes 서비스·Pod 배치 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-12.png" alt="5.2. 실제 Kubernetes 서비스·Pod 배치" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
+<div class="diagram-heading" id="section-22"><b>실제 Kubernetes 서비스·Pod 배치</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-12.png" aria-label="실제 Kubernetes 서비스·Pod 배치 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-12.png" alt="실제 Kubernetes 서비스·Pod 배치" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
 <p>EKS에서 애플리케이션의 실행·연결·확장과 데이터 보관을 다음과 같이 구성했습니다. 아래 수치는 프로젝트의 배포 설정과 기록 기준입니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>Namespace별 워크로드 구성</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-kubernetes-resources-overview.png" aria-label="Namespace별 워크로드 구성 — 크게 보기"><img src="./assets/govbiz-kubernetes-resources-overview.png" alt="Namespace별 워크로드 구성" width="2880" height="4402" loading="lazy" decoding="async"></a></figure>
 <div class="notion-empty" aria-hidden="true"></div>
-<p><b>클러스터와 서비스 배치</b></p>
 <ul>
 <li><b>Namespace와 Node:</b> 업무 서비스는 <code>govbiz-msa</code>, 평가 도구는 <code>govbiz-evaluation</code>, 관측 도구는 <code>govbiz-observability</code>, 배포 도구는 <code>argocd</code>로 논리적으로 구분합니다. Namespace는 관리 공간이고, Node는 실제 Pod가 실행되는 EC2입니다.</li>
 <li><b>기본 Node 2대:</b> application Node에는 업무 DB·Catalog·Ops를, observability Node에는 Langfuse·Argo CD·Prefect·평가 실행기·결과 저장소를 배치합니다. Core와 AI는 각각 기본 Pod 2개를 서로 다른 Node에 분산합니다.</li>
@@ -675,7 +674,6 @@
 <div class="diagram-heading"><b>Pod 실행·요청 전달·데이터 보관</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-kubernetes-resources-flow.png" aria-label="Pod 실행·요청 전달·데이터 보관 — 크게 보기"><img src="./assets/govbiz-kubernetes-resources-flow.png" alt="Pod 실행·요청 전달·데이터 보관" width="2880" height="2900" loading="lazy" decoding="async"></a></figure>
 <div class="notion-empty" aria-hidden="true"></div>
-<p><b>자동 확장과 안정적인 교체</b></p>
 <ul>
 <li><b>HPA — Pod 개수 조절:</b> Metrics Server의 지표를 사용해 컨테이너 CPU 요청량 대비 평균 사용률 60%를 기준으로 Core·AI는 각각 2~3개, Gateway는 1~3개로 조절합니다. 부하가 줄면 5분 안정화 구간을 거쳐 축소합니다.</li>
 <li><b>Cluster Autoscaler — Node 개수 조절:</b> 늘어난 Pod가 자원이나 분산 조건 때문에 배치되지 못하면 application Node를 1대에서 최대 2대로 늘립니다. observability Node 1대를 합쳐 EC2는 기본 2대·최대 3대입니다. 추가 Node가 10분간 불필요하고 남은 Pod를 안전하게 옮길 수 있을 때 축소합니다.</li>
@@ -686,7 +684,6 @@
 <div class="diagram-heading"><b>클러스터 관리·요청 경로·자동 확장</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-kubernetes-resources-platform.png" aria-label="클러스터 관리·요청 경로·자동 확장 — 크게 보기"><img src="./assets/govbiz-kubernetes-resources-platform.png" alt="클러스터 관리·요청 경로·자동 확장" width="2880" height="5744" loading="lazy" decoding="async"></a></figure>
 <div class="notion-empty" aria-hidden="true"></div>
-<p><b>데이터와 배포 관리</b></p>
 <ul>
 <li><b>StatefulSet·PVC·EBS:</b> MySQL 등 상태를 가진 저장소는 StatefulSet으로 Pod와 저장소 연결을 관리합니다. PVC는 저장 공간 요청이고 PV는 연결된 볼륨 정보입니다. EKS는 EBS CSI와 <code>gp3</code> StorageClass를 사용하며, 기존 PVC와 볼륨을 유지하면 Pod 교체 후에도 데이터를 다시 사용할 수 있습니다. <code>Retain</code>으로 남은 볼륨을 재사용하려면 별도 복구 절차가 필요합니다.</li>
 <li><b>배포 전후 작업:</b> PreSync는 새 평가 접수를 중지하고 진행 중인 평가를 확인한 뒤 필요한 DB 마이그레이션을 수행합니다. PostSync는 연결 상태를 확인하고 이번 배포를 위해 중지한 접수를 복구합니다.</li>
@@ -695,9 +692,9 @@
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L270-L282">메인 README의 운영 구성</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L311-L395">Kubernetes 리소스 설명</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/autoscaling/README.md">자동 확장 설정</a></p>
 <hr>
 <h2 id="section-23">6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</h2>
-<h3 id="section-24">6.1. 업무 책임과 데이터 소유권을 함께 분리</h3>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-msa-core-style.png" aria-label="업무 책임과 데이터 소유권을 함께 분리 — 크게 보기"><img src="./assets/govbiz-msa-core-style.png" alt="업무 책임과 데이터 소유권을 함께 분리" width="1755" height="896" loading="lazy" decoding="async"></a></figure>
-<p><b>서비스별 책임과 경계</b></p>
+<div class="notion-empty" aria-hidden="true"></div>
+<div class="diagram-heading" id="section-24"><b>서비스 책임과 데이터 소유권을 함께 분리</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ownership-runner-python.png" aria-label="서비스 책임과 데이터 소유권을 함께 분리 — 크게 보기"><img src="./assets/govbiz-ownership-runner-python.png" alt="서비스 책임과 데이터 소유권을 함께 분리" width="1755" height="896" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>Core:</b> 계정·관심 공고·신청 준비 등 사용자 업무와 공개 API를 담당합니다. Core MySQL에 사용자 업무와 공고 조회용 복제본을 저장하고, Elasticsearch에서 키워드 후보를 조회합니다. Redis는 캐시·임시 상태에, RabbitMQ는 Core 내부 비동기 작업에 사용합니다.</li>
 <li><b>Catalog:</b> 제공처 공고를 수집·정규화하고 Catalog MySQL에 원본과 수집·게시 상태를 관리합니다. Elasticsearch 키워드 색인을 만들고 AI 서비스에 벡터 준비를 요청하며, 검색 자료가 준비된 공고 snapshot을 내부 API로 제공합니다.</li>
@@ -706,14 +703,14 @@
 </ul>
 <p><b>이 구조로 해결하려는 문제와 이점</b></p>
 <ul>
-<li><b>변경 범위 구분:</b> 공고 수집 규칙은 Catalog, 사용자 기능은 Core, 모델·검색 실행은 AI, 평가 운영은 Ops의 책임으로 구분해 각 영역의 변경 지점을 찾기 쉽게 했습니다.</li>
 <li><b>원본과 조회 데이터의 경계:</b> Core가 Catalog DB를 직접 조회하거나 수정하지 않고 내부 HTTP 계약으로 snapshot을 받습니다. 각 DB 스키마에 대한 직접 의존과 공고 원본의 중복 쓰기를 줄이는 설계입니다.</li>
 <li><b>사용자 업무와 공고의 일관성:</b> 새 공고가 화면에는 보이지만 Core에는 없어 관심 저장이나 모집글 등록에 실패하는 시간차를 줄이기 위해, 공개 목록과 연관 기능이 Core에 반영된 같은 조회 복제본을 사용합니다.</li>
 <li><b>평가 작업 분리:</b> 오래 걸리는 평가 계산을 Prefect와 별도 실행기로 넘겨 사용자 업무 API와 실행 경로를 구분하고, Ops에서 평가 이력과 검토를 관리합니다.</li>
 <li><b>워크로드별 실행 규모:</b> 현재 EKS 설정은 Core·AI에 HPA를 적용하고 Catalog·Ops는 각각 하나의 Pod로 운영하도록 구성해 서비스별 요구에 맞게 실행 규모를 다르게 설정합니다. 단일 Pod 서비스의 교체 중에는 접속이 끊길 수 있습니다.</li>
 </ul>
 <p><b>트레이드오프:</b> 복제 방식에는 반영 지연과 내부 API 계약·버전·재시도 관리가 필요합니다. 서비스가 나뉘어도 호출 의존성은 남으며, 이 설계만으로 장애 격리나 독립 배포·무중단이 보장되는 것은 아닙니다. 현재 자동 배포는 검증된 동일 커밋의 앱을 함께 발행합니다.</p>
-<h3 id="section-25">6.2. 준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존</h3>
+<div class="notion-empty" aria-hidden="true"></div>
+<div class="diagram-heading" id="section-25"><b>준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-14.png" aria-label="준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-14.png" alt="준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
 <p>공고를 조회하는 서비스가 수집 중이거나 일부만 준비된 결과를 곧바로 사용하지 않도록, 게시와 Core 반영을 나누었습니다.</p>
 <ol>
@@ -724,9 +721,10 @@
 </ol>
 <p>이 흐름은 <b>부분적으로 준비된 공고가 사용자 업무에 먼저 노출되는 위험을 줄이고</b>, 수집·전송 실패가 곧바로 기존 공고 목록을 지우지 않도록 합니다. 데이터가 항상 최신이거나 모든 장애에서 서비스가 중단되지 않는다는 의미는 아닙니다.</p>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/catalog-service-extraction.md">서비스 분리 설계</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/backend/core-service/src/main/kotlin/ai/govbiz/core/supportprogram/service/projection/CatalogProjectionService.kt">Core 반영 흐름</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md">현재 서비스 구성</a></p>
-<h3 id="section-31">6.3. 검색 요청에서 Core와 AI가 협력하는 방식</h3>
+<div class="notion-empty" aria-hidden="true"></div>
+<div class="diagram-heading" id="section-31"><b>검색 요청에서 Core와 AI가 협력하는 방식</b></div>
 <p><b>해결하려는 문제:</b> 사용자가 입력한 표현과 공고의 표현이 다를 수 있어 키워드 검색만으로는 관련 공고를 찾기 어렵습니다. 동시에 검색 결과를 사용자 업무에 연결하려면 검색 색인의 후보와 Core가 관리하는 공고가 같은 대상을 가리켜야 합니다.</p>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-search-boundaries.png" aria-label="검색 요청에서 Core와 AI가 협력하는 방식 — 크게 보기"><img src="./assets/govbiz-search-boundaries.png" alt="검색 요청에서 Core와 AI가 협력하는 방식" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-search-boundaries.png" aria-label="검색 요청에서 Core와 AI가 협력하는 방식 — 크게 보기"><img src="./assets/govbiz-search-boundaries.png" alt="검색 요청에서 Core와 AI가 협력하는 방식" width="2172" height="724" loading="lazy" decoding="async"></a></figure>
 <ol>
 <li><b>검색 대상 확인:</b> Core는 Core MySQL에서 검색 가능한 공고와 접수 기간을 먼저 확인합니다.</li>
 <li><b>두 경로로 후보 검색:</b> Core는 Elasticsearch에서 키워드 후보를 찾고, AI 서비스에 의미 검색을 요청합니다. AI는 Qdrant에서 벡터 후보를 찾습니다. Elasticsearch 색인은 Catalog가 생성·갱신하고 Core가 조회합니다.</li>
@@ -735,9 +733,10 @@
 </ol>
 <p><b>설계 효과:</b> Core는 업무 데이터와 후보 결합을, AI는 벡터 검색과 모델 평가를 담당하므로 모델 실행 방식을 사용자 업무 로직과 구분할 수 있습니다. 키워드·의미 검색 결과를 같은 공고 ID 기준으로 합쳐 하나의 추천 결과로 제공하도록 구성했습니다. <b>한계:</b> 실제 검색 정확도가 얼마나 개선되는지는 별도의 평가가 필요하며, 검색·모델 호출 간 의존성은 남습니다.</p>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L740-L810">검색 요청과 후보 결합 흐름</a></p>
-<h3 id="section-32">6.4. 평가 접수와 긴 평가 실행을 사용자 업무에서 분리</h3>
+<div class="notion-empty" aria-hidden="true"></div>
+<div class="diagram-heading" id="section-32"><b>평가 접수와 긴 평가 실행을 사용자 업무에서 분리</b></div>
 <p><b>해결하려는 문제:</b> 모델 평가와 보고서 생성은 사용자 업무 요청보다 오래 걸릴 수 있고, 관리자 권한·실행 이력·예산 관리도 필요합니다. 이 작업을 별도 경로로 관리해 사용자 업무 API의 책임과 평가 운영 책임을 구분했습니다.</p>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-evaluation-boundaries.png" aria-label="평가 접수와 긴 평가 실행을 사용자 업무에서 분리 — 크게 보기"><img src="./assets/govbiz-evaluation-boundaries.png" alt="평가 접수와 긴 평가 실행을 사용자 업무에서 분리" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-evaluation-boundaries.png" aria-label="평가 접수와 긴 평가 실행을 사용자 업무에서 분리 — 크게 보기"><img src="./assets/govbiz-evaluation-boundaries.png" alt="평가 접수와 긴 평가 실행을 사용자 업무에서 분리" width="1774" height="887" loading="lazy" decoding="async"></a></figure>
 <ol>
 <li><b>관리자 요청과 권한:</b> 관리자가 평가 조건을 선택하면 Ops가 Core에 관리자 세션 확인을 요청하고 평가 요청을 검증합니다.</li>
 <li><b>실행 기록과 예산:</b> Ops는 실행 명세와 이력을 Ops MySQL에 저장합니다. 새 모델 호출이 필요한 평가라면 예산도 확인하고 예약합니다.</li>
