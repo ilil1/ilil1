@@ -646,16 +646,31 @@
 <hr>
 <h2 id="section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</h2>
 <div class="notion-empty" aria-hidden="true"></div>
-<span id="section-19"></span><span id="section-21"></span><div class="diagram-heading" id="section-20"><b>CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-cicd-git-push.svg" aria-label="CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름 — 크게 보기"><img src="./assets/govbiz-cicd-git-push.svg" alt="CI 검증부터 서비스 자동 배포까지 이어지는 GitOps 흐름" width="1300" height="1791" loading="lazy" decoding="async"></a></figure>
-<ol>
+<span id="section-19"></span><div class="diagram-heading" id="section-20"><b>CI 검증과 배포 설정 발행</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-gitops-part-1.svg" aria-label="CI 검증과 배포 설정 발행 — 크게 보기"><img src="./assets/govbiz-gitops-part-1.svg" alt="CI 검증과 배포 설정 발행" width="1300" height="870" loading="lazy" decoding="async"></a></figure>
+<ul>
 <li><b>이미지 빌드·저장:</b> CodeBuild가 ECR에서 검증된 커밋의 Core·Catalog·AI·Ops·평가 실행기 이미지 태그를 각각 조회합니다. 없는 이미지만 빌드해 ECR에 푸시한 뒤 digest를 조회합니다. 각 이미지의 저장소 주소와 digest는 CodeBuild의 임시 파일 <code>release.json</code>에 기록합니다.</li>
-<li><b>배포 YAML 생성:</b> 같은 CodeBuild 환경의 배포 스크립트가 <code>release.json</code>을 읽고 이미지 digest를 Helm 설정값에 넣습니다. Helm Chart와 EKS 설정을 조합해 <code>helm template</code>으로 Kubernetes 배포 YAML을 생성합니다.</li>
-<li><b>Git 배포 태그 발행:</b> Git 발행 직전 ECR의 digest를 다시 조회해 기록된 값과 일치하는지 확인합니다. 배포 스크립트는 생성한 YAML을 별도 커밋의 <code>release/</code>에 저장하고, 그 커밋을 가리키는 불변 배포 태그를 발행합니다.</li>
+<li><b>배포 YAML 생성:</b> CodeBuild에서 실행되는 배포 스크립트가 Chart와 프로젝트 설정, 이미지 정보를 준비해 Kubernetes 배포 YAML을 만듭니다.
+<ul>
+<li><b>Chart — 배포 설정의 양식:</b> <code>govbiz-service</code> Chart에는 Deployment·Service 등을 만드는 양식과 기본값이 들어 있습니다. Core·Catalog·AI·Ops에 같은 Chart를 사용하고, 서비스별 설정을 다르게 넣습니다.</li>
+<li><b>프로젝트의 EKS 설정 :</b> 스크립트가 저장소에 작성해 둔 <code>infrastructure/eks/gitops-values.yaml</code>과 서비스별 설정을 읽습니다. 예를 들어 Core의 Pod 자동 확장 범위와 CPU·메모리 요청량을 정합니다.</li>
+<li><b>이미지 digest :</b> 앞 단계에서 만든 <code>release.json</code>에서 각 서비스의 ECR 이미지 주소와 digest를 읽습니다. 이렇게 해야 배포 YAML이 실행할 이미지의 정확한 버전을 가리킵니다.</li>
+<li><b>설정값 전달:</b> 스크립트가 서비스별 설정과 이미지 정보를 합쳐 임시 <code>values.yaml</code>을 만들고, <code>helm template</code>의 <code>-f</code> 옵션으로 전달합니다. Helm은 Chart의 양식에 이 값을 채워Deployment·Service 등의 YAML을 생성합니다.</li>
+<li><b>생성 후 처리:</b> 배포 스크립트가 노드 배치 조건과 소스 커밋 정보, 필요한 배포 hook 등을 보완합니다. 이 단계에서는 YAML을 생성·준비하며, EKS 반영은 이후 Argo CD가 수행합니다.</li>
+</ul></li>
+</ul>
+<p>예를 들어 Core-service는 Chart의 공통 양식에 Core용 실행 설정과 Core 이미지 digest를 넣어 배포 YAML을 만듭니다. 평가 실행기와 결과 서버에는 별도의 <code>govbiz-evaluation</code> Chart를 사용합니다.</p>
+<ul>
+<li><b>Git 배포 태그 발행:</b> Git 발행 직전 ECR의 digest를 다시 확인합니다. 배포 YAML을 <code>release/</code> 경로로 포함하는 Git 커밋을 만들고, 해당 커밋을 가리키는 불변 태그를 GitHub에 푸시합니다.</li>
+</ul>
+<p>구현 근거: <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/main/infrastructure/eks/gitops.py">EKS 배포 스크립트</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/main/infrastructure/eks/gitops-values.yaml">EKS 설정값</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/tree/main/infrastructure/gitops/charts/govbiz-service">서비스 Helm Chart</a></p>
+<div class="diagram-heading" id="section-21"><b>Argo CD 반영과 배포 검증</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-gitops-part-2.svg" aria-label="Argo CD 반영과 배포 검증 — 크게 보기"><img src="./assets/govbiz-gitops-part-2.svg" alt="Argo CD 반영과 배포 검증" width="1300" height="960" loading="lazy" decoding="async"></a></figure>
+<ul>
 <li><b>Argo CD 동기화:</b> Argo CD가 Git 태그를 주기적으로 확인해 규칙에 맞는 가장 높은 버전을 선택하고, 해당 커밋의 배포 YAML을 EKS에 반영합니다.</li>
 <li><b>EKS 서비스 갱신:</b> 배포 전 PreSync에서 평가 접수를 중지하고 진행 중인 작업을 확인한 뒤 필요한 DB 마이그레이션을 수행합니다. 이후 EKS 노드가 YAML에 지정된 이미지를 ECR에서 가져와 애플리케이션을 갱신합니다. 배포 대상에는 Core·Catalog·AI·Ops, 평가 실행기와 보고서 서비스가 포함되며, 보고서 서비스는 Ops 이미지를 함께 사용합니다.</li>
 <li><b>배포 확인과 웹 전환:</b> PostSync에서 평가 관련 연결을 확인하고 배포 과정에서 변경한 접수 상태를 복구합니다. 지정한 리비전, 배포 hook, 실제 이미지와 앱 준비 상태도 확인한 뒤 같은 커밋의 웹을 Vercel 운영 주소로 전환합니다. 확인에 실패하면 웹 전환을 진행하지 않습니다.</li>
-</ol>
+</ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-22"><b>실제 Kubernetes 서비스·Pod 배치</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-12.png" aria-label="실제 Kubernetes 서비스·Pod 배치 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-12.png" alt="실제 Kubernetes 서비스·Pod 배치" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
