@@ -694,7 +694,7 @@
 <h2 id="section-23">6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</h2>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-24"><b>서비스 책임과 데이터 소유권을 함께 분리</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ownership-boundaries-explained.png" aria-label="서비스 책임과 데이터 소유권을 함께 분리 — 크게 보기"><img src="./assets/govbiz-ownership-boundaries-explained.png" alt="서비스 책임과 데이터 소유권을 함께 분리" width="1755" height="896" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ownership-clean.png" aria-label="서비스 책임과 데이터 소유권을 함께 분리 — 크게 보기"><img src="./assets/govbiz-ownership-clean.png" alt="서비스 책임과 데이터 소유권을 함께 분리" width="1755" height="896" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>Core:</b> 계정·관심 공고·신청 준비 등 사용자 업무와 공개 API를 담당합니다. Core MySQL에 사용자 업무와 공고 조회용 복제본을 저장하고, Elasticsearch에서 키워드 후보를 조회합니다. Redis는 캐시·임시 상태에, RabbitMQ는 Core 내부 비동기 작업에 사용합니다.</li>
 <li><b>Catalog:</b> 제공처 공고를 수집·정규화하고 Catalog MySQL에 원본과 수집·게시 상태를 관리합니다. Elasticsearch 키워드 색인을 만들고 AI 서비스에 벡터 준비를 요청하며, 검색 자료가 준비된 공고 snapshot을 내부 API로 제공합니다.</li>
