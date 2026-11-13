@@ -514,7 +514,11 @@
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>— 운영 — O3 운영 표본 품질 구조도</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-o3-overlap-fixed-notion.png" aria-label="— 운영 — O3 운영 표본 품질 구조도 — 크게 보기"><img src="./assets/govbiz-o3-overlap-fixed-notion.png" alt="— 운영 — O3 운영 표본 품질 구조도" width="2059" height="764" loading="lazy" decoding="async"></a></figure>
-<div class="notion-empty" aria-hidden="true"></div>
+<ul>
+<li><b>Core → Ops 표본 전달:</b> 설정된 수집 조건에 맞는 성공 응답 일부를 core-service가 선별해 ops-service로 비동기 전달합니다.</li>
+<li><b>Ops의 저장과 조회:</b> ops-service는 전달받은 운영 표본을 Ops MySQL에 저장하고, 관리자 화면에서 조회를 요청하면 저장된 표본을 가져와 보여줍니다.</li>
+<li><b>관리자의 검토:</b> 관리자는 운영 표본 품질 화면에서 질문·근거·결과를 살펴보고 검토 판단과 사유를 기록합니다. 검토 이력도 Ops MySQL에 저장됩니다.</li>
+</ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>O3 운영 표본 품질 흐름도</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-production-quality-simplified-ops-concise.png" aria-label="O3 운영 표본 품질 흐름도 — 크게 보기"><img src="./assets/govbiz-production-quality-simplified-ops-concise.png" alt="O3 운영 표본 품질 흐름도" width="1576" height="1726" loading="lazy" decoding="async"></a></figure>
