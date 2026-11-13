@@ -2,7 +2,7 @@
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="GovBiz 고도화 프로젝트의 LLM 기반 업무 라우팅, LLMOps, EKS·GitOps, 마이크로서비스 및 웹·모바일 공유 구조 기술 보고서."><title>GovBiz | 에이전트·LLMOps·EKS·서비스 아키텍처</title><link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./notion-content.css?v=20261111-spacing"><link rel="stylesheet" href="./header-toc.css"><link rel="stylesheet" href="./pdf-button.css"><script src="./script.js" defer></script></head>
 <body><a class="skip-link" href="#content">본문으로 바로 가기</a><header class="site-header" id="top"><a class="brand" href="#top">GovBiz<span>TECHNICAL PORTFOLIO</span></a><a href="https://github.com/ilil1/SKN34-4th-1Team">프로젝트 GitHub ↗</a></header>
 <main><header class="hero"><h1>GovBiz</h1><p class="hero-subtitle">[고도화] AI Agent 를 활용한 정부지원사업 탐색·신청 관리 플랫폼</p></header>
-<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li><li><a href="#section-2">2. 시스템 아키텍처</a><ol><li><a href="#section-3">2.1. 접속 경로 — 웹·앱에서 백엔드까지</a></li><li><a href="#section-4">2.2. 서비스·데이터 — 업무를 처리하고 저장하는 방식</a></li><li><a href="#section-5">2.3. 평가·관측 — 실행 기록과 평가 결과의 연결</a></li><li><a href="#section-6">2.4. 서버 배치 — Pod를 배치하고 확장하는 방식</a></li><li><a href="#section-7">2.5. 외부 통신·저장소 — 외부 API와 영속 데이터</a></li><li><a href="#section-8">2.6. 빌드·발행 — 코드에서 이미지와 배포 파일까지</a></li><li><a href="#section-9">2.7. GitOps 배포 — 변경 반영과 실행 상태 검증</a></li></ol></li><li><a href="#section-10">3.  사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</a></li><li><a href="#section-13">4. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</a></li><li><a href="#section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</a></li><li><a href="#section-23">6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</a></li><li><a href="#section-26">7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</a><ol><li><a href="#section-27">업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리</a></li><li><a href="#section-28">실제 화면: 같은 근거 답변 기능을 웹과 앱에서 제공</a></li></ol></li><li><a href="#section-30">8. 기술 보고서 PDF</a></li></ol></nav><article id="content">
+<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li><li><a href="#section-2">2. 시스템 아키텍처</a></li><li><a href="#section-10">3. 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</a></li><li><a href="#section-13">4. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</a></li><li><a href="#section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</a></li><li><a href="#section-23">6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</a></li><li><a href="#section-26">7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</a></li><li><a href="#section-30">8. 기술 보고서 PDF</a></li></ol></nav><article id="content">
 <h2 id="section-1">1. 프로젝트 개요</h2>
 <p>GovBiz는 <b>정부지원사업 탐색부터 신청 준비까지 연결하는 AI 서비스</b>입니다. 여러 기관에 흩어진 공고를 모아, 기업의 조건과 목적에 맞는 사업을 찾고 신청 준비와 진행 상황까지 관리할 수 있도록 돕습니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
@@ -60,7 +60,7 @@
 <hr>
 <h2 id="section-2">2. 시스템 아키텍처</h2>
 <p>아래 구조도는 <b>접속 → 서비스·데이터 → 평가·관측 → 서버 배치 → 외부 통신 → 빌드 → 배포</b> 순서로 살펴봅니다. 세부 설정은 각 그림 아래에서 펼쳐 볼 수 있습니다.</p>
-<h3 id="section-3">2.1. 접속 경로 — 웹·앱에서 백엔드까지</h3>
+<h3 class="diagram-heading" id="section-3"><b>접속 경로 — 웹·앱에서 백엔드까지</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-01-lines-clean.png" aria-label="접속 경로 — 웹·앱에서 백엔드까지 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-01-lines-clean.png" alt="접속 경로 — 웹·앱에서 백엔드까지" width="3200" height="1797" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>웹·앱 요청:</b> 인증과 프록시를 거쳐 Gateway에 도착합니다.</li>
@@ -119,7 +119,7 @@
 </table></div>
 <p>앱의 Vercel 경로는 API 주소 설정에 따라 합류합니다. 실기기 운영 검증은 별도입니다.</p>
 </div></details>
-<h3 id="section-4">2.2. 서비스·데이터 — 업무를 처리하고 저장하는 방식</h3>
+<h3 class="diagram-heading" id="section-4"><b>서비스·데이터 — 업무를 처리하고 저장하는 방식</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-service-data-vector-index.png" aria-label="서비스·데이터 — 업무를 처리하고 저장하는 방식 — 크게 보기"><img src="./assets/govbiz-service-data-vector-index.png" alt="서비스·데이터 — 업무를 처리하고 저장하는 방식" width="1673" height="940" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>Core-service:</b> 사용자 업무와 검색을 처리하고, Catalog의 공고 스냅샷을 조회용 데이터에 반영합니다.</li>
@@ -128,7 +128,7 @@
 <li><b>저장소:</b> 각 서비스는 역할에 맞는 저장소를 사용합니다.</li>
 <li><b>비동기 작업:</b> Core DB에 작업을 기록하고 RabbitMQ에 작업 ID를 전달합니다.</li>
 </ul>
-<h3 id="section-5">2.3. 평가·관측 — 실행 기록과 평가 결과의 연결</h3>
+<h3 class="diagram-heading" id="section-5"><b>평가·관측 — 실행 기록과 평가 결과의 연결</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-03-langfuse-prefect.png" aria-label="평가·관측 — 실행 기록과 평가 결과의 연결 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-03-langfuse-prefect.png" alt="평가·관측 — 실행 기록과 평가 결과의 연결" width="3200" height="1800" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>실사용 추적:</b> AI 서비스가 실행 기록을 Langfuse에 전송합니다.</li>
@@ -180,7 +180,7 @@
 </table></div>
 <p>Ops → ops-artifacts: 인증된 보고서 조회 · 실행기 → Ops 내부 API: 설정된 경우에 호출</p>
 </div></details>
-<h3 id="section-6">2.4. 서버 배치 — Pod를 배치하고 확장하는 방식</h3>
+<h3 class="diagram-heading" id="section-6"><b>서버 배치 — Pod를 배치하고 확장하는 방식</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-04.png" aria-label="서버 배치 — Pod를 배치하고 확장하는 방식 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-04.png" alt="서버 배치 — Pod를 배치하고 확장하는 방식" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>실행 위치:</b> 업무·저장소와 관측·평가 구성 요소를 나누어 배치합니다.</li>
@@ -224,7 +224,7 @@
 </table></div>
 <p>평가 실행기와 결과 서버는 같은 노드에 배치합니다. Namespace는 논리 구분이고 EC2는 실행 위치입니다.</p>
 </div></details>
-<h3 id="section-7">2.5. 외부 통신·저장소 — 외부 API와 영속 데이터</h3>
+<h3 class="diagram-heading" id="section-7"><b>외부 통신·저장소 — 외부 API와 영속 데이터</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-05.png" aria-label="외부 통신·저장소 — 외부 API와 영속 데이터 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-05.png" alt="외부 통신·저장소 — 외부 API와 영속 데이터" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>외부 API:</b> 비공개 네트워크의 Pod가 NAT Gateway를 통해 공고 API와 OpenAI에 요청합니다.</li>
@@ -277,7 +277,7 @@
 <p>Pod가 시작한 연결의 응답만 반환합니다. NAT를 통해 외부에서 Pod로 새 연결을 시작할 수 없습니다.</p>
 <p>API 키·제공처 활성화 설정이 필요합니다. 평가 실행기의 외부 모델 호출은 원본 Chart에서 비활성입니다.</p>
 </div></details>
-<h3 id="section-8">2.6. 빌드·발행 — 코드에서 이미지와 배포 파일까지</h3>
+<h3 class="diagram-heading" id="section-8"><b>빌드·발행 — 코드에서 이미지와 배포 파일까지</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-06.png" aria-label="빌드·발행 — 코드에서 이미지와 배포 파일까지 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-06.png" alt="빌드·발행 — 코드에서 이미지와 배포 파일까지" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>CI 검증:</b> 동일한 소스 커밋의 필수 CI를 확인합니다.</li>
@@ -336,7 +336,7 @@
 </tr>
 </table></div>
 </div></details>
-<h3 id="section-9">2.7. GitOps 배포 — 변경 반영과 실행 상태 검증</h3>
+<h3 class="diagram-heading" id="section-9"><b>GitOps 배포 — 변경 반영과 실행 상태 검증</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-07.png" aria-label="GitOps 배포 — 변경 반영과 실행 상태 검증 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-07.png" alt="GitOps 배포 — 변경 반영과 실행 상태 검증" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>배포 반영:</b> Argo CD가 Git의 배포 설정과 클러스터 상태를 비교해 Kubernetes API에 반영합니다.</li>
@@ -745,18 +745,6 @@
 </ol>
 <p>이 흐름은 <b>부분적으로 준비된 공고가 사용자 업무에 먼저 노출되는 위험을 줄이고</b>, 수집·전송 실패가 곧바로 기존 공고 목록을 지우지 않도록 합니다. 데이터가 항상 최신이거나 모든 장애에서 서비스가 중단되지 않는다는 의미는 아닙니다.</p>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/catalog-service-extraction.md">서비스 분리 설계</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/backend/core-service/src/main/kotlin/ai/govbiz/core/supportprogram/service/projection/CatalogProjectionService.kt">Core 반영 흐름</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md">현재 서비스 구성</a></p>
-<div class="notion-empty" aria-hidden="true"></div>
-<div class="diagram-heading" id="section-31"><b>검색 요청에서 Core와 AI가 협력하는 방식</b></div>
-<p><b>해결하려는 문제:</b> 사용자가 입력한 표현과 공고의 표현이 다를 수 있어 키워드 검색만으로는 관련 공고를 찾기 어렵습니다. 동시에 검색 결과를 사용자 업무에 연결하려면 검색 색인의 후보와 Core가 관리하는 공고가 같은 대상을 가리켜야 합니다.</p>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-search-boundaries.png" aria-label="검색 요청에서 Core와 AI가 협력하는 방식 — 크게 보기"><img src="./assets/govbiz-search-boundaries.png" alt="검색 요청에서 Core와 AI가 협력하는 방식" width="2172" height="724" loading="lazy" decoding="async"></a></figure>
-<ol>
-<li><b>검색 대상 확인:</b> Core는 Core MySQL에서 검색 가능한 공고와 접수 기간을 먼저 확인합니다.</li>
-<li><b>두 경로로 후보 검색:</b> Core는 Elasticsearch에서 키워드 후보를 찾고, AI 서비스에 의미 검색을 요청합니다. AI는 Qdrant에서 벡터 후보를 찾습니다. Elasticsearch 색인은 Catalog가 생성·갱신하고 Core가 조회합니다.</li>
-<li><b>후보 결합:</b> Core는 제공처 코드와 원본 ID를 기준으로 두 결과를 연결하고 RRF로 순위를 결합합니다. 후보를 앞서 읽은 공고 데이터와 연결합니다.</li>
-<li><b>평가와 응답:</b> AI가 후보의 관련도와 자격을 평가하고, Core가 결과를 검증해 공고 정보와 함께 응답합니다.</li>
-</ol>
-<p><b>설계 효과:</b> Core는 업무 데이터와 후보 결합을, AI는 벡터 검색과 모델 평가를 담당하므로 모델 실행 방식을 사용자 업무 로직과 구분할 수 있습니다. 키워드·의미 검색 결과를 같은 공고 ID 기준으로 합쳐 하나의 추천 결과로 제공하도록 구성했습니다. <b>한계:</b> 실제 검색 정확도가 얼마나 개선되는지는 별도의 평가가 필요하며, 검색·모델 호출 간 의존성은 남습니다.</p>
-<p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L740-L810">검색 요청과 후보 결합 흐름</a></p>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-32"><b>평가 접수와 긴 평가 실행을 사용자 업무에서 분리</b></div>
 <p><b>해결하려는 문제:</b> 모델 평가와 보고서 생성은 사용자 업무 요청보다 오래 걸릴 수 있고, 관리자 권한·실행 이력·예산 관리도 필요합니다. 이 작업을 별도 경로로 관리해 사용자 업무 API의 책임과 평가 운영 책임을 구분했습니다.</p>
