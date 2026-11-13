@@ -726,13 +726,14 @@
 <li><b>Ops:</b> 평가 실행·사람 검토·예산·일정과 이력을 관리하고 Ops MySQL에 저장합니다. Prefect와 별도 실행기가 평가 작업을 수행하며, Langfuse는 추적·평가 점수, Evidently는 비교 보고서를 제공합니다. 관리자 인증 확인은 Core API와 연결합니다.</li>
 </ul>
 <p><b>이 구조로 해결하려는 문제와 이점</b></p>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-service-benefits.png" aria-label="서비스 분리로 해결하는 네 가지 문제와 이점 — 크게 보기"><img src="./assets/govbiz-service-benefits.png" alt="서비스 분리로 해결하는 네 가지 문제와 이점: 공고 데이터 경계와 일관성, 평가 작업 분리, 서비스별 Pod 규모" width="1600" height="1860" loading="lazy" decoding="async"></a></figure>
-<ul>
-<li><b>원본과 조회 데이터의 경계:</b> Core가 Catalog DB를 직접 조회하거나 수정하지 않고 내부 HTTP 계약으로 snapshot을 받습니다. 각 DB 스키마에 대한 직접 의존과 공고 원본의 중복 쓰기를 줄이는 설계입니다.</li>
-<li><b>사용자 업무와 공고의 일관성:</b> 새 공고가 화면에는 보이지만 Core에는 없어 관심 저장이나 모집글 등록에 실패하는 시간차를 줄이기 위해, 공개 목록과 연관 기능이 Core에 반영된 같은 조회 복제본을 사용합니다.</li>
-<li><b>평가 작업 분리:</b> 오래 걸리는 평가 계산을 Prefect와 별도 실행기로 넘겨 사용자 업무 API와 실행 경로를 구분하고, Ops에서 평가 이력과 검토를 관리합니다.</li>
-<li><b>워크로드별 실행 규모:</b> 현재 EKS 설정은 Core·AI에 HPA를 적용하고 Catalog·Ops는 각각 하나의 Pod로 운영하도록 구성해 서비스별 요구에 맞게 실행 규모를 다르게 설정합니다. 단일 Pod 서비스의 교체 중에는 접속이 끊길 수 있습니다.</li>
-</ul>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-benefit-01-data-boundary.png" aria-label="원본과 조회 데이터의 경계 — 크게 보기"><img src="./assets/govbiz-benefit-01-data-boundary.png" alt="원본과 조회 데이터의 경계 구조도" width="1600" height="330" loading="lazy" decoding="async"></a></figure>
+<p><b>원본과 조회 데이터의 경계:</b> Core가 Catalog DB를 직접 조회하거나 수정하지 않고 내부 HTTP 계약으로 snapshot을 받습니다. 각 DB 스키마에 대한 직접 의존과 공고 원본의 중복 쓰기를 줄이는 설계입니다.</p>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-benefit-02-data-consistency.png" aria-label="사용자 업무와 공고의 일관성 — 크게 보기"><img src="./assets/govbiz-benefit-02-data-consistency.png" alt="사용자 업무와 공고의 일관성 구조도" width="1600" height="330" loading="lazy" decoding="async"></a></figure>
+<p><b>사용자 업무와 공고의 일관성:</b> 새 공고가 화면에는 보이지만 Core에는 없어 관심 저장이나 모집글 등록에 실패하는 시간차를 줄이기 위해, 공개 목록과 연관 기능이 Core에 반영된 같은 조회 복제본을 사용합니다.</p>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-benefit-03-evaluation.png" aria-label="평가 작업 분리 — 크게 보기"><img src="./assets/govbiz-benefit-03-evaluation.png" alt="평가 작업 분리 구조도" width="1600" height="330" loading="lazy" decoding="async"></a></figure>
+<p><b>평가 작업 분리:</b> 오래 걸리는 평가 계산을 Prefect와 별도 실행기로 넘겨 사용자 업무 API와 실행 경로를 구분하고, Ops에서 평가 이력과 검토를 관리합니다.</p>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-benefit-04-scaling.png" aria-label="워크로드별 실행 규모 — 크게 보기"><img src="./assets/govbiz-benefit-04-scaling.png" alt="워크로드별 실행 규모 구조도" width="1600" height="330" loading="lazy" decoding="async"></a></figure>
+<p><b>워크로드별 실행 규모:</b> 현재 EKS 설정은 Core·AI에 HPA를 적용하고 Catalog·Ops는 각각 하나의 Pod로 운영하도록 구성해 서비스별 요구에 맞게 실행 규모를 다르게 설정합니다. 단일 Pod 서비스의 교체 중에는 접속이 끊길 수 있습니다.</p>
 <p><b>트레이드오프:</b> 복제 방식에는 반영 지연과 내부 API 계약·버전·재시도 관리가 필요합니다. 서비스가 나뉘어도 호출 의존성은 남으며, 이 설계만으로 장애 격리나 독립 배포·무중단이 보장되는 것은 아닙니다. 현재 자동 배포는 검증된 동일 커밋의 앱을 함께 발행합니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-25"><b>준비가 끝난 공고만 반영하고 실패 시 기존 자료 보존</b></div>
