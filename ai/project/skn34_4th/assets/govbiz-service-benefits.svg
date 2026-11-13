@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1860" viewBox="0 0 1600 1860" role="img" aria-labelledby="title desc">
+<title id="title">서비스를 나누면 무엇이 달라질까?</title>
+<desc id="desc">원본과 조회 데이터 경계, 같은 조회 데이터로 처리하는 사용자 업무, 별도 평가 실행, 서비스별 Pod 실행 규모를 설명합니다.</desc>
+<defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 12 6 L 0 12 z" fill="#70859c"/></marker></defs>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;fill:#1d334e} .title{font-size:48px;font-weight:700;letter-spacing:-1px}.subtitle{font-size:26px;fill:#627890}.head{font-size:35px;font-weight:700;letter-spacing:-.5px}.summary{font-size:26px;fill:#526c86}.node-title{font-size:34px;font-weight:700}.node-sub{font-size:26px;fill:#536e88}.node-one{font-size:31px;font-weight:650}.arrow-label{font-size:24px;fill:#5a718a}.foot{font-size:26px;fill:#3f617d}.num{font-size:24px;font-weight:700}.minor{font-size:26px;fill:#3e607c}</style>
+<rect width="1600" height="1860" fill="#ffffff"/>
+<text x="64" y="74" class="title">서비스를 나누면 무엇이 달라질까?</text>
+<text x="66" y="115" class="subtitle">공고 데이터 · 평가 작업 · 서비스별 실행 규모</text>
+<rect x="48" y="145" width="1504" height="395" rx="22" fill="#ffffff" stroke="#d6e3ef" stroke-width="2"/>
+<circle cx="95" cy="193" r="24" fill="#e6f1fb"/>
+<text x="95" y="201" text-anchor="middle" class="num" fill="#246bb2">01</text>
+<text x="135" y="205" text-anchor="start" class="head">원본과 조회 데이터의 경계</text>
+<text x="136" y="250" text-anchor="start" class="summary">원본 DB를 직접 조회하지 않고 내부 API로 필요한 공고를 전달합니다.</text>
+<path d="M 590 356 H 978" fill="none" stroke="#8296aa" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="784" y="335" text-anchor="middle" class="arrow-label">내부 HTTP · snapshot</text>
+<rect x="110" y="290" width="480" height="132" rx="16" fill="#f4f7ff" stroke="#c8daec" stroke-width="2"/>
+<text x="350.0" y="351.0" text-anchor="middle" class="node-title" fill="#5265a2">Catalog</text>
+<text x="350.0" y="390.0" text-anchor="middle" class="node-sub">공고 원본 · Catalog DB</text>
+<rect x="980" y="290" width="480" height="132" rx="16" fill="#f1f8ff" stroke="#c8daec" stroke-width="2"/>
+<text x="1220.0" y="351.0" text-anchor="middle" class="node-title" fill="#1765a2">Core</text>
+<text x="1220.0" y="390.0" text-anchor="middle" class="node-sub">조회용 복제본 · Core DB</text>
+<text x="112" y="495" text-anchor="start" class="foot">각 서비스가 자기 DB를 관리하고, 공고 원본의 중복 쓰기를 줄입니다.</text>
+<rect x="48" y="570" width="1504" height="395" rx="22" fill="#ffffff" stroke="#d6e3ef" stroke-width="2"/>
+<circle cx="95" cy="618" r="24" fill="#e6f7f2"/>
+<text x="95" y="626" text-anchor="middle" class="num" fill="#16856f">02</text>
+<text x="135" y="630" text-anchor="start" class="head">사용자 업무와 공고의 일관성</text>
+<text x="136" y="675" text-anchor="start" class="summary">화면 목록과 사용자 업무가 Core에 반영된 같은 공고를 사용합니다.</text>
+<path d="M 520 791 H 760 V 750 H 1028" fill="none" stroke="#8296aa" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 760 791 V 859 H 1028" fill="none" stroke="#8296aa" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<circle cx="760" cy="791" r="5" fill="#8296aa"/>
+<text x="785" y="730" text-anchor="middle" class="arrow-label">같은 공고 기준</text>
+<rect x="110" y="728" width="410" height="126" rx="16" fill="#eff8ff" stroke="#c8daec" stroke-width="2"/>
+<text x="315.0" y="786.0" text-anchor="middle" class="node-title" fill="#1765a2">Core DB</text>
+<text x="315.0" y="825.0" text-anchor="middle" class="node-sub">공고 조회 복제본</text>
+<rect x="1030" y="708" width="430" height="84" rx="16" fill="#f4faf8" stroke="#c8daec" stroke-width="2"/>
+<text x="1245.0" y="761.0" text-anchor="middle" class="node-one" fill="#147b69">공고 목록</text>
+<rect x="1030" y="817" width="430" height="84" rx="16" fill="#f4faf8" stroke="#c8daec" stroke-width="2"/>
+<text x="1245.0" y="870.0" text-anchor="middle" class="node-one" fill="#147b69">관심 저장 · 모집글 등록</text>
+<text x="112" y="935" text-anchor="start" class="foot">목록에 보이는 공고와 사용자 업무 사이의 데이터 차이를 줄이도록 설계합니다.</text>
+<rect x="48" y="995" width="1504" height="395" rx="22" fill="#ffffff" stroke="#d6e3ef" stroke-width="2"/>
+<circle cx="95" cy="1043" r="24" fill="#f1eafb"/>
+<text x="95" y="1051" text-anchor="middle" class="num" fill="#7757b6">03</text>
+<text x="135" y="1055" text-anchor="start" class="head">평가 작업 분리</text>
+<text x="136" y="1100" text-anchor="start" class="summary">오래 걸리는 평가 계산은 사용자 업무와 다른 실행 경로로 보냅니다.</text>
+<path d="M 310 1169 H 408" fill="none" stroke="#8296aa" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 310 1271 H 408" fill="none" stroke="#8296aa" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 630 1271 H 698" fill="none" stroke="#8296aa" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 950 1271 H 1018" fill="none" stroke="#8296aa" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="110" y="1132" width="200" height="74" rx="16" fill="#f1f8ff" stroke="#c8daec" stroke-width="2"/>
+<text x="210.0" y="1180.0" text-anchor="middle" class="node-one" fill="#1765a2">사용자</text>
+<rect x="410" y="1132" width="220" height="74" rx="16" fill="#f1f8ff" stroke="#c8daec" stroke-width="2"/>
+<text x="520.0" y="1180.0" text-anchor="middle" class="node-one" fill="#1765a2">Core</text>
+<text x="703" y="1178" text-anchor="start" class="minor">공고 조회 등 사용자 업무</text>
+<rect x="110" y="1234" width="200" height="74" rx="16" fill="#f7f2fd" stroke="#c8daec" stroke-width="2"/>
+<text x="210.0" y="1282.0" text-anchor="middle" class="node-one" fill="#6d4fa9">관리자</text>
+<rect x="410" y="1234" width="220" height="74" rx="16" fill="#f7f2fd" stroke="#c8daec" stroke-width="2"/>
+<text x="520.0" y="1282.0" text-anchor="middle" class="node-one" fill="#6d4fa9">Ops</text>
+<rect x="700" y="1234" width="250" height="74" rx="16" fill="#f7f2fd" stroke="#c8daec" stroke-width="2"/>
+<text x="825.0" y="1282.0" text-anchor="middle" class="node-one" fill="#6d4fa9">Prefect</text>
+<rect x="1020" y="1234" width="440" height="74" rx="16" fill="#f7f2fd" stroke="#c8daec" stroke-width="2"/>
+<text x="1240.0" y="1282.0" text-anchor="middle" class="node-one" fill="#6d4fa9">평가 실행기</text>
+<text x="112" y="1360" text-anchor="start" class="foot">Ops에서 평가 실행을 관리하고, 이력과 검토 결과를 보관합니다.</text>
+<rect x="48" y="1420" width="1504" height="395" rx="22" fill="#ffffff" stroke="#d6e3ef" stroke-width="2"/>
+<circle cx="95" cy="1468" r="24" fill="#fdf3df"/>
+<text x="95" y="1476" text-anchor="middle" class="num" fill="#a87123">04</text>
+<text x="135" y="1480" text-anchor="start" class="head">워크로드별 실행 규모</text>
+<text x="136" y="1525" text-anchor="start" class="summary">서비스에 따라 Pod 수를 다르게 설정합니다.</text>
+<rect x="110" y="1565" width="630" height="145" rx="16" fill="#f2f8ff" stroke="#c8daec" stroke-width="2"/>
+<text x="425.0" y="1632.5" text-anchor="middle" class="node-title" fill="#1765a2">Core · AI</text>
+<text x="425.0" y="1671.5" text-anchor="middle" class="node-sub">HPA로 각각 Pod 2~3개 조절</text>
+<rect x="840" y="1565" width="620" height="145" rx="16" fill="#fdf8ee" stroke="#c8daec" stroke-width="2"/>
+<text x="1150.0" y="1632.5" text-anchor="middle" class="node-title" fill="#9b6a25">Catalog · Ops</text>
+<text x="1150.0" y="1671.5" text-anchor="middle" class="node-sub">각각 Pod 1개</text>
+<text x="112" y="1770" text-anchor="start" class="foot">단일 Pod 서비스는 교체 중 잠시 접속이 끊길 수 있습니다.</text>
+</svg>
