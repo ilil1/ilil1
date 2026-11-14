@@ -12,6 +12,7 @@ article li::marker{color:inherit}
 article hr{border:0;border-top:1px solid rgba(55,53,47,.16);margin:32px 0}
 /* 노션의 빈 문단은 실제 블록으로 보존하고, 제목의 기본 여백과 겹치지 않게 합니다. */
 article .notion-empty{height:40px;margin:0;padding:0}
+article h4.diagram-heading{font-weight:600;scroll-margin-top:24px}
 article .diagram-heading{margin:8px 0;padding-left:12px;border:0;border-left:3px solid #337ea9;color:inherit;font-size:16px;line-height:24px;letter-spacing:0}
 article .notion-empty + :is(h2,h3,.diagram-heading){margin-top:8px}
 article .notion-empty + :is(p,ul,ol,.diagram,.table-scroll,.technical-detail){margin-top:0}
