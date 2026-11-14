@@ -734,18 +734,18 @@
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-25"><b>Catalog와 Core 분리의 이점과 한계</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-benefit-01-data-boundary.png" aria-label="Catalog와 Core 분리의 이점과 한계 — 크게 보기"><img src="./assets/govbiz-benefit-01-data-boundary.png" alt="Catalog와 Core 분리의 이점과 한계" width="1600" height="330" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-catalog-core-kubernetes.png" aria-label="Catalog와 Core의 역할 분리와 Kubernetes 서비스별 운영 — 크게 보기"><img src="./assets/govbiz-catalog-core-kubernetes.png" alt="Catalog와 Core의 역할 및 공고 스냅샷 요청과 응답, 각 서비스의 MySQL과 Kubernetes Pod 운영" width="1771" height="888" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>서비스 분리:</b> 두 기능을 하나의 프로세스에서 실행한다면 공고 처리 중 메모리 부족으로 서비스 프로세스가 종료되면, 그 프로세스가 담당하던 사용자 API도 함께 중단될 수도 있습니다. 사용자 요청이 늘어날 때 Core의 Pod 수를 Catalog와 별도로 관리 할 수 있습니다.</li>
 <li><b>DB 분리:</b> Catalog는 공고 원본을, Core는 사용자 업무 데이터와 공고 조회용 복제본을 각각의 DB에서 관리합니다. Catalog MySQL 프로세스가 메모리 부족과 같은 DB에 장애가 발생하더라도 Core와 Core DB 등 필요한 구성 요소가 정상이라면, Core는 이전에 동기화한 공고로 목록 조회와 관심 저장 등의 업무를 처리할 수 있습니다.</li>
-<li>독립적인 확장과 DB 장애 영향 축소를 위해 서비스와 DB를 분리했지만, 그 대가로 동기화와 운영이 복잡해졌습니다. 이러한 이점의 필요가 크지 않은 규모라면 사용자 업무와 공고 수집을 하나의 서비스와 하나의 DB로 운영하는 더 단순한 구조도 타당합니다. ( 현재 프로젝트의 규모와 운영 여건을 고려하면, MSA로 안나누고 하나의 Service로 관리하는게 더 좋은 운영 구조라고 보입니다. )</li>
+<li><b>한계: </b>독립적인 확장과 DB 장애 영향 축소를 위해 서비스와 DB를 분리했지만, 그 대가로 동기화와 운영이 복잡해졌습니다. 이러한 이점의 필요가 크지 않은 규모라면 사용자 업무와 공고 수집을 하나의 서비스와 하나의 DB로 운영하는 더 단순한 구조도 타당합니다. ( 현재 프로젝트의 규모와 운영 여건을 고려하면, MSA로 안나누고 하나의 Service로 관리하는게 더 좋은 운영 구조라고 보입니다. )</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-31"><b>Core와 AI 분리의 이점과 한계</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-benefit-02-core-ai.png" aria-label="Core와 AI 분리의 이점과 한계 — 크게 보기"><img src="./assets/govbiz-benefit-02-core-ai.png" alt="Core와 AI 분리의 이점과 한계" width="1600" height="380" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-core-ai-proportions.png" aria-label="Core와 AI의 역할 분리와 Kubernetes 독립 확장 — 크게 보기"><img src="./assets/govbiz-core-ai-proportions.png" alt="Core Service와 AI Service의 역할 및 내부 HTTP 통신, Kubernetes HPA의 서비스별 Pod 2~3개 독립 확장" width="1774" height="887" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>서비스 분리:</b> 서로 다른 실행 환경과 라이브러리, 자원을 각각 관리할 수 있습니다. AI Pod의 평균 CPU 사용률이 높아지면 Core Pod 수와 별도로 AI Pod를 늘릴 수 있습니다.</li>
-<li><b>남는 의존성과 한계:</b> Core의 AI 기능은 내부 HTTP로 AI 서비스를 호출하므로 AI 장애나 응답 지연의 영향을 받습니다. 외부 모델 API의 응답 대기로 생기는 지연은 CPU 기반 HPA만으로 감지하지 못할 수 있으며, 공유 서버 자원에 문제가 생기면 두 서비스가 함께 영향을 받을 수 있습니다.</li>
+<li><b>한계:</b> Core의 AI 기능은 내부 HTTP로 AI 서비스를 호출하므로 AI 장애나 응답 지연의 영향을 받습니다. ( 현재 프로젝트에서 AI 기능이 Python 라이브러리 실행 환경에 종속되어 있고 서로 다른 환경을 관리하고 실행 규모를 따로 조절하기 위해 분리하는게 더 좋은 운영 구조라고 보입니다. )</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-32"><b>Core와 Ops 분리의 이점과 한계</b></div>
