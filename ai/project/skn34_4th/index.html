@@ -2,7 +2,7 @@
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="GovBiz 고도화 프로젝트의 LLM 기반 업무 라우팅, LLMOps, EKS·GitOps, 마이크로서비스 및 웹·모바일 공유 구조 기술 보고서."><title>GovBiz | 에이전트·LLMOps·EKS·서비스 아키텍처</title><link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./notion-content.css?v=20261111-spacing"><link rel="stylesheet" href="./header-toc.css"><link rel="stylesheet" href="./pdf-button.css"><script src="./script.js" defer></script></head>
 <body><a class="skip-link" href="#content">본문으로 바로 가기</a><header class="site-header" id="top"><a class="brand" href="#top">GovBiz<span>TECHNICAL PORTFOLIO</span></a><a href="https://github.com/ilil1/SKN34-4th-1Team">프로젝트 GitHub ↗</a></header>
 <main><header class="hero"><h1>GovBiz</h1><p class="hero-subtitle">[고도화] AI Agent 를 활용한 정부지원사업 탐색·신청 관리 플랫폼</p></header>
-<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li><li><a href="#section-2">2. 시스템 아키텍처</a></li><li><a href="#section-10">3. 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</a></li><li><a href="#section-13">4. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</a></li><li><a href="#section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</a></li><li><a href="#section-23">6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</a></li><li><a href="#section-26">7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</a></li><li><a href="#section-30">8. 기술 보고서 PDF</a></li></ol></nav><article id="content">
+<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li><li><a href="#section-2">2. 시스템 아키텍처</a></li><li><a href="#section-10">3. 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</a></li><li><a href="#section-13">4. Ops 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</a></li><li><a href="#section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 구축.</a></li><li><a href="#section-23">6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</a></li><li><a href="#section-26">7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유, 플랫폼별 인증·전송 처리는 분리 설계.</a></li><li><a href="#section-30">8. 기술 보고서 PDF</a></li></ol></nav><article id="content">
 <h2 id="section-1">1. 프로젝트 개요</h2>
 <p>GovBiz는 <b>정부지원사업 탐색부터 신청 준비까지 연결하는 AI 서비스</b>입니다. 여러 기관에 흩어진 공고를 모아, 기업의 조건과 목적에 맞는 사업을 찾고 신청 준비와 진행 상황까지 관리할 수 있도록 돕습니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
@@ -419,7 +419,7 @@
 <li><b><span style="color:#e03e3e">RAG 과정 상세보기 :</span></b> <a href="https://ilil1.github.io/ilil1/ai/project/skn34_3th/#section-3-2">https://ilil1.github.io/ilil1/ai/project/skn34_3th/#section-3-2</a></li>
 </ul>
 <hr>
-<h2 id="section-13">4. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</h2>
+<h2 id="section-13">4. Ops 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</h2>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>관리자 기능 — 운영 — 실제 서비스 확인</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/f4887b0b-6fe9-41ac-a98b-30ef08279661.png" aria-label="관리자 기능 — 운영 — 실제 서비스 확인 — 크게 보기"><img src="./assets/f4887b0b-6fe9-41ac-a98b-30ef08279661.png" alt="관리자 기능 — 운영 — 실제 서비스 확인" width="2000" height="797" loading="lazy" decoding="async"></a></figure>
@@ -653,7 +653,7 @@
 <div class="notion-empty" aria-hidden="true"></div>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/backend/ops-service/README.md">Ops 운영 API</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/evaluation/support-program-evidence/ops_flow.py">평가 실행 흐름</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/evaluation/support-program-evidence/llmops.py">분석·보고서·점수 등록</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/assets/demos/llmops/2026-10-15/README.md">운영 화면 원본</a></p>
 <hr>
-<h2 id="section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축.</h2>
+<h2 id="section-18">5. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 구축.</h2>
 <div class="notion-empty" aria-hidden="true"></div>
 <span id="section-19"></span><div class="diagram-heading" id="section-20"><b>CI 검증과 배포 설정 발행</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-gitops-part-1.svg" aria-label="CI 검증과 배포 설정 발행 — 크게 보기"><img src="./assets/govbiz-gitops-part-1.svg" alt="CI 검증과 배포 설정 발행" width="1300" height="870" loading="lazy" decoding="async"></a></figure>
@@ -754,7 +754,7 @@
 <li><b>평가 작업 분리:</b> 오래 걸리는 평가 계산을 Prefect와 별도 실행기로 넘겨 사용자 업무 API와 실행 경로를 구분하고, Ops에서 평가 이력과 검토를 관리합니다.</li>
 </ul>
 <hr>
-<h2 id="section-26">7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</h2>
+<h2 id="section-26">7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유, 플랫폼별 인증·전송 처리는 분리 설계.</h2>
 <div class="notion-empty" aria-hidden="true"></div>
 <h3 class="diagram-heading" id="section-27">업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리</h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/b3e23cf4-be53-4645-9c9f-27c709a394fc.png" aria-label="업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리 — 크게 보기"><img src="./assets/b3e23cf4-be53-4645-9c9f-27c709a394fc.png" alt="업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리" width="2000" height="879" loading="lazy" decoding="async"></a></figure>
