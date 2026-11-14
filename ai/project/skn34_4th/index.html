@@ -752,7 +752,9 @@
 <div class="diagram-heading" id="section-32"><b>Core와 Ops 분리의 이점과 한계</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-core-ops-evaluation-separation.png" aria-label="Core와 Ops의 역할 및 평가 실행 경로 — 크게 보기"><img src="./assets/govbiz-core-ops-evaluation-separation.png" alt="Core와 Ops의 업무 및 데이터 분리, Ops의 Core 관리자 권한 확인, Prefect와 평가 실행기를 통한 평가 경로" width="1774" height="887" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>평가 작업 분리:</b> 오래 걸리는 평가 계산을 Prefect와 별도 실행기로 넘겨 사용자 업무 API와 실행 경로를 구분하고, Ops에서 평가 이력과 검토를 관리합니다.</li>
+<li><b>서비스 분리:</b> Core는 사용자 업무를, Ops는 평가 요청·이력·검토를 담당합니다. Ops 프로세스에 장애가 생겨도 Core와 필요한 구성 요소가 정상이라면 공고 조회 등 Core 기능을 계속 이용할 수 있습니다. Core의 Kotlin·Spring Boot와 Ops의 Python·Django 실행 환경도 각각 관리할 수 있습니다.</li>
+<li><b>평가 작업 분리:</b> 오래 걸리는 평가 계산을 Prefect와 별도 실행기로 넘겨 사용자 업무 API와 실행 경로를 구분하고, Ops에서 평가 이력과 검토를 관리합니다. Core와 Ops를 합쳐도 평가 실행기는 별도로 운영할 수 있습니다.</li>
+<li><b>한계:</b> Ops는 관리자 권한을 확인하기 위해 Core를 호출하므로 Core 인증에 문제가 생기면 관리자 요청도 영향을 받습니다. 두 서비스가 같은 노드에 배치되어 노드 장애가 함께 영향을 줄 수 있고, 서비스와 DB를 따로 운영하면 배포와 관리가 복잡해집니다. 프로젝트 규모에 따라 사용자 업무와 평가 관리를 하나의 서비스로 운영하는 것도 타당합니다.</li>
 </ul>
 <hr>
 <h3 id="section-26">3.5. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</h3>
