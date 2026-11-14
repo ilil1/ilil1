@@ -60,6 +60,7 @@
 <hr>
 <h2 id="section-2">2. 시스템 아키텍처</h2>
 <p>아래 구조도는 <b>접속 → 서비스·데이터 → 평가·관측 → 서버 배치 → 외부 통신 → 빌드 → 배포</b> 순서로 살펴봅니다. 세부 설정은 각 그림 아래에서 펼쳐 볼 수 있습니다.</p>
+<div class="notion-empty" aria-hidden="true"></div>
 <h3 class="diagram-heading" id="section-3"><b>접속 경로 — 웹·앱에서 백엔드까지</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-01-lines-clean.png" aria-label="접속 경로 — 웹·앱에서 백엔드까지 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-01-lines-clean.png" alt="접속 경로 — 웹·앱에서 백엔드까지" width="3200" height="1797" loading="lazy" decoding="async"></a></figure>
 <ul>
@@ -119,6 +120,7 @@
 </table></div>
 <p>앱의 Vercel 경로는 API 주소 설정에 따라 합류합니다. 실기기 운영 검증은 별도입니다.</p>
 </div></details>
+<div class="notion-empty" aria-hidden="true"></div>
 <h3 class="diagram-heading" id="section-4"><b>서비스·데이터 — 업무를 처리하고 저장하는 방식</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-service-data-vector-index.png" aria-label="서비스·데이터 — 업무를 처리하고 저장하는 방식 — 크게 보기"><img src="./assets/govbiz-service-data-vector-index.png" alt="서비스·데이터 — 업무를 처리하고 저장하는 방식" width="1673" height="940" loading="lazy" decoding="async"></a></figure>
 <ul>
@@ -128,6 +130,7 @@
 <li><b>저장소:</b> 각 서비스는 역할에 맞는 저장소를 사용합니다.</li>
 <li><b>비동기 작업:</b> Core DB에 작업을 기록하고 RabbitMQ에 작업 ID를 전달합니다.</li>
 </ul>
+<div class="notion-empty" aria-hidden="true"></div>
 <h3 class="diagram-heading" id="section-5"><b>평가·관측 — 실행 기록과 평가 결과의 연결</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-03-langfuse-prefect.png" aria-label="평가·관측 — 실행 기록과 평가 결과의 연결 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-03-langfuse-prefect.png" alt="평가·관측 — 실행 기록과 평가 결과의 연결" width="3200" height="1800" loading="lazy" decoding="async"></a></figure>
 <ul>
@@ -180,6 +183,7 @@
 </table></div>
 <p>Ops → ops-artifacts: 인증된 보고서 조회 · 실행기 → Ops 내부 API: 설정된 경우에 호출</p>
 </div></details>
+<div class="notion-empty" aria-hidden="true"></div>
 <h3 class="diagram-heading" id="section-6"><b>서버 배치 — Pod를 배치하고 확장하는 방식</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-04.png" aria-label="서버 배치 — Pod를 배치하고 확장하는 방식 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-04.png" alt="서버 배치 — Pod를 배치하고 확장하는 방식" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
 <ul>
@@ -224,6 +228,7 @@
 </table></div>
 <p>평가 실행기와 결과 서버는 같은 노드에 배치합니다. Namespace는 논리 구분이고 EC2는 실행 위치입니다.</p>
 </div></details>
+<div class="notion-empty" aria-hidden="true"></div>
 <h3 class="diagram-heading" id="section-7"><b>외부 통신·저장소 — 외부 API와 영속 데이터</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-05.png" aria-label="외부 통신·저장소 — 외부 API와 영속 데이터 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-05.png" alt="외부 통신·저장소 — 외부 API와 영속 데이터" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
 <ul>
@@ -277,6 +282,7 @@
 <p>Pod가 시작한 연결의 응답만 반환합니다. NAT를 통해 외부에서 Pod로 새 연결을 시작할 수 없습니다.</p>
 <p>API 키·제공처 활성화 설정이 필요합니다. 평가 실행기의 외부 모델 호출은 원본 Chart에서 비활성입니다.</p>
 </div></details>
+<div class="notion-empty" aria-hidden="true"></div>
 <h3 class="diagram-heading" id="section-8"><b>빌드·발행 — 코드에서 이미지와 배포 파일까지</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-06.png" aria-label="빌드·발행 — 코드에서 이미지와 배포 파일까지 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-06.png" alt="빌드·발행 — 코드에서 이미지와 배포 파일까지" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
 <ul>
@@ -336,6 +342,7 @@
 </tr>
 </table></div>
 </div></details>
+<div class="notion-empty" aria-hidden="true"></div>
 <h3 class="diagram-heading" id="section-9"><b>GitOps 배포 — 변경 반영과 실행 상태 검증</b></h3>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-07.png" aria-label="GitOps 배포 — 변경 반영과 실행 상태 검증 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-07.png" alt="GitOps 배포 — 변경 반영과 실행 상태 검증" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
 <ul>
