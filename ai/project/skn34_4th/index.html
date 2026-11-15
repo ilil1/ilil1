@@ -2,7 +2,7 @@
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="GovBiz 고도화 프로젝트의 LLM 기반 업무 라우팅, LLMOps, EKS·GitOps, 마이크로서비스 및 웹·모바일 공유 구조 기술 보고서."><title>GovBiz | 에이전트·LLMOps·EKS·서비스 아키텍처</title><link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./notion-content.css?v=20261114-toc"><link rel="stylesheet" href="./header-toc.css"><link rel="stylesheet" href="./pdf-button.css"><script src="./script.js" defer></script></head>
 <body><a class="skip-link" href="#content">본문으로 바로 가기</a><header class="site-header" id="top"><a class="brand" href="#top">GovBiz<span>TECHNICAL PORTFOLIO</span></a><a href="https://github.com/ilil1/SKN34-4th-1Team">프로젝트 GitHub ↗</a></header>
 <main><header class="hero"><h1>GovBiz</h1><p class="hero-subtitle">[고도화] AI Agent 를 활용한 정부지원사업 탐색·신청 관리 플랫폼</p></header>
-<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li><li><a href="#section-2">2. 시스템 아키텍처</a></li><li><a href="#section-implementation">3. 구현 정보</a><ol><li><a href="#section-10">3.1. 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</a></li><li><a href="#section-13">3.2. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</a></li><li><a href="#section-18">3.3. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 구축.</a></li><li><a href="#section-23">3.4. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</a></li><li><a href="#section-26">3.5. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</a></li></ol></li><li><a href="#section-30">4. 기술 보고서 PDF</a></li></ol></nav><article id="content">
+<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li><li><a href="#section-2">2. 시스템 아키텍처</a></li><li><a href="#section-implementation">3. 구현 정보</a><ol><li><a href="#section-10">3.1. 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</a></li><li><a href="#section-evaluation-pipeline">3.2. LLM 응답 품질을 측정하고 결과를 비교·보고하는 평가 엔진을 구현하고, Prefect 기반 평가 파이프라인과 평가 실행기를 구축.</a></li><li><a href="#section-13">3.3. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</a></li><li><a href="#section-18">3.4. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 구축.</a></li><li><a href="#section-23">3.5. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</a></li><li><a href="#section-26">3.6. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</a></li></ol></li><li><a href="#section-30">4. 기술 보고서 PDF</a></li></ol></nav><article id="content">
 <h2 id="section-1">1. 프로젝트 개요</h2>
 <p>GovBiz는 <b>정부지원사업 탐색부터 신청 준비까지 연결하는 AI 서비스</b>입니다. 여러 기관에 흩어진 공고를 모아, 기업의 조건과 목적에 맞는 사업을 찾고 신청 준비와 진행 상황까지 관리할 수 있도록 돕습니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
@@ -420,7 +420,34 @@
 <li><b><span style="color:#e03e3e">RAG 과정 상세보기 :</span></b> <a href="https://ilil1.github.io/ilil1/ai/project/skn34_3th/#section-3-2">https://ilil1.github.io/ilil1/ai/project/skn34_3th/#section-3-2</a></li>
 </ul>
 <hr>
-<h3 id="section-13">3.2. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</h3>
+<h3 id="section-evaluation-pipeline">3.2. LLM 응답 품질을 측정하고 결과를 비교·보고하는 평가 엔진을 구현하고, Prefect 기반 평가 파이프라인과 평가 실행기를 구축.</h3>
+<p><b>LLMOps 개선 프로젝트 링크 :</b> <a href="https://github.com/ilil1/GovBiz">GovBiz</a></p>
+<p>평가 요청을 관리하는 기능과 실제 평가 계산을 구분했습니다. 평가 엔진은 답변과 검색 결과를 측정하고, Prefect 기반 파이프라인과 실행기는 평가 작업의 실행 순서를 관리합니다.</p>
+<div class="diagram-heading"><b>평가 엔진과 Prefect 실행 구조</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-prefect-evaluation-structure-notion.png" aria-label="평가 엔진과 Prefect 실행 구조 — 크게 보기"><img src="./assets/govbiz-prefect-evaluation-structure-notion.png" alt="Ops 평가 요청과 Prefect 서버의 작업 조회·상태 보고, 평가 실행기 안의 파이프라인과 평가 엔진, 결과 저장소와 Langfuse 점수 전송" width="1774" height="777" loading="lazy" decoding="async"></a></figure>
+<div class="notion-empty" aria-hidden="true"></div>
+<ul>
+<li><b>평가 엔진:</b> <code>evaluation/</code>에서 평가 자료와 저장된 응답을 검증하고, 응답 상태 일치율과 기준 근거 인용 재현율 등을 계산합니다. RAG 평가는 저장된 검색 결과와 답변을 함께 확인합니다.</li>
+<li><b>결과 비교와 보고:</b> 같은 평가 자료와 사례를 기준으로 후보 결과와 비교 기준을 대조하고, Evidently를 활용해 비교 보고서를 생성합니다.</li>
+<li><b>평가 파이프라인:</b> <code>pipelines/</code>에서 입력·실행 조건 확인부터 평가 엔진 호출, 보고서 생성과 점수 전송까지의 순서를 정의합니다. 필요한 단계에는 재시도 정책을 적용합니다.</li>
+<li><b>평가 실행기:</b> <code>serve.py</code>가 Prefect에 평가 작업을 등록하고 요청을 기다립니다. 실행 요청이 접수되면 Prefect 서버에서 작업을 확인해 파이프라인을 실행하며, 현재 동시 실행은 1개로 제한합니다.</li>
+<li><b>실행 방식:</b> 저장된 응답을 다시 평가할 때는 새 모델 호출 없이 점수를 계산합니다. 새 응답을 생성하는 평가는 승인과 예산 조건을 확인한 뒤 실행합니다.</li>
+<li><b>결과 해석:</b> 자동 지표는 평가 자료에서 측정한 범위를 보여주며, 답변의 사실 충실도를 모두 보장하지 않습니다. 답변과 근거는 사람이 별도로 검토합니다.</li>
+</ul>
+<p>평가 엔진은 Prefect 없이도 테스트나 명령줄에서 사용할 수 있으며, 운영 화면과 Prefect·Langfuse의 연동은 다음 절에서 설명합니다.</p>
+<div class="notion-empty" aria-hidden="true"></div>
+<div class="diagram-heading"><b>평가 코드와 파이프라인 디렉터리 구성</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-evaluation-directory-notion.png" aria-label="평가 코드와 파이프라인 디렉터리 구성 — 크게 보기"><img src="./assets/govbiz-evaluation-directory-notion.png" alt="evaluation 폴더의 평가 및 보고서 코드와 pipelines 폴더의 실행 진입점, 평가 흐름, 작업 및 연동 코드" width="1568" height="884" loading="lazy" decoding="async"></a></figure>
+<ul>
+<li><b>evaluation/ — 평가 기능:</b> <code>support-program-evidence/</code>에서 답변·RAG 평가 지표를 계산하고 비교 보고서를 만듭니다. 같은 폴더에 평가 자료, 테스트, 이전 실행 기록과 예산·모델 실행 관련 코드도 있습니다.</li>
+<li><b>pipelines/ — 실행 관리:</b> <code>serve.py</code>는 평가 작업을 등록하고 대기합니다. <code>evaluation/flows.py</code>는 평가 순서를 정의하고, <code>tasks.py</code>는 단계별 작업과 재시도 정책을, <code>clients.py</code>는 Langfuse 점수 전송을 담당합니다.</li>
+<li><b>실행 관계:</b> 실행기가 Prefect 파이프라인을 실행하면 파이프라인이 평가 엔진을 호출합니다. <code>evaluation/pyproject.toml</code>은 평가 엔진 설치를 정의하며, <code>pipelines/pyproject.toml</code>과 <code>uv.lock</code>은 파이프라인의 의존성과 버전을 관리합니다.</li>
+<li><b>배포 설정:</b> Prefect 서버와 실행 환경에 필요한 구성은 <code>infrastructure/llmops/</code> 및 GitOps 설정에서 별도로 관리합니다.</li>
+</ul>
+<div class="notion-empty" aria-hidden="true"></div>
+<hr>
+<h3 id="section-13">3.3. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</h3>
+<p><b>LLMOps 개선 프로젝트 링크 :</b> <a href="https://github.com/ilil1/GovBiz">GovBiz</a></p>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>관리자 기능 — 운영 — 실제 서비스 확인</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/f4887b0b-6fe9-41ac-a98b-30ef08279661.png" aria-label="관리자 기능 — 운영 — 실제 서비스 확인 — 크게 보기"><img src="./assets/f4887b0b-6fe9-41ac-a98b-30ef08279661.png" alt="관리자 기능 — 운영 — 실제 서비스 확인" width="2000" height="797" loading="lazy" decoding="async"></a></figure>
@@ -567,7 +594,7 @@
 <p><br />• <b>01 예산 관리 화면 열기:</b> Ops MySQL에서 전체·하루 한도와 사용·예약 내역을 조회해 표시합니다.<br />• <b>02 전체 사용 한도 설정:</b> 관리자는 평가 자료와 모델의 최대 필요량을 참고하거나 직접 호출 수와 입력·출력 토큰 한도를 입력합니다. ops-service가 기존 할당량과 변경 충돌을 확인한 뒤 한도와 변경 이력을 저장합니다.<br />• <b>03 하루 한도 설정과 내역 확인:</b> 관리자는 하루 한도를 설정하거나 변경하고, 평가별 사용·예약 내역과 한도 변경 이력을 확인합니다. ops-service는 입력값과 현재 예약을 확인해 저장하고 결과를 화면에 반환합니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>— 테스트 — T3 새 평가 구조도</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-t3-prev2-short-lines.png" aria-label="— 테스트 — T3 새 평가 구조도 — 크게 보기"><img src="./assets/govbiz-t3-prev2-short-lines.png" alt="— 테스트 — T3 새 평가 구조도" width="1800" height="1480" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-t3-evaluation-prefect-notion.png" aria-label="— 테스트 — T3 새 평가 구조도 — 크게 보기"><img src="./assets/govbiz-t3-evaluation-prefect-notion.png" alt="새 응답 생성과 저장된 답변 재평가에서 Ops, Prefect 서버, 평가 실행기와 결과 저장소의 연결" width="1383" height="1137" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>평가 준비와 접수:</b> 관리자는 평가 자료를 선택하고, 저장된 답변을 다시 확인할지 새 응답을 생성할지 확인합니다. 이후 비교할 답변을 선택하며, 새 응답을 생성할 때는 모델과 전송 자료·최대 호출 예산을 확인하고 동의한 뒤 평가를 실행합니다.</li>
 <li><b>예산 확인과 예약:</b> 새 응답 생성 요청을 받은 ops-service는 전체 한도와 설정된 하루 한도, 사용·예약 내역을 확인해 필요한 호출 수와 토큰을 예약합니다. 예약이 성공해야 Prefect에 실행을 요청하며, 실패하면 평가 접수를 중단합니다. 저장된 답변을 다시 확인하는 평가는 새 모델 호출과 예산 예약 없이 실행합니다.</li>
@@ -648,13 +675,13 @@
 </ul>
 <p><b>구현 기준:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/frontend/web/src/presentation/features/ops/OpsApp.tsx#L102">운영·테스트 메뉴 정의</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#94-%EC%9A%B4%EC%98%81-%ED%99%94%EB%A9%B4%EC%97%90%EC%84%9C-%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-%EC%9D%BC">운영 화면 기능·측정 범위</a></p>
 <div class="notion-empty" aria-hidden="true"></div>
-<div class="diagram-heading" id="section-15"><b>3.2.1. 목적에 맞는 세 가지 평가 경로</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-06.png" aria-label="3.2.1. 목적에 맞는 세 가지 평가 경로 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-06.png" alt="3.2.1. 목적에 맞는 세 가지 평가 경로" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
+<div class="diagram-heading" id="section-15"><b>3.3.1. 목적에 맞는 세 가지 평가 경로</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-notion-body-technical-06.png" aria-label="3.3.1. 목적에 맞는 세 가지 평가 경로 — 크게 보기"><img src="./assets/govbiz-notion-body-technical-06.png" alt="3.3.1. 목적에 맞는 세 가지 평가 경로" width="2021" height="1120" loading="lazy" decoding="async"></a></figure>
 <p><b>저장 응답 재평가</b>는 당시 응답을 다시 분석합니다. <b>고정 근거 답변</b>은 같은 근거에서 새 답변을, <b>고정 원문 RAG</b>는 평가 자료 전용 검색과 새 답변을 비교합니다. 운영 원문 재수집·재청킹·운영 검색 색인 전체의 성능 측정과는 구분합니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/backend/ops-service/README.md">Ops 운영 API</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/evaluation/support-program-evidence/ops_flow.py">평가 실행 흐름</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/evaluation/support-program-evidence/llmops.py">분석·보고서·점수 등록</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/assets/demos/llmops/2026-10-15/README.md">운영 화면 원본</a></p>
 <hr>
-<h3 id="section-18">3.3. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 구축.</h3>
+<h3 id="section-18">3.4. 서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 구축.</h3>
 <div class="notion-empty" aria-hidden="true"></div>
 <span id="section-19"></span><div class="diagram-heading" id="section-20"><b>CI 검증과 배포 설정 발행</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-gitops-part-1.svg" aria-label="CI 검증과 배포 설정 발행 — 크게 보기"><img src="./assets/govbiz-gitops-part-1.svg" alt="CI 검증과 배포 설정 발행" width="1300" height="870" loading="lazy" decoding="async"></a></figure>
@@ -723,7 +750,7 @@
 </ul>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L270-L282">메인 README의 운영 구성</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L311-L395">Kubernetes 리소스 설명</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/autoscaling/README.md">자동 확장 설정</a></p>
 <hr>
-<h3 id="section-23">3.4. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</h3>
+<h3 id="section-23">3.5. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</h3>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-24"><b>서비스 책임과 데이터 소유권을 함께 분리</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/d77d1064-e5d0-4b65-9145-1d6afe2c8213.png" aria-label="서비스 책임과 데이터 소유권을 함께 분리 — 크게 보기"><img src="./assets/d77d1064-e5d0-4b65-9145-1d6afe2c8213.png" alt="서비스 책임과 데이터 소유권을 함께 분리" width="1755" height="826" loading="lazy" decoding="async"></a></figure>
@@ -743,7 +770,7 @@
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-31"><b>Core와 AI 분리의 이점과 한계</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-core-ai-proportions.png" aria-label="Core와 AI의 역할 분리와 Kubernetes 독립 확장 — 크게 보기"><img src="./assets/govbiz-core-ai-proportions.png" alt="Core Service와 AI Service의 역할 및 내부 HTTP 통신, Kubernetes HPA의 서비스별 Pod 2~3개 독립 확장" width="1774" height="887" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-core-ai-catalog-style-v2.png" aria-label="Core와 AI의 역할 분리와 Kubernetes 독립 확장 — 크게 보기"><img src="./assets/govbiz-core-ai-catalog-style-v2.png" alt="Core Service와 AI Service의 역할 및 내부 HTTP 통신, Kubernetes HPA의 서비스별 Pod 2~3개 독립 확장" width="1771" height="888" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>서비스 분리:</b> 서로 다른 실행 환경과 라이브러리, 자원을 각각 관리할 수 있습니다. AI Pod의 평균 CPU 사용률이 높아지면 Core Pod 수와 별도로 AI Pod를 늘릴 수 있습니다.</li>
 <li><b>한계:</b> Core의 AI 기능은 내부 HTTP로 AI 서비스를 호출하므로 AI 장애나 응답 지연의 영향을 받습니다. ( 현재 프로젝트에서 AI 기능이 Python 라이브러리 실행 환경에 종속되어 있고 서로 다른 환경을 관리하고 실행 규모를 따로 조절하기 위해 분리하는게 더 좋은 운영 구조라고 보입니다. )</li>
@@ -752,12 +779,11 @@
 <div class="diagram-heading" id="section-32"><b>Core와 Ops 분리의 이점과 한계</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-core-ops-evaluation-separation.png" aria-label="Core와 Ops의 역할 및 평가 실행 경로 — 크게 보기"><img src="./assets/govbiz-core-ops-evaluation-separation.png" alt="Core와 Ops의 업무 및 데이터 분리, Ops의 Core 관리자 권한 확인, Prefect와 평가 실행기를 통한 평가 경로" width="1774" height="887" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>서비스 분리:</b> Core는 사용자 업무를, Ops는 평가 요청·이력·검토를 담당합니다. Ops 프로세스에 장애가 생겨도 Core와 필요한 구성 요소가 정상이라면 공고 조회 등 Core 기능을 계속 이용할 수 있습니다. Core의 Kotlin·Spring Boot와 Ops의 Python·Django 실행 환경도 각각 관리할 수 있습니다.</li>
+<li><b>서비스 분리:</b> Core는 사용자 업무를, Ops는 평가 요청·이력·검토를 담당합니다. ( 현재 프로젝트에서는 합쳐서 관리하는게 더 이점이 있지만, 이 당시에 Django 를 사용해서 프로젝트를 진행해야 한다는 제한 조건이 있어서 Ops Service 를 분리해서 개발을 진행했습니다. )</li>
 <li><b>평가 작업 분리:</b> 오래 걸리는 평가 계산을 Prefect와 별도 실행기로 넘겨 사용자 업무 API와 실행 경로를 구분하고, Ops에서 평가 이력과 검토를 관리합니다. Core와 Ops를 합쳐도 평가 실행기는 별도로 운영할 수 있습니다.</li>
-<li><b>한계:</b> Ops는 관리자 권한을 확인하기 위해 Core를 호출하므로 Core 인증에 문제가 생기면 관리자 요청도 영향을 받습니다. 두 서비스가 같은 노드에 배치되어 노드 장애가 함께 영향을 줄 수 있고, 서비스와 DB를 따로 운영하면 배포와 관리가 복잡해집니다. 프로젝트 규모에 따라 사용자 업무와 평가 관리를 하나의 서비스로 운영하는 것도 타당합니다.</li>
 </ul>
 <hr>
-<h3 id="section-26">3.5. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</h3>
+<h3 id="section-26">3.6. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</h3>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="section-27">업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리</h4>
 <figure class="diagram"><a class="zoom-image" href="./assets/b3e23cf4-be53-4645-9c9f-27c709a394fc.png" aria-label="업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리 — 크게 보기"><img src="./assets/b3e23cf4-be53-4645-9c9f-27c709a394fc.png" alt="업무 규칙과 응답 검증은 공유, 플랫폼 연결은 분리" width="2000" height="879" loading="lazy" decoding="async"></a></figure>
