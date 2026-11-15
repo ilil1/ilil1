@@ -410,8 +410,8 @@
 </li><li><p><b>Human-in-the-loop:</b> 사용자가 공고를 선택하고 신청 준비나 중복 검토에 필요한 내용을 확인하며 후속 작업을 직접 진행합니다.</p>
 </li></ul>
 <div class="notion-empty" aria-hidden="true"></div>
-<div class="diagram-heading"><b>AI의 업무 선택과 검증 : 공고 원문 질문의 예시</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" aria-label="AI의 업무 선택과 검증 : 공고 원문 질문의 예시 — 크게 보기"><img src="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" alt="AI의 업무 선택과 검증 : 공고 원문 질문의 예시" width="2000" height="1796" loading="lazy" decoding="async"></a></figure>
+<div class="diagram-heading"><b>공고 원문 질문의 흐름도</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" aria-label="공고 원문 질문의 흐름도 — 크게 보기"><img src="./assets/1a60f71f-a51b-4bee-bc43-6ff56dec2a7a.png" alt="공고 원문 질문의 흐름도" width="2000" height="1796" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>질문 전달:</b> 사용자가 선택한 공고와 질문을 Core에 전달하면, Core는 질문과 공고 선택 여부를 AI에 보냅니다.</li>
 <li><b>업무 선택:</b> AI는 요청을 공고 원문 질문(<code>EVIDENCE</code>)으로 분류하고, 응답 형식과 허용된 업무 값이 맞는지 확인합니다.</li>
@@ -422,19 +422,30 @@
 <hr>
 <h3 id="section-evaluation-pipeline">3.2. LLM 응답 품질을 측정하고 결과를 비교·보고하는 평가 엔진을 구현하고, Prefect 기반 평가 파이프라인과 평가 실행기를 구축.</h3>
 <p><b>LLMOps 개선 프로젝트 링크 :</b> <a href="https://github.com/ilil1/GovBiz">GovBiz</a></p>
-<p>평가 요청을 관리하는 기능과 실제 평가 계산을 구분했습니다. 평가 엔진은 답변과 검색 결과를 측정하고, Prefect 기반 파이프라인과 실행기는 평가 작업의 실행 순서를 관리합니다.</p>
+<div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>평가 엔진과 Prefect 실행 구조</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-prefect-evaluation-structure-notion.png" aria-label="평가 엔진과 Prefect 실행 구조 — 크게 보기"><img src="./assets/govbiz-prefect-evaluation-structure-notion.png" alt="Ops 평가 요청과 Prefect 서버의 작업 조회·상태 보고, 평가 실행기 안의 파이프라인과 평가 엔진, 결과 저장소와 Langfuse 점수 전송" width="1774" height="777" loading="lazy" decoding="async"></a></figure>
-<div class="notion-empty" aria-hidden="true"></div>
 <ul>
-<li><b>평가 엔진:</b> <code>evaluation/</code>에서 평가 자료와 저장된 응답을 검증하고, 응답 상태 일치율과 기준 근거 인용 재현율 등을 계산합니다. RAG 평가는 저장된 검색 결과와 답변을 함께 확인합니다.</li>
-<li><b>결과 비교와 보고:</b> 같은 평가 자료와 사례를 기준으로 후보 결과와 비교 기준을 대조하고, Evidently를 활용해 비교 보고서를 생성합니다.</li>
-<li><b>평가 파이프라인:</b> <code>pipelines/</code>에서 입력·실행 조건 확인부터 평가 엔진 호출, 보고서 생성과 점수 전송까지의 순서를 정의합니다. 필요한 단계에는 재시도 정책을 적용합니다.</li>
+<li><b>평가 요청:</b> Ops Service가 평가 조건을 확인하고 Prefect 서버에 평가 실행 요청을 등록합니다.</li>
 <li><b>평가 실행기:</b> <code>serve.py</code>가 Prefect에 평가 작업을 등록하고 요청을 기다립니다. 실행 요청이 접수되면 Prefect 서버에서 작업을 확인해 파이프라인을 실행하며, 현재 동시 실행은 1개로 제한합니다.</li>
-<li><b>실행 방식:</b> 저장된 응답을 다시 평가할 때는 새 모델 호출 없이 점수를 계산합니다. 새 응답을 생성하는 평가는 승인과 예산 조건을 확인한 뒤 실행합니다.</li>
-<li><b>결과 해석:</b> 자동 지표는 평가 자료에서 측정한 범위를 보여주며, 답변의 사실 충실도를 모두 보장하지 않습니다. 답변과 근거는 사람이 별도로 검토합니다.</li>
+<li><b>실행 관리:</b> Prefect 서버는 요청과 실행 상태를 관리합니다. 별도 평가 실행기의 <code>serve.py</code>가 서버에서 요청을 확인해 파이프라인을 시작하고 실행 상태를 보고합니다.</li>
+<li><b>평가 파이프라인:</b> <code>pipelines/</code>에서 입력·실행 조건 확인부터 평가 엔진 호출, 보고서 생성과 점수 전송까지의 순서를 정의합니다. 필요한 단계에는 재시도 정책을 적용합니다.</li>
+<li><b>입력 검증과 실행 방식:</b> 파이프라인은 평가 자료와 실행 명세를 검증한 뒤 저장된 응답을 다시 평가하거나, 승인과 예산을 확인한 뒤 새 응답을 생성합니다. 저장된 응답을 다시 평가할 때는 새 모델 호출이 없습니다.</li>
+<li><b>평가 엔진:</b> 응답을 평가 자료와 대조해 상태 일치, 인용과 검색 관련 지표를 계산합니다.</li>
+<li><b>결과 비교와 보관:</b> 평가 결과를 기존 기준 결과와 비교해 Evidently HTML 보고서를 만들고 결과 저장소에 보관합니다. 평가 점수는 설정된 Langfuse에 전송합니다.</li>
 </ul>
-<p>평가 엔진은 Prefect 없이도 테스트나 명령줄에서 사용할 수 있으며, 운영 화면과 Prefect·Langfuse의 연동은 다음 절에서 설명합니다.</p>
+<div class="notion-empty" aria-hidden="true"></div>
+<div class="diagram-heading"><b>평가 엔진과 Prefect 실행 흐름도</b></div>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-evaluation-prefect-sequence-admin.png" aria-label="평가 엔진과 Prefect 실행 흐름도 — 크게 보기"><img src="./assets/govbiz-evaluation-prefect-sequence-admin.png" alt="관리자 화면, Ops Service, Prefect 서버, 평가 실행기, 결과 저장소와 Langfuse의 평가 요청 및 실행 상태 흐름" width="2048" height="2038" loading="lazy" decoding="async"></a></figure>
+<ul>
+<li><b>01 · 실행기 준비:</b> 평가 실행기의 <code>serve.py</code>가 Prefect 서버에 평가 작업을 등록하고 실행 요청을 기다립니다. 현재 동시 실행 수는 1개로 제한합니다.</li>
+<li><b>02~04 · 평가 요청:</b> 관리자가 평가 자료와 실행 방식을 선택하면 Ops Service가 권한과 실행 조건을 확인하고, Prefect 서버에 평가 실행을 요청합니다. 새 응답을 생성하는 경우에는 승인과 예산 조건도 확인합니다.</li>
+<li><b>05~06 · 작업 확인:</b> Prefect 서버가 실행기를 직접 호출하는 것이 아니라, 실행기가 서버에서 요청을 확인하고 실행 정보를 받아 파이프라인을 시작합니다.</li>
+<li><b>07~09 · 평가 실행:</b> 파이프라인은 입력과 실행 명세를 검증하고 평가할 응답을 준비한 뒤 평가 엔진을 호출합니다. 저장된 응답을 다시 평가할 때는 새 모델 호출이 없으며, 새 응답 생성은 승인과 예산 조건을 충족한 뒤 진행합니다.</li>
+<li><b>10~11 · 결과 저장:</b> 평가 결과와 Evidently 비교 보고서를 결과 저장소에 보관하고, Langfuse가 설정된 경우 평가 점수를 전송합니다.</li>
+<li><b>12~15 · 상태와 결과 확인:</b> 실행기 쪽에서 진행·완료·실패 상태를 Prefect 서버에 기록합니다. Ops Service는 필요한 경우 Prefect에서 상태를 조회하고 결과 파일을 확인해 관리자 화면에 보여 줍니다. 상태 조회는 평가를 다시 실행하는 것이 아닙니다.</li>
+<li><b>자동 상태 확인:</b> 관리자가 평가 상세 화면을 열어 둔 동안 진행 중인 상태를 약 5초 간격으로 확인합니다. 별도로 <code>ops-sync</code>가 활성화된 환경에서는 화면을 닫아도 미완료 평가를 기본 약 10초 간격으로 확인합니다. 정상 종료가 확인되면 해당 평가의 반복 확인은 끝나며, 상태나 결과를 확인하지 못한 경우에는 다시 확인할 수 있습니다. 그림의 12·13번은 한 번씩만 차례로 일어나는 동작이 아니라 실행 중에도 반복될 수 있습니다.</li>
+</ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>평가 코드와 파이프라인 디렉터리 구성</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-evaluation-directory-notion.png" aria-label="평가 코드와 파이프라인 디렉터리 구성 — 크게 보기"><img src="./assets/govbiz-evaluation-directory-notion.png" alt="evaluation 폴더의 평가 및 보고서 코드와 pipelines 폴더의 실행 진입점, 평가 흐름, 작업 및 연동 코드" width="1568" height="884" loading="lazy" decoding="async"></a></figure>
@@ -444,6 +455,12 @@
 <li><b>실행 관계:</b> 실행기가 Prefect 파이프라인을 실행하면 파이프라인이 평가 엔진을 호출합니다. <code>evaluation/pyproject.toml</code>은 평가 엔진 설치를 정의하며, <code>pipelines/pyproject.toml</code>과 <code>uv.lock</code>은 파이프라인의 의존성과 버전을 관리합니다.</li>
 <li><b>배포 설정:</b> Prefect 서버와 실행 환경에 필요한 구성은 <code>infrastructure/llmops/</code> 및 GitOps 설정에서 별도로 관리합니다.</li>
 </ul>
+<div class="notion-empty" aria-hidden="true"></div>
+<ul>
+<li><b>실행 방식:</b> 저장된 응답을 다시 평가할 때는 새 모델 호출 없이 점수를 계산합니다. 새 응답을 생성하는 평가는 승인과 예산 조건을 확인한 뒤 실행합니다.</li>
+<li><b>평가 엔진:</b> <code>evaluation/</code>에서 평가 자료와 저장된 응답을 검증하고, 응답 상태 일치율과 기준 근거 인용 재현율 등을 계산합니다. RAG 평가는 저장된 검색 결과와 답변을 함께 확인합니다.</li>
+</ul>
+<p>평가 엔진은 Prefect 없이도 테스트나 명령줄에서 사용할 수 있으며, 운영 화면과 Prefect·Langfuse의 연동은 다음 절에서 설명합니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
 <hr>
 <h3 id="section-13">3.3. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</h3>
@@ -647,7 +664,6 @@
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading"><b>— 테스트 — T6 평가와 실행</b></div>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-test-execution-result-box-aligned.png" aria-label="— 테스트 — T6 평가와 실행 — 크게 보기"><img src="./assets/govbiz-test-execution-result-box-aligned.png" alt="— 테스트 — T6 평가와 실행" width="2400" height="1370" loading="lazy" decoding="async"></a></figure>
-<p><b>테스트 — 평가 실행과 결과 비교</b></p>
 <ul>
 <li><b>새 평가 :</b> Ops가 권한·자료·승인·예산을 확인하고 Prefect에 실행을 접수합니다. 평가 실행기는 pandas·Pandera로 데이터를 처리하고 지표와 Evidently 보고서를 만들며, 설정된 경우 Langfuse에 점수를 등록합니다.</li>
 <li><b>정기 실행 :</b> Ops가 평가 일정과 실행 조건을 관리합니다. 활성화된 일정이 도래하면 실행 조건과 예산을 확인해 Prefect에 평가를 접수합니다.</li>
@@ -753,7 +769,7 @@
 <h3 id="section-23">3.5. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</h3>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-24"><b>서비스 책임과 데이터 소유권을 함께 분리</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/d77d1064-e5d0-4b65-9145-1d6afe2c8213.png" aria-label="서비스 책임과 데이터 소유권을 함께 분리 — 크게 보기"><img src="./assets/d77d1064-e5d0-4b65-9145-1d6afe2c8213.png" alt="서비스 책임과 데이터 소유권을 함께 분리" width="1755" height="826" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-service-ownership-cropped.png" aria-label="서비스 책임과 데이터 소유권을 함께 분리 — 크게 보기"><img src="./assets/govbiz-service-ownership-cropped.png" alt="Ops·Core·Catalog·AI의 책임과 저장소 및 서비스 간 연동" width="1755" height="585" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>Core:</b> 계정·관심 공고·신청 준비 등 사용자 업무와 공개 API를 담당합니다. Core MySQL에 사용자 업무와 공고 조회용 복제본을 저장하고, Elasticsearch에서 키워드 후보를 조회합니다. Redis는 캐시·임시 상태에, RabbitMQ는 Core 내부 비동기 작업에 사용합니다.</li>
 <li><b>Catalog:</b> 제공처 공고를 수집·정규화하고 Catalog MySQL에 원본과 수집·게시 상태를 관리합니다. Elasticsearch 키워드 색인을 만들고 AI 서비스에 벡터 준비를 요청하며, 검색 자료가 준비된 공고 snapshot을 내부 API로 제공합니다.</li>
@@ -777,10 +793,11 @@
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <div class="diagram-heading" id="section-32"><b>Core와 Ops 분리의 이점과 한계</b></div>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-core-ops-evaluation-separation.png" aria-label="Core와 Ops의 역할 및 평가 실행 경로 — 크게 보기"><img src="./assets/govbiz-core-ops-evaluation-separation.png" alt="Core와 Ops의 업무 및 데이터 분리, Ops의 Core 관리자 권한 확인, Prefect와 평가 실행기를 통한 평가 경로" width="1774" height="887" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-core-ops-catalog-mysql.svg" aria-label="Core와 Ops의 역할 및 데이터 분리 — 크게 보기"><img src="./assets/govbiz-core-ops-catalog-mysql.svg" alt="Core와 Ops의 업무 및 데이터 분리와 Ops의 Core 관리자 권한 확인" width="1771" height="741" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>서비스 분리:</b> Core는 사용자 업무를, Ops는 평가 요청·이력·검토를 담당합니다. ( 현재 프로젝트에서는 합쳐서 관리하는게 더 이점이 있지만, 이 당시에 Django 를 사용해서 프로젝트를 진행해야 한다는 제한 조건이 있어서 Ops Service 를 분리해서 개발을 진행했습니다. )</li>
-<li><b>평가 작업 분리:</b> 오래 걸리는 평가 계산을 Prefect와 별도 실행기로 넘겨 사용자 업무 API와 실행 경로를 구분하고, Ops에서 평가 이력과 검토를 관리합니다. Core와 Ops를 합쳐도 평가 실행기는 별도로 운영할 수 있습니다.</li>
+<li><b>서비스 분리:</b> Core는 사용자 업무를, Ops는 평가 요청·이력·검토를 담당합니다. Spring Boot·Kotlin과 Django·Python의 실행 환경과 배포를 각각 관리할 수 있습니다.</li>
+<li><b>DB 분리:</b> Core는 사용자 업무 데이터를, Ops는 평가 이력과 운영 데이터를 각자의 DB에 저장합니다. Ops 서비스나 DB에 장애가 생겨도 Core와 해당 업무에 필요한 구성 요소가 정상이라면 Ops에 의존하지 않는 사용자 업무는 계속 처리할 수 있습니다.</li>
+<li><b>한계:</b> Ops는 관리자 권한을 Core에 확인하므로 Core가 지연되거나 중단되면 권한 확인이 필요한 Ops 기능도 영향을 받습니다. 두 서비스와 DB를 따로 배포·모니터링하고 연동해야 하므로 운영이 복잡해집니다. ( 현재 프로젝트 규모와 운영 여건을 고려하면 한 서비스로 관리하는 편이 더 단순하고 유리하다고 판단했습니다. 다만 당시 Django를 사용해야 하는 프로젝트 조건에 맞추기 위해 Ops를 분리해 개발했습니다. )</li>
 </ul>
 <hr>
 <h3 id="section-26">3.6. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</h3>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1771" height="741" viewBox="0 0 1771 741" role="img" aria-labelledby="title desc">
+  <title id="title">Core와 Ops 서비스의 역할과 데이터 분리</title>
+  <desc id="desc">Ops는 관리자 권한을 확인하기 위해 내부 HTTP로 Core를 호출하며 각 서비스는 별도의 MySQL을 사용합니다.</desc>
+  <style>
+    text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; fill: #0b2243; }
+    .heading { font-size: 56px; font-weight: 700; }
+    .subtitle { font-size: 34px; font-weight: 600; fill: #0c81f1; }
+    .task { font-size: 36px; font-weight: 700; }
+    .storage-heading { font-size: 37px; font-weight: 700; }
+    .storage-detail { font-size: 29px; font-weight: 500; }
+    .center-heading { font-size: 35px; font-weight: 700; }
+    .center-label { font-size: 26px; font-weight: 500; }
+  </style>
+  <rect width="1771" height="741" fill="#fff"/>
+  <g fill="#fff" stroke="#b6cee6" stroke-width="1.5">
+    <rect x="39" y="21" width="720" height="699" rx="14"/>
+    <rect x="1011" y="21" width="720" height="699" rx="14"/>
+  </g>
+  <path d="M68 49v113 M1040 49v113" fill="none" stroke="#e4ebf3" stroke-width="2"/>
+  <text class="heading" x="106" y="103">Core Service</text>
+  <text class="subtitle" x="106" y="155">Spring Boot · Kotlin</text>
+  <text class="heading" x="1078" y="103">Ops Service</text>
+  <text class="subtitle" x="1078" y="155">Django · Python</text>
+  <g fill="#fff" stroke="#d4e2f1" stroke-width="1.5">
+    <rect x="68" y="200" width="667" height="120" rx="12"/>
+    <rect x="68" y="360" width="667" height="120" rx="12"/>
+    <rect x="1040" y="360" width="667" height="120" rx="12"/>
+  </g>
+  <rect x="1040" y="200" width="667" height="120" rx="12" fill="#f3fbf7" stroke="#bee3da" stroke-width="1.5"/>
+  <text class="task" x="108" y="272">사용자 요청과 업무 처리</text>
+  <text class="task" x="108" y="432">공고 · 계정 · 신청 관리</text>
+  <text class="task" x="1080" y="272">평가 점수 · 예산 · 일정</text>
+  <text class="task" x="1080" y="432">평가 이력 · 사람 검토</text>
+  <g fill="none" stroke="#aec2d5" stroke-width="3">
+    <path d="M400 480v83 M1373 480v83"/>
+  </g>
+  <g>
+    <rect x="68" y="563" width="667" height="135" rx="11" fill="#edf6fd" stroke="#c7daee" stroke-width="1.5"/>
+    <path d="M69 574a10 10 0 0 1 10-10h645a10 10 0 0 1 10 10v61H69z" fill="#fff"/>
+    <rect x="1040" y="563" width="667" height="135" rx="11" fill="#edf6fd" stroke="#c7daee" stroke-width="1.5"/>
+    <path d="M1041 574a10 10 0 0 1 10-10h645a10 10 0 0 1 10 10v61h-665z" fill="#fff"/>
+  </g>
+  <text class="storage-heading" x="110" y="611">Core MySQL</text>
+  <text class="storage-detail" x="110" y="673">사용자 업무 데이터</text>
+  <text class="storage-heading" x="1082" y="611">Ops MySQL</text>
+  <text class="storage-detail" x="1082" y="673">평가·운영 데이터</text>
+  <text class="center-heading" x="885" y="162" text-anchor="middle">내부 HTTP</text>
+  <g fill="none" stroke="#66abf6" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M982 254H789m22-17-23 17 23 17"/>
+  </g>
+  <rect x="777" y="297" width="217" height="98" rx="11" fill="#f3f9fd"/>
+  <text class="center-label" x="885" y="354" text-anchor="middle">관리자 권한 확인</text>
+</svg>
