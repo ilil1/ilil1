@@ -21,7 +21,7 @@ ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜�
 - 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.
 - LLM 응답 품질을 측정하고 결과를 비교·보고하는 평가 모듈을 구현하고, Prefect 기반 평가 파이프라인과 평가 실행기를 구축.  
 - Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.
-- AWS EKS에 서비스를 배포하고 Helm과 Argo CD를 활용한 GitOps 배포 자동화 구축
+- AWS EKS에 서비스를 배포하고 Helm과 Argo CD를 활용한 GitOps 배포 자동화 구축.
 
 #### 사용 기술
 
