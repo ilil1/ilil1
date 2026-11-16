@@ -6,7 +6,7 @@
 Evals로 LLM의 응답 품질 평가, Observability 로써 Tracing 및 Monitoring을 하는 LLMOps를 설계 및 구현했습니다.  
 ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜닝을 개인 프로젝트로 AI 에 대한 개발 역량을 넓히고 있습니다.  
 데이터 특성에 맞는 DB 선정·스키마 설계, 확장 가능한 프론트·백엔드 어플리케이션 아키텍처 설계 역량을 갖추고 있습니다.  
-서비스를 AWS EKS 기반 Kubernetes 환경에 배포하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축한 경험이 있습니다.  
+서비스를 AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo CD를 활용한 GitOps 배포 자동화를 초기부터 구축한 경험이 있습니다.  
 회사의 앱 서비스의 개발·배포를 담당하고, 기존 네이티브 앱의 Flutter 전환을 초기 설계부터 마이그레이션까지 수행했습니다.  
 최근에는 개인 프로젝트에서 MLOps를 학습하며 ML·DL 서비스의 배포·운영 인프라를 구축하고 있습니다.   
 
@@ -21,7 +21,7 @@ ML·DL 알고리즘과 모델 학습 원리를 익히고, LoRA 기반 파인튜�
 - 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.
 - LLM 응답 품질을 측정하고 결과를 비교·보고하는 평가 모듈을 구현하고, Prefect 기반 평가 파이프라인과 평가 실행기를 구축.  
 - Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.
-- AWS EKS에 서비스를 배포하고 Helm과 Argo CD를 활용한 GitOps 배포 자동화 구축.
+- AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo CD를 활용한 GitOps 배포 자동화 구축
 
 #### 사용 기술
 
