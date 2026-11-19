@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1780" height="1550" viewBox="0 0 1780 1550" role="img" aria-labelledby="title desc">
+<title id="title">평가 코드와 파이프라인 디렉터리 구성</title>
+<desc id="desc">GovBiz pipelines 아래 실행 흐름, 평가 코드, 기능별 테스트와 공통 테스트의 위치를 표시한 디렉터리 구조도입니다. 주요 디렉터리만 표시합니다.</desc>
+<rect width="100%" height="100%" fill="#fff"/>
+<rect x="31" y="27" width="1718" height="1496" rx="14" fill="#fff" stroke="#96a3b3" stroke-width="3"/>
+<text x="1690" y="82" text-anchor="end" fill="#78828e" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="25">주요 디렉터리만 표시</text>
+<g fill="none" stroke="#131b29" stroke-width="3" stroke-linecap="square">
+<path d="M 113 117 V 148"/>
+<path d="M 113 148 H 146"/>
+<path d="M 196 176 V 856"/>
+<path d="M 196 207 H 229"/>
+<path d="M 196 266 H 229"/>
+<path d="M 196 325 H 229"/>
+<path d="M 196 384 H 229"/>
+<path d="M 196 856 H 229"/>
+<path d="M 279 412 V 797"/>
+<path d="M 279 443 H 312"/>
+<path d="M 279 738 H 312"/>
+<path d="M 279 797 H 312"/>
+<path d="M 362 471 V 679"/>
+<path d="M 362 502 H 395"/>
+<path d="M 362 561 H 395"/>
+<path d="M 362 620 H 395"/>
+<path d="M 362 679 H 395"/>
+<path d="M 279 884 V 1387"/>
+<path d="M 279 915 H 312"/>
+<path d="M 279 974 H 312"/>
+<path d="M 279 1387 H 312"/>
+<path d="M 362 1002 V 1328"/>
+<path d="M 362 1033 H 395"/>
+<path d="M 362 1092 H 395"/>
+<path d="M 362 1151 H 395"/>
+<path d="M 362 1210 H 395"/>
+<path d="M 362 1269 H 395"/>
+<path d="M 362 1328 H 395"/>
+<path d="M 362 1415 V 1446"/>
+<path d="M 362 1446 H 395"/>
+</g>
+<text x="79" y="101" fill="#071831" font-family="Menlo, Consolas, monospace" font-size="46" font-weight="700">GovBiz/</text>
+<text x="162" y="160" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">pipelines/</text>
+<text x="245" y="219" fill="#071831" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">pyproject.toml · uv.lock</text>
+<text x="1090" y="219" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">실행 의존성과 버전 관리</text>
+<text x="245" y="278" fill="#071831" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">serve.py</text>
+<text x="1090" y="278" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">Prefect 등록 · 실행 대기</text>
+<text x="245" y="337" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">tests/</text>
+<text x="1090" y="337" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">공통 패키지 · 리소스 테스트</text>
+<text x="245" y="396" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">flows/</text>
+<text x="1090" y="396" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">Prefect 실행 흐름</text>
+<text x="328" y="455" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">support_program_evidence/</text>
+<text x="1090" y="455" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">공고 원문 평가 파이프라인</text>
+<text x="411" y="514" fill="#071831" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">flows.py · tasks.py</text>
+<text x="1090" y="514" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">실행 순서 · 작업 · 재시도</text>
+<text x="411" y="573" fill="#071831" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">capture.py · rag.py</text>
+<text x="1090" y="573" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">평가 방식 처리</text>
+<text x="411" y="632" fill="#071831" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">clients.py</text>
+<text x="1090" y="632" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">Langfuse 점수 전송</text>
+<text x="411" y="691" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">tests/</text>
+<text x="1090" y="691" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">실행 흐름 테스트</text>
+<text x="328" y="750" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">catalog_ingestion/</text>
+<text x="1090" y="750" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">향후 개발 검토</text>
+<text x="328" y="809" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">daily_report/</text>
+<text x="1090" y="809" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">향후 개발 검토</text>
+<text x="245" y="868" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">evals/</text>
+<text x="1090" y="868" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">평가 코드와 자료</text>
+<text x="328" y="927" fill="#071831" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">pyproject.toml</text>
+<text x="1090" y="927" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">평가 모듈 설치 설정</text>
+<text x="328" y="986" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">support_program_evidence/</text>
+<text x="1090" y="986" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">공고 원문 답변 · RAG 평가</text>
+<text x="411" y="1045" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">datasets/</text>
+<text x="1090" y="1045" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">평가 자료 · 이전 실행 기록</text>
+<text x="411" y="1104" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">evaluators/</text>
+<text x="1090" y="1104" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">답변 · RAG 지표 계산</text>
+<text x="411" y="1163" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">reports/</text>
+<text x="1090" y="1163" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">결과 비교 · 보고서</text>
+<text x="411" y="1222" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">integrations/</text>
+<text x="1090" y="1222" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">외부 연동 · 예산</text>
+<text x="411" y="1281" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">preparation/</text>
+<text x="1090" y="1281" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">평가 자료 준비 · 검증</text>
+<text x="411" y="1340" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">tests/</text>
+<text x="1090" y="1340" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">평가 기능 테스트</text>
+<text x="328" y="1399" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">support_program_search/</text>
+<text x="1090" y="1399" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">공고 검색 · 순위 평가</text>
+<text x="411" y="1458" fill="#551084" font-family="Menlo, Consolas, monospace" font-size="35" font-weight="700">review/ · runs/ · tests/</text>
+<text x="1090" y="1458" fill="#333942" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="31" font-weight="500">검토 도구 · 기록 · 테스트</text>
+</svg>

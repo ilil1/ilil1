@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1771" height="888" viewBox="0 0 1771 888" role="img" aria-labelledby="title desc">
+  <title id="title">Core와 AI 서비스의 역할 분리와 독립 확장</title>
+  <desc id="desc">Core가 내부 HTTP로 AI에 질문과 조건, 필요한 공고와 근거를 보내고 평가, 답변, 인용을 받습니다. Kubernetes에서 Core와 AI는 각각 2~3개의 Pod로 확장할 수 있습니다.</desc>
+  <style>
+    text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; fill: #0b2243; }
+    .heading { font-size: 56px; font-weight: 600; }
+    .subtitle { font-size: 34px; font-weight: 600; fill: #0c81f1; }
+    .task { font-size: 36px; font-weight: 600; }
+    .task-small { font-size: 28px; font-weight: 500; }
+    .storage-heading { font-size: 37px; font-weight: 600; }
+    .storage-detail { font-size: 29px; font-weight: 500; }
+    .center-heading { font-size: 35px; font-weight: 600; }
+    .center-label { font-size: 26px; font-weight: 500; }
+    .footer-heading { font-size: 34px; font-weight: 600; }
+    .footer-label { font-size: 28px; font-weight: 600; }
+    .footer-example { font-size: 25px; font-weight: 500; }
+  </style>
+
+  <rect width="1771" height="888" fill="#fff"/>
+
+  <!-- The service cards use the same spacing and pale borders as the Catalog/Core diagram. -->
+  <g fill="#fff" stroke="#b6cee6" stroke-width="1.5">
+    <rect x="39" y="21" width="720" height="699" rx="14"/>
+    <rect x="1011" y="21" width="720" height="699" rx="14"/>
+  </g>
+  <path d="M68 49v113 M1040 49v113" fill="none" stroke="#e4ebf3" stroke-width="2"/>
+  <text class="heading" style="font-weight:600" x="106" y="103">Core Service</text>
+  <text class="subtitle" style="font-weight:600;fill:#0c81f1" x="106" y="155">Spring Boot · Kotlin</text>
+  <text class="heading" style="font-weight:600" x="1078" y="103">AI Service</text>
+  <text class="subtitle" style="font-weight:600;fill:#0c81f1" x="1078" y="155">FastAPI · Python</text>
+
+  <g fill="#fff" stroke="#d4e2f1" stroke-width="1.5">
+    <rect x="68" y="181" width="667" height="100" rx="12"/>
+    <rect x="68" y="298" width="667" height="96" rx="12"/>
+    <rect x="68" y="405" width="667" height="97" rx="12"/>
+    <rect x="1040" y="298" width="667" height="96" rx="12"/>
+    <rect x="1040" y="405" width="667" height="97" rx="12"/>
+  </g>
+  <rect x="1040" y="181" width="667" height="100" rx="12" fill="#f3fbf7" stroke="#bee3da" stroke-width="1.5"/>
+  <text class="task" style="font-weight:600" x="108" y="238">사용자 요청과 업무 처리</text>
+  <text class="task" style="font-weight:600" x="108" y="355">공고 · 계정 · 신청 관리</text>
+  <text class="task" style="font-weight:600" x="108" y="462">데이터 저장 · AI 응답 검증</text>
+  <text class="task" style="font-weight:600" x="1080" y="222">Python AI 라이브러리 활용</text>
+  <text class="task-small" x="1080" y="262">LangChain · OpenAI SDK</text>
+  <text class="task" style="font-weight:600" x="1080" y="355">조건 해석 · 임베딩 · 의미 검색</text>
+  <text class="task" style="font-weight:600" x="1080" y="462">공고 평가 · 근거 답변</text>
+
+  <!-- The connections indicate the resources each service uses. -->
+  <g fill="none" stroke="#aec2d5" stroke-width="3">
+    <path d="M400 502v30H229v31 M400 532h174v31"/>
+    <path d="M1373 502v30h-172v31 M1373 532h173v31"/>
+  </g>
+  <g>
+    <rect x="68" y="563" width="322" height="135" rx="11" fill="#edf6fd" stroke="#c7daee" stroke-width="1.5"/>
+    <path d="M69 574a10 10 0 0 1 10-10h300a10 10 0 0 1 10 10v61H69z" fill="#fff"/>
+    <rect x="416" y="563" width="319" height="135" rx="11" fill="#edf6fd" stroke="#c7daee" stroke-width="1.5"/>
+    <path d="M417 574a10 10 0 0 1 10-10h297a10 10 0 0 1 10 10v61H417z" fill="#fff"/>
+    <rect x="1040" y="563" width="322" height="135" rx="11" fill="#edf6fd" stroke="#c7daee" stroke-width="1.5"/>
+    <path d="M1041 574a10 10 0 0 1 10-10h300a10 10 0 0 1 10 10v61h-320z" fill="#fff"/>
+    <rect x="1388" y="563" width="319" height="135" rx="11" fill="#edf6fd" stroke="#c7daee" stroke-width="1.5"/>
+    <path d="M1389 574a10 10 0 0 1 10-10h297a10 10 0 0 1 10 10v61h-317z" fill="#fff"/>
+  </g>
+  <text class="storage-heading" style="font-weight:600" x="110" y="611">MySQL</text>
+  <text class="storage-detail" x="110" y="673">업무 원본</text>
+  <text class="storage-heading" style="font-weight:600" x="442" y="611">Elasticsearch</text>
+  <text class="storage-detail" x="442" y="673">키워드 검색</text>
+  <text class="storage-heading" style="font-weight:600" x="1072" y="611">OpenAI API</text>
+  <text class="storage-detail" x="1072" y="673">LLM · 임베딩</text>
+  <text class="storage-heading" style="font-weight:600" x="1422" y="611">Qdrant</text>
+  <text class="storage-detail" x="1422" y="673">벡터 검색</text>
+
+  <!-- Requests go to AI; results return to Core. -->
+  <text class="center-heading" style="font-weight:600" x="885" y="162" text-anchor="middle">내부 HTTP</text>
+  <g fill="none" stroke="#66abf6" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M787 234h193m-22-17 23 17-23 17"/>
+    <path d="M982 454H789m22-17-23 17 23 17"/>
+  </g>
+  <rect x="777" y="277" width="217" height="100" rx="11" fill="#f3f9fd"/>
+  <text class="center-label" x="885" y="319" text-anchor="middle">질문 · 조건</text>
+  <text class="center-label" x="885" y="356" text-anchor="middle">필요한 공고 · 근거</text>
+  <rect x="777" y="497" width="217" height="98" rx="11" fill="#f3f9fd"/>
+  <text class="center-label" x="885" y="553" text-anchor="middle">평가 · 답변 · 인용</text>
+
+  <rect x="42" y="731" width="1687" height="147" rx="16" fill="#fff" stroke="#66b2fb" stroke-width="2"/>
+  <text class="footer-heading" style="font-weight:600" x="885" y="768" text-anchor="middle">Kubernetes 독립 확장</text>
+  <rect x="71" y="783" width="806" height="40" rx="9" fill="#f4f9fd" stroke="#a8d1fb" stroke-width="1.5"/>
+  <rect x="897" y="783" width="803" height="40" rx="9" fill="#f4f9fd" stroke="#a8d1fb" stroke-width="1.5"/>
+  <text class="footer-label" style="font-weight:600" x="474" y="811" text-anchor="middle">Core HPA · Pod 2~3개</text>
+  <text class="footer-label" style="font-weight:600" x="1299" y="811" text-anchor="middle">AI HPA · Pod 2~3개</text>
+  <rect x="71" y="830" width="1629" height="36" rx="8" fill="#eaf5fd"/>
+  <text class="footer-example" x="885" y="855" text-anchor="middle">예: AI CPU 목표 초과 시 AI Pod 2 → 3개로 확장 가능</text>
+</svg>
