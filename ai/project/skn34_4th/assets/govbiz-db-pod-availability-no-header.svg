@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1355" viewBox="0 225 2400 1355">
+<defs>
+  <marker id="blue-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" fill="#3d67d4"/></marker>
+  <marker id="green-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" fill="#168a72"/></marker>
+  <marker id="amber-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 Z" fill="#b87837"/></marker>
+  <style>
+    text { font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; fill:#192a40; }
+    .eyebrow { font-size:25px; font-weight:700; letter-spacing:2px; }
+    .title { font-size:64px; font-weight:800; letter-spacing:-1.4px; }
+    .subtitle { font-size:29px; fill:#66778b; }
+    .panel-kicker { font-size:25px; font-weight:800; }
+    .panel-title { font-size:45px; font-weight:800; letter-spacing:-.7px; }
+    .panel-desc { font-size:27px; fill:#607287; }
+    .section-label { font-size:25px; font-weight:750; fill:#526b8a; }
+    .box-title { font-size:31px; font-weight:800; }
+    .box-sub { font-size:24px; fill:#63758b; }
+    .line-label { font-size:24px; font-weight:700; fill:#4665a6; }
+    .warn-title { font-size:32px; font-weight:800; fill:#a33b40; }
+    .warn-step { font-size:29px; font-weight:650; fill:#613c42; }
+    .small { font-size:24px; fill:#68788a; }
+    .foot { font-size:26px; fill:#43566f; }
+  </style>
+</defs>
+
+<rect width="2400" height="1580" fill="#f3f6fb"/>
+
+<!-- Current configuration -->
+<rect x="70" y="252" width="1100" height="1120" rx="30" fill="#ffffff" stroke="#e0e7f0" stroke-width="2"/>
+<rect x="112" y="292" width="128" height="42" rx="21" fill="#e9efff"/>
+<text x="136" y="321" class="panel-kicker" style="fill:#345fc9">현재 구성</text>
+<text x="112" y="399" class="panel-title">MySQL Pod 1개</text>
+<text x="112" y="443" class="panel-desc">Core의 DB 요청을 하나의 MySQL Pod가 처리합니다.</text>
+
+<rect x="112" y="478" width="1016" height="432" rx="22" fill="#f4f7fd" stroke="#dce6f5" stroke-width="2"/>
+<text x="146" y="524" class="section-label">EKS · 데이터 노드가 한 가용 영역에 배치됨</text>
+<text x="146" y="555" class="small">ap-southeast-2a</text>
+
+<rect x="150" y="620" width="252" height="130" rx="18" fill="#ffffff" stroke="#b7c9eb" stroke-width="2.5"/>
+<text x="276" y="674" text-anchor="middle" class="box-title">Core</text>
+<text x="276" y="711" text-anchor="middle" class="box-sub">애플리케이션</text>
+<path d="M402 685 H711" fill="none" stroke="#3d67d4" stroke-width="5" marker-end="url(#blue-arrow)"/>
+<text x="556" y="659" text-anchor="middle" class="line-label">DB 조회 · 저장</text>
+<text x="556" y="720" text-anchor="middle" class="small">core-mysql 주소로 접속</text>
+<rect x="724" y="620" width="330" height="130" rx="18" fill="#ffffff" stroke="#7f9fe2" stroke-width="3"/>
+<text x="889" y="674" text-anchor="middle" class="box-title">MySQL Pod</text>
+<text x="889" y="711" text-anchor="middle" class="box-sub">Core DB · 1개</text>
+<path d="M889 750 V790" fill="none" stroke="#3d67d4" stroke-width="4" marker-end="url(#blue-arrow)"/>
+<rect x="725" y="800" width="328" height="76" rx="14" fill="#e9effb" stroke="#c2d1eb" stroke-width="2"/>
+<text x="889" y="847" text-anchor="middle" style="font-size:27px;font-weight:750;fill:#345178">PVC · 데이터 보관</text>
+
+<rect x="112" y="944" width="1016" height="363" rx="21" fill="#fff5f4" stroke="#f2d6d3" stroke-width="2"/>
+<circle cx="154" cy="992" r="17" fill="#cf5e60"/>
+<path d="M154 981 V995 M154 1002 V1003" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+<text x="185" y="1001" class="warn-title">MySQL Pod가 멈추면</text>
+<rect x="150" y="1032" width="228" height="82" rx="14" fill="#ffffff" stroke="#e5b9b5" stroke-width="2"/>
+<text x="264" y="1082" text-anchor="middle" style="font-size:28px;font-weight:800;fill:#784f50">Core</text>
+<path d="M378 1073 H710" fill="none" stroke="#cf7071" stroke-width="4" stroke-dasharray="12 9"/>
+<circle cx="544" cy="1073" r="22" fill="#cf5e60"/>
+<path d="M536 1065 L552 1081 M552 1065 L536 1081" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
+<text x="544" y="1038" text-anchor="middle" style="font-size:23px;font-weight:750;fill:#ad5053">DB 요청 실패</text>
+<rect x="710" y="1032" width="350" height="82" rx="14" fill="#ffffff" stroke="#d97778" stroke-width="2.5"/>
+<text x="885" y="1082" text-anchor="middle" style="font-size:28px;font-weight:800;fill:#a44749">MySQL Pod 장애</text>
+<text x="151" y="1164" style="font-size:27px;font-weight:700;fill:#774c50">새 Pod 준비 → 기존 PVC 연결 → Core 재접속</text>
+<text x="151" y="1207" style="font-size:25px;font-weight:650;fill:#a25154">DB가 준비될 때까지 조회 · 저장을 할 수 없습니다.</text>
+<path d="M145 1232 H1095" stroke="#eedbd9" stroke-width="2"/>
+<text x="151" y="1273" style="font-size:25px;font-weight:700;fill:#9a4b4f">PVC는 데이터를 보관하며, 대기 DB는 없습니다.</text>
+
+<!-- Improvement example -->
+<rect x="1230" y="252" width="1100" height="1120" rx="30" fill="#ffffff" stroke="#e0e7f0" stroke-width="2"/>
+<rect x="1272" y="292" width="135" height="42" rx="21" fill="#e3f4ee"/>
+<text x="1296" y="321" class="panel-kicker" style="fill:#147d66">개선 예시</text>
+<text x="1272" y="399" class="panel-title">다른 AZ에 대기 DB 준비</text>
+<text x="1272" y="443" class="panel-desc">RDS MySQL Multi-AZ 예시 · 현재 구성은 아닙니다.</text>
+
+<rect x="1272" y="478" width="1016" height="432" rx="22" fill="#f2f9f6" stroke="#d6e9e0" stroke-width="2"/>
+<rect x="1584" y="503" width="392" height="81" rx="15" fill="#ffffff" stroke="#bcdccf" stroke-width="2"/>
+<text x="1780" y="553" text-anchor="middle" style="font-size:29px;font-weight:800;fill:#244d45">EKS Core 애플리케이션</text>
+<path d="M1780 584 V607" fill="none" stroke="#168a72" stroke-width="4" marker-end="url(#green-arrow)"/>
+<rect x="1584" y="618" width="392" height="63" rx="13" fill="#e4f3ed" stroke="#bcdccf" stroke-width="2"/>
+<text x="1780" y="659" text-anchor="middle" style="font-size:26px;font-weight:750;fill:#216a59">RDS 접속 주소</text>
+<path d="M1780 681 V710 H1498 V750" fill="none" stroke="#168a72" stroke-width="4" marker-end="url(#green-arrow)"/>
+<path d="M1780 681 V710 H2063 V750" fill="none" stroke="#b87837" stroke-width="3.5" stroke-dasharray="9 7" marker-end="url(#amber-arrow)"/>
+<text x="1575" y="738" style="font-size:21px;font-weight:750;fill:#168a72">평상시 연결</text>
+<text x="1885" y="738" style="font-size:21px;font-weight:750;fill:#a66b32">장애 시 연결</text>
+<rect x="1308" y="752" width="380" height="127" rx="16" fill="#ffffff" stroke="#aad6c6" stroke-width="2.5"/>
+<text x="1333" y="784" style="font-size:22px;font-weight:750;fill:#688579">가용 영역 A</text>
+<text x="1498" y="829" text-anchor="middle" class="box-title" style="fill:#24574a">운영 MySQL</text>
+<text x="1498" y="860" text-anchor="middle" class="box-sub">Core 요청 처리</text>
+<rect x="1873" y="752" width="380" height="127" rx="16" fill="#ffffff" stroke="#aad6c6" stroke-width="2.5"/>
+<text x="1898" y="784" style="font-size:22px;font-weight:750;fill:#688579">가용 영역 B</text>
+<text x="2063" y="829" text-anchor="middle" class="box-title" style="fill:#24574a">대기 MySQL</text>
+<text x="2063" y="860" text-anchor="middle" class="box-sub">장애 시 전환 대상</text>
+<path d="M1688 825 H1854" fill="none" stroke="#168a72" stroke-width="4" marker-end="url(#green-arrow)"/>
+<text x="1778" y="802" text-anchor="middle" style="font-size:23px;font-weight:750;fill:#20826b">데이터 복제</text>
+
+<rect x="1272" y="944" width="1016" height="363" rx="21" fill="#f2faf6" stroke="#d4eade" stroke-width="2"/>
+<circle cx="1314" cy="992" r="17" fill="#278c6e"/>
+<path d="M1306 992 L1312 998 L1323 985" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1345" y="1001" style="font-size:32px;font-weight:800;fill:#26745e">운영 DB에 장애가 나면</text>
+<circle cx="1315" cy="1054" r="18" fill="#d8f0e3"/><text x="1315" y="1062" text-anchor="middle" style="font-size:23px;font-weight:800;fill:#258267">1</text>
+<text x="1350" y="1063" style="font-size:29px;font-weight:650;fill:#365f51">RDS가 다른 AZ의 대기 DB로 전환합니다.</text>
+<circle cx="1315" cy="1113" r="18" fill="#d8f0e3"/><text x="1315" y="1121" text-anchor="middle" style="font-size:23px;font-weight:800;fill:#258267">2</text>
+<text x="1350" y="1122" style="font-size:29px;font-weight:650;fill:#365f51">Core가 DB에 다시 연결합니다.</text>
+<path d="M1305 1161 H2255" stroke="#d9eae0" stroke-width="2"/>
+<text x="1311" y="1205" style="font-size:26px;font-weight:700;fill:#387966">전환 중에는 DB 요청이 잠시 실패할 수 있습니다.</text>
+<text x="1311" y="1252" class="small">RDS는 EKS 밖에서 AWS가 관리하는 DB 서비스입니다.</text>
+
+<rect x="70" y="1401" width="2260" height="118" rx="20" fill="#e8eef8"/>
+<circle cx="114" cy="1443" r="8" fill="#6685c7"/>
+<text x="139" y="1453" class="foot">가용 영역 전체 장애에 대비하려면 Core도 서로 다른 AZ에 분산해야 합니다.</text>
+<circle cx="114" cy="1487" r="8" fill="#6685c7"/>
+<text x="139" y="1497" class="foot">EKS에서 직접 DB를 늘릴 때는 Pod 개수 외에 데이터 복제와 장애 전환 설정도 필요합니다.</text>
+</svg>
