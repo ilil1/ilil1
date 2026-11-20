@@ -85,4 +85,5 @@
 <text x="70" y="1410" font-size="21" fill="#59738d" font-weight="400" text-anchor="start">제어 영역 서브넷: 2개 AZ · EKS 관리 API: private 접근과 관리자 IP로 제한된 public 접근</text>
 <text x="70" y="1442" font-size="21" fill="#59738d" font-weight="400" text-anchor="start">워커와 데이터는 같은 AZ에 배치되며 Pod 분산이 다중 AZ 또는 DB 이중화를 보장하지 않습니다.</text>
 <text x="70" y="1474" font-size="21" fill="#59738d" font-weight="400" text-anchor="start">서비스별 배치와 자동 확장은 설계·변경 목표이며 실제 적용·관찰 여부와 구분합니다.</text>
+<text x="2030" y="1492" font-size="15" fill="#829bb2" font-weight="400" text-anchor="end">Kubernetes icons: Kubernetes Contributors · CC BY 4.0</text>
 </svg>
