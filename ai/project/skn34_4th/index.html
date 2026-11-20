@@ -837,6 +837,13 @@
 <li><b>구성 범위:</b> 최초 배포 기록에서는 두 노드 그룹의 워크로드가 같은 가용 영역에 배치되어 있습니다. 따라서 이 구성만으로 워크로드와 데이터의 다중 가용 영역 고가용성이 확보되었다고 보기는 어렵습니다.</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
+<h4 class="diagram-heading" id="single-az-availability"><b>가용 영역 단일 배치와 장애 영향</b></h4>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eks-single-az-explained.svg" aria-label="가용 영역 단일 배치와 장애 영향 — 크게 보기"><img src="./assets/govbiz-eks-single-az-explained.svg" alt="가용 영역 단일 배치와 장애 영향" width="2100" height="1515" loading="lazy" decoding="async"></a></figure>
+<ul>
+<li><b>장애 가정:</b> 2a 전체 장애를 가정하면 application과 observability 노드의 Pod가 함께 영향을 받을 수 있습니다. 최초 배포 설정에는 2c 대기 노드가 없습니다.</li>
+<li><b>데이터 전환:</b> EBS 볼륨은 같은 AZ의 EC2에만 직접 연결할 수 있습니다. 2c에서 데이터를 사용하려면 복제나 백업 복원 등 별도 구성이 필요합니다. (<a href="https://docs.aws.amazon.com/ebs/latest/userguide/ebs-attaching-volume.html">AWS EBS 연결 조건</a>)</li>
+</ul>
+<div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-42"><b>데이터 보존</b></h4>
 <figure class="diagram"><a class="zoom-image" href="./assets/eks-storage-only.svg" aria-label="데이터 보존 — 크게 보기"><img src="./assets/eks-storage-only.svg" alt="데이터 보존" width="2200" height="590" loading="lazy" decoding="async"></a></figure>
 <p>서비스 데이터는 PVC와 EBS로 보존하며, 이는 EC2 노드의 루트 디스크와 별개입니다. ECR은 실행 이미지를 보관하고, S3에는 이전 시점 백업을 보관합니다. 그림의 PVC 13개는 최초 배포 시 복원 기록이며, 자체 이미지 5종은 이후 GitOps 배포 작업의 대상입니다.</p>
