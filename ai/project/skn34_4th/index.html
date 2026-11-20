@@ -827,7 +827,7 @@
 <h3 id="section-18">3.5. AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo CD를 활용한 GitOps 배포 자동화 구축.</h3>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-41"><b>EKS 클러스터·노드·네트워크 구성</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/eks-cluster-network-autoscaling-arrows.svg" aria-label="EKS 클러스터·노드·네트워크 구성 — 크게 보기"><img src="./assets/eks-cluster-network-autoscaling-arrows.svg" alt="EKS 클러스터·노드·네트워크 구성" width="2000" height="1582" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eks-network-storage-integrated.svg" aria-label="EKS 클러스터·노드·네트워크 구성 — 크게 보기"><img src="./assets/govbiz-eks-network-storage-integrated.svg" alt="EKS 클러스터·노드·네트워크 구성" width="2000" height="2390" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>클러스터와 VPC:</b> eksctl 설정으로 시드니 리전의 EKS 클러스터와 VPC 네트워크를 구성했습니다. AWS가 관리하는 EKS 컨트롤 플레인은 Kubernetes API와 클러스터 관리를 담당하고, 실제 서비스는 별도 EC2 노드에서 실행됩니다.</li>
 <li><b>노드 그룹 분리:</b> EKS 관리형 EC2 노드를 application과 observability 두 그룹으로 나눴습니다. 노드에 역할별 라벨을 부여해 업무 서비스와 관측 워크로드를 구분할 수 있게 했으며, 각 노드는 프라이빗 네트워크에 배치하고 암호화된 gp3 볼륨을 사용하도록 설정했습니다.</li>
