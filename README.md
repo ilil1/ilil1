@@ -87,7 +87,7 @@ AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo 
 |---|---|
 | Language | Python, Kotlin, Java, Dart, Swift, JavaScript  |
 | AI 에이전트 | LangChain, LangGraph, MCP |
-| AI 평가·모니터링 | Langfuse, Langsmith, Wandb, MLflow, Evidently |
+| AI 평가·모니터링 | Langfuse, Langsmith, Wandb, MLflow, Evidently, OpenTelemetry |
 | 워크플로 오케스트레이션 | Apache Airflow, Prefect |
 | ML/DL 및 Model | Scikit_Learn, PyTorch, Fine-tuning |
 | 백엔드 | FastAPI, Django, Spring Boot, Laravel |
