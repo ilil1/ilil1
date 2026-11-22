@@ -125,7 +125,6 @@
 </tr>
 </tbody>
 </table></div>
-<p>앱의 Vercel 경로는 API 주소 설정에 따라 합류합니다. 실기기 운영 검증은 별도입니다.</p>
 </div></details>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-3"><b>외부 통신 — 외부 API 요청 경로</b></h4>
@@ -682,7 +681,7 @@
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="govbiz-msa-ingress"><b>govbiz-msa — Ingress와 외부 요청 전달</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ingress-improved.svg" aria-label="govbiz-msa — Ingress와 외부 요청 전달 — 크게 보기"><img src="./assets/govbiz-ingress-improved.svg" alt="govbiz-msa — Ingress와 외부 요청 전달" width="2000" height="1570" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ingress-helm-lbc.svg" aria-label="govbiz-msa — Ingress와 외부 요청 전달 — 크게 보기"><img src="./assets/govbiz-ingress-helm-lbc.svg" alt="govbiz-msa — Ingress와 외부 요청 전달" width="2000" height="1570" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>Ingress 규칙:</b> <code>govbiz-msa</code>의 <code>api-gateway</code> Ingress가 <code>/api</code>·<code>/argocd</code>·<code>/_langfuse</code> 경로의 백엔드로 Gateway Service를 지정합니다.</li>
 <li><b>ALB 구성:</b> AWS Load Balancer Controller가 Ingress를 감시하고 내부 ALB와 대상 그룹을 구성합니다. Ingress는 요청이 직접 지나가는 Pod가 아니라 설정 리소스입니다.</li>
@@ -692,6 +691,19 @@
 <li><b>Langfuse 내부 경로:</b> 사용자가 접속하는 주소에는 <code>/_langfuse</code>를 붙이지 않습니다. CloudFront가 내부 ALB로 요청을 전달할 때만 이 경로를 추가하며, Argo CD와 Langfuse 관리 화면은 별도 인증·접속 설정이 필요합니다.</li>
 <li><b>Pod 개수:</b> HPA 설정 범위는 Gateway 1~3개, Core 2~3개입니다. 그림은 각 구성 요소의 대표 Pod를 한 개씩 표시합니다.</li>
 </ul>
+<p>이 문구는 <b>Helm으로 AWS Load Balancer Controller를 설치하고, 이 컨트롤러가 내부 ALB를 생성·관리한다</b>는 뜻입니다.</p>
+<p>이미지에서는 짧게 적혀 있지만, 실제 흐름은 다음과 같습니다.</p>
+<ol>
+<li><b>Helm으로 LBC 설치</b><p>Helm은 쿠버네티스 프로그램을 설치하는 도구입니다. 이 도구로 EKS 클러스터에 <b>AWS Load Balancer Controller</b>, 줄여서 LBC를 설치합니다. <a href="https://docs.aws.amazon.com/eks/latest/userguide/lbc-helm.html?utm_source=chatgpt.com">Amazon EKS</a></p></li>
+<li><b>Ingress 설정 적용</b><p>Ingress는 요청을 어떤 서비스로 연결할지 적어 두는 쿠버네티스 설정입니다. GovBiz의 설정에는 ALB를 <b>내부용</b>으로 만들도록 지정되어 있습니다. <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/main/infrastructure/eks/api-gateway/ingress.yaml">프로젝트의 Ingress 설정</a></p></li>
+<li><b>LBC가 내부 ALB 생성</b><p>LBC가 Ingress 설정을 확인하고 AWS에 요청해 <b>내부 ALB와 연결 대상</b>을 만들고 관리합니다. <a href="https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html?utm_source=chatgpt.com">Amazon EKS</a></p></li>
+</ol>
+<p>풀어서 표현하면 다음과 같습니다.</p>
+<blockquote><p><b>Helm으로 LBC 설치 → Ingress 설정 적용 → LBC가 AWS 내부 ALB 생성·관리</b></p></blockquote>
+<p>여기서 화살표는 <b>만들고 관리하는 관계</b>를 뜻합니다. LBC가 사용자 요청을 직접 받아서 전달하는 것은 아닙니다. 실제 GovBiz의 API 요청은 다음 경로로 이동합니다.</p>
+<p><b>Vercel 웹 → CloudFront → 내부 ALB → Nginx 게이트웨이 → Core·Ops</b></p>
+<p>내부 ALB는 인터넷에 직접 공개하지 않지만, 이 구성에서는 CloudFront의 VPC Origin을 통해 연결됩니다. <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/main/infrastructure/eks/api-entrypoint.md">프로젝트의 요청 경로</a></p>
+<p>참고로 이미지 하단의 이 문구는 <b>데이터 보존 기능보다 네트워크 인프라 구성</b>을 설명하는 항목입니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-36"><b>govbiz-evaluation — 평가 실행과 결과 조회</b></h4>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-evaluation-replicaset-legend.svg" aria-label="govbiz-evaluation — 평가 실행과 결과 조회 — 크게 보기"><img src="./assets/govbiz-evaluation-replicaset-legend.svg" alt="govbiz-evaluation — 평가 실행과 결과 조회" width="1800" height="1380" loading="lazy" decoding="async"></a></figure>
@@ -707,8 +719,8 @@
 <li>앱과 관측 저장소는 각각 ClusterIP Service를 사용합니다. EKS observability 노드에 배치하며, 관측 저장소 4개는 업무용 MySQL·Redis와 분리하고 각각 독립된 PVC를 사용합니다.</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
-<p><b>argocd — 배포 관리와 대시보드</b></p>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-argocd-icon-topology.svg" aria-label="govbiz-observability — 관측과 추적 — 크게 보기"><img src="./assets/govbiz-argocd-icon-topology.svg" alt="govbiz-observability — 관측과 추적" width="1800" height="1420" loading="lazy" decoding="async"></a></figure>
+<h4 class="diagram-heading" id="argocd-management"><b>argocd — 배포 관리와 대시보드</b></h4>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-argocd-icon-topology.svg" aria-label="argocd — 배포 관리와 대시보드 — 크게 보기"><img src="./assets/govbiz-argocd-icon-topology.svg" alt="argocd — 배포 관리와 대시보드" width="1800" height="1420" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><code>repo-server</code>·<code>applicationset-controller</code>·Redis는 각각 별도의 Deployment와 Pod로 실행합니다. <code>application-controller</code>는 PVC가 없는 StatefulSet Pod 1개로 실행합니다.</li>
 <li>EKS에는 Core 구성 요소 4개와 배포 관리 웹 <code>argocd-server</code> 1개를 포함해 Pod 5개를 실행합니다. 로컬 kind에서는 Core 구성 요소 4개를 유지하며, 업무 React 웹은 Vercel에서 제공됩니다.</li>
@@ -745,7 +757,7 @@
 
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-38"><b>노드별 Pod 배치와 자동 확장</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-autoscale-structure.svg" aria-label="노드별 Pod 배치와 자동 확장 — 크게 보기"><img src="./assets/govbiz-autoscale-structure.svg" alt="노드별 Pod 배치와 자동 확장" width="2100" height="1890" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-autoscale-structure-clarified.svg" aria-label="노드별 Pod 배치와 자동 확장 — 크게 보기"><img src="./assets/govbiz-autoscale-structure-clarified.svg" alt="노드별 Pod 배치와 자동 확장" width="2100" height="1890" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>실행 위치:</b> 업무·저장소와 관측·평가 구성 요소를 나누어 배치합니다.</li>
 <li><b>Cluster Autoscaler — Node 개수 조절:</b> 늘어난 Pod가 자원이나 분산 조건 때문에 배치되지 못하면 application Node를 1대에서 최대 2대로 늘립니다. observability Node 1대를 합쳐 EC2는 기본 2대·최대 3대입니다. 추가 Node가 10분간 불필요하고 남은 Pod를 안전하게 옮길 수 있을 때 축소합니다.</li>
@@ -804,16 +816,6 @@
 <li><b>PDB — 자발적 퇴거 보호:</b> Core·AI는 각각 최소 1개가 사용 가능하도록 설정해 노드 축소 같은 자발적 퇴거를 제한합니다. PDB가 갑작스러운 노드 장애를 막거나 DB 고가용성을 보장하는 것은 아닙니다.</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
-<h4 class="diagram-heading" id="notion-section-39"><b>Pod 실행·요청 전달·데이터 보관</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-resources-no-heading.svg" aria-label="Pod 실행·요청 전달·데이터 보관 — 크게 보기"><img src="./assets/govbiz-resources-no-heading.svg" alt="Pod 실행·요청 전달·데이터 보관" width="2880" height="2600" loading="lazy" decoding="async"></a></figure>
-<ul>
-<li><b>Cluster Autoscaler — Node 개수 조절:</b> 늘어난 Pod가 자원이나 분산 조건 때문에 배치되지 못하면 application Node를 1대에서 최대 2대로 늘립니다. observability Node 1대를 합쳐 EC2는 기본 2대·최대 3대입니다. 추가 Node가 10분간 불필요하고 남은 Pod를 안전하게 옮길 수 있을 때 축소합니다.</li>
-<li><b>분산과 배포 방식:</b> Core·AI는 같은 서비스의 Pod가 한 Node에 함께 배치되지 않도록 하며, RollingUpdate로 기존 Pod를 최대 1개씩 교체합니다. Catalog·Ops 등 단일 실행 서비스는 Recreate 방식이므로 교체 중 잠시 접속이 끊길 수 있습니다.</li>
-<li><b>PDB — 자발적 퇴거 보호:</b> Core·AI는 각각 최소 1개가 사용 가능하도록 설정해 노드 축소 같은 자발적 퇴거를 제한합니다. PDB가 갑작스러운 노드 장애를 막거나 DB 고가용성을 보장하는 것은 아닙니다.</li>
-</ul>
-<div class="notion-empty" aria-hidden="true"></div>
-<p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/sydney-demo.md">노드 배치 목표와 초기 배포 기록</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/autoscaling/README.md">자동 확장 설정</a></p>
-<div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-40"><b>클러스터 관리·요청 경로·자동 확장</b></h4>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-platform-no-heading.svg" aria-label="클러스터 관리·요청 경로·자동 확장 — 크게 보기"><img src="./assets/govbiz-platform-no-heading.svg" alt="클러스터 관리·요청 경로·자동 확장" width="2880" height="5444" loading="lazy" decoding="async"></a></figure>
 <ul>
@@ -826,35 +828,50 @@
 <hr />
 <h3 id="section-18">3.5. AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo CD를 활용한 GitOps 배포 자동화 구축.</h3>
 <div class="notion-empty" aria-hidden="true"></div>
+
 <h4 class="diagram-heading" id="notion-section-41"><b>EKS 클러스터·노드·네트워크 구성</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eks-network-storage-integrated.svg" aria-label="EKS 클러스터·노드·네트워크 구성 — 크게 보기"><img src="./assets/govbiz-eks-network-storage-integrated.svg" alt="EKS 클러스터·노드·네트워크 구성" width="2000" height="2390" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eks-network-volume-line.svg" aria-label="EKS 클러스터·노드·네트워크 구성 — 크게 보기"><img src="./assets/govbiz-eks-network-volume-line.svg" alt="EKS 클러스터·노드·네트워크 구성" width="2000" height="2315" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>클러스터와 VPC:</b> eksctl 설정으로 시드니 리전의 EKS 클러스터와 VPC 네트워크를 구성했습니다. AWS가 관리하는 EKS 컨트롤 플레인은 Kubernetes API와 클러스터 관리를 담당하고, 실제 서비스는 별도 EC2 노드에서 실행됩니다.</li>
-<li><b>노드 그룹 분리:</b> EKS 관리형 EC2 노드를 application과 observability 두 그룹으로 나눴습니다. 노드에 역할별 라벨을 부여해 업무 서비스와 관측 워크로드를 구분할 수 있게 했으며, 각 노드는 프라이빗 네트워크에 배치하고 암호화된 gp3 볼륨을 사용하도록 설정했습니다.</li>
-<li><b>노드의 외부 통신:</b> 프라이빗 노드는 외부에 직접 노출하지 않고 NAT Gateway를 통해 필요한 외부 서비스에 접근합니다. 이는 이미지 다운로드 등 노드에서 외부로 나가는 통신을 위한 경로입니다.</li>
-<li><b>사용자 API 요청 경로:</b> 외부 요청은 CloudFront → VPC origin → 내부 ALB → Nginx 게이트웨이 → Core·Ops 서비스 순서로 전달됩니다. NAT Gateway를 통한 노드의 외부 통신과는 별개의 경로입니다.</li>
-<li><b>클러스터 관리 접근:</b> EKS Kubernetes API에는 프라이빗 접근을 설정하고, 퍼블릭 접근은 허용된 관리자 IP로 제한했습니다. 이는 사용자 API의 공개 경로가 아니라 클러스터를 관리하기 위한 접근 경로입니다.</li>
-<li><b>구성 범위:</b> 최초 배포 기록에서는 두 노드 그룹의 워크로드가 같은 가용 영역에 배치되어 있습니다. 따라서 이 구성만으로 워크로드와 데이터의 다중 가용 영역 고가용성이 확보되었다고 보기는 어렵습니다.</li>
+<li>
+<b>클러스터와 VPC:</b> eksctl 설정으로 시드니 리전의 EKS 클러스터와 VPC 네트워크를 구성했습니다. AWS가 관리하는 EKS 컨트롤 플레인은 Kubernetes API와 클러스터 관리를 담당하고, 실제 서비스는 별도 EC2 노드에서 실행됩니다.
+</li>
+<li>
+<b>노드 그룹 분리:</b> EKS 관리형 EC2 노드를 application과 observability 두 그룹으로 나눴습니다. 노드에 역할별 라벨을 부여해 업무 서비스와 관측 워크로드를 구분할 수 있게 했으며, 각 노드는 프라이빗 네트워크에 배치하고 암호화된 gp3 볼륨을 사용하도록 설정했습니다.
+</li>
+<li>
+<b>노드의 외부 통신:</b> 프라이빗 노드는 외부에 직접 노출하지 않고 NAT Gateway를 통해 필요한 외부 서비스에 접근합니다. 이는 이미지 다운로드 등 노드에서 외부로 나가는 통신을 위한 경로입니다.
+</li>
+<li>
+<b>사용자 API 요청 경로:</b> 외부 요청은 CloudFront → VPC origin → 내부 ALB → Nginx 게이트웨이 → Core·Ops 서비스 순서로 전달됩니다.
+</li>
+<li>
+<b>클러스터 관리 접근:</b> EKS Kubernetes API에는 프라이빗 접근을 설정하고, 퍼블릭 접근은 허용된 관리자 IP로 제한했습니다. 이는 사용자 API의 공개 경로가 아니라 클러스터를 관리하기 위한 접근 경로입니다.
+</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
+
 <h4 class="diagram-heading" id="single-az-availability"><b>가용 영역 단일 배치와 장애 영향</b></h4>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eks-single-az-explained.svg" aria-label="가용 영역 단일 배치와 장애 영향 — 크게 보기"><img src="./assets/govbiz-eks-single-az-explained.svg" alt="가용 영역 단일 배치와 장애 영향" width="2100" height="1515" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>장애 가정:</b> 2a 전체 장애를 가정하면 application과 observability 노드의 Pod가 함께 영향을 받을 수 있습니다. 최초 배포 설정에는 2c 대기 노드가 없습니다.</li>
-<li><b>데이터 전환:</b> EBS 볼륨은 같은 AZ의 EC2에만 직접 연결할 수 있습니다. 2c에서 데이터를 사용하려면 복제나 백업 복원 등 별도 구성이 필요합니다. (<a href="https://docs.aws.amazon.com/ebs/latest/userguide/ebs-attaching-volume.html">AWS EBS 연결 조건</a>)</li>
+<li>
+<b>장애 가정:</b> 2a 전체 장애를 가정하면 application과 observability 노드의 Pod가 함께 영향을 받을 수 있습니다. 최초 배포 설정에는 2c 대기 노드가 없습니다.
+</li>
+<li>
+<b>데이터 전환:</b> EBS 볼륨은 같은 AZ의 EC2에만 직접 연결할 수 있습니다. 2c에서 데이터를 사용하려면 복제나 백업 복원 등 별도 구성이 필요합니다.
+</li>
+<li>
+<b>구성 범위:</b> 최초 배포 기록에서는 두 노드 그룹의 워크로드가 같은 가용 영역에 배치되어 있습니다. 따라서 이 구성만으로 워크로드와 데이터의 다중 가용 영역 고가용성이 확보되었다고 보기는 어렵습니다.
+</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
-<h4 class="diagram-heading" id="notion-section-42"><b>데이터 보존</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/eks-storage-only.svg" aria-label="데이터 보존 — 크게 보기"><img src="./assets/eks-storage-only.svg" alt="데이터 보존" width="2200" height="590" loading="lazy" decoding="async"></a></figure>
-<p>서비스 데이터는 PVC와 EBS로 보존하며, 이는 EC2 노드의 루트 디스크와 별개입니다. ECR은 실행 이미지를 보관하고, S3에는 이전 시점 백업을 보관합니다. 그림의 PVC 13개는 최초 배포 시 복원 기록이며, 자체 이미지 5종은 이후 GitOps 배포 작업의 대상입니다.</p>
-<div class="notion-empty" aria-hidden="true"></div>
-<p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/cluster.sydney-demo.yaml">EKS 클러스터·노드 설정</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/sydney-demo.md">최초 배포 기록 및 API 요청 경로</a></p>
-<div class="notion-empty" aria-hidden="true"></div>
+
 <h4 class="diagram-heading" id="section-20"><b>CI 검증과 배포 설정 발행</b></h4>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ci-extra-icons.svg" aria-label="CI 검증과 배포 설정 발행 — 크게 보기"><img src="./assets/govbiz-ci-extra-icons.svg" alt="CI 검증과 배포 설정 발행" width="2500" height="1670" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>이미지 빌드·저장:</b> CodeBuild가 ECR에서 검증된 커밋의 Core·Catalog·AI·Ops·평가 실행기 이미지 태그를 각각 조회합니다. 없는 이미지만 빌드해 ECR에 푸시한 뒤 digest를 조회합니다. 각 이미지의 저장소 주소와 digest는 CodeBuild의 임시 파일 <code>release.json</code>에 기록합니다.</li>
-<li><b>배포 YAML 생성:</b> CodeBuild에서 실행되는 배포 스크립트가 Chart와 프로젝트 설정, 이미지 정보를 준비해 Kubernetes 배포 YAML을 만듭니다.<ul>
+<li><b>이미지 빌드·저장:</b> CodeBuild가 ECR에서 검증된 커밋의 Core·Catalog·AI·Ops·평가 실행기 이미지 태그를 각각 조회합니다. 없는 이미지만 빌드해 ECR에 푸시한 뒤 digest를 조회합니다. 각 이미지의 저장소 주소와 digest는 CodeBuild의 임시 파일 <code>release.json</code>에 기록합니다.
+</li>
+<li><b>배포 YAML 생성:</b> CodeBuild에서 실행되는 배포 스크립트가 Chart와 프로젝트 설정, 이미지 정보를 준비해 Kubernetes 배포 YAML을 만듭니다.
+<ul>
 <li>
 <b>Chart :</b> <code>govbiz-service</code> Chart에는 Deployment·Service 등을 만드는 양식과 기본값이 들어 있습니다. Core·Catalog·AI·Ops에 같은 Chart를 사용하고, 서비스별 설정을 다르게 넣습니다.
 </li>
@@ -871,12 +888,9 @@
 <b>생성 후 처리:</b> 배포 스크립트가 노드 배치 조건과 소스 커밋 정보, 필요한 배포 hook 등을 보완합니다. 이 단계에서는 YAML을 생성·준비하며, EKS 반영은 이후 Argo CD가 수행합니다.
 </li>
 </ul>
-
 </li>
-</ul>
-<p>예를 들어 Core-service는 Chart의 공통 양식에 Core용 실행 설정과 Core 이미지 digest를 넣어 배포 YAML을 만듭니다. 평가 실행기와 결과 서버에는 별도의 <code>govbiz-evaluation</code> Chart를 사용합니다.</p>
-<ul>
-<li><b>Git 배포 태그 발행:</b> Git 발행 직전 ECR의 digest를 다시 확인합니다. 배포 YAML을 <code>release/</code> 경로로 포함하는 Git 커밋을 만들고, 해당 커밋을 가리키는 불변 태그를 GitHub에 푸시합니다.</li>
+<li><b>Git 배포 태그 발행:</b> Git 발행 직전 ECR의 digest를 다시 확인합니다. 배포 YAML을 <code>release/</code> 경로로 포함하는 Git 커밋을 만들고, 해당 커밋을 가리키는 불변 태그를 GitHub에 푸시합니다.
+</li>
 </ul>
 <details class="technical-detail"><summary>빌드·발행 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
 <colgroup>
@@ -931,19 +945,26 @@
 <td>규칙에 맞는 최신 태그 감지 · 태그 커밋의 release/ YAML 조회 · Kubernetes API로 설정 반영</td>
 </tr>
 </tbody>
-</table></div>
-</div></details>
+</table></div></div></details>
 <div class="notion-empty" aria-hidden="true"></div>
-<p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/main/infrastructure/eks/gitops.py">EKS 배포 스크립트</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/main/infrastructure/eks/gitops-values.yaml">EKS 설정값</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/tree/main/infrastructure/gitops/charts/govbiz-service">서비스 Helm Chart</a></p>
-<div class="notion-empty" aria-hidden="true"></div>
-<h4 class="diagram-heading" id="section-9"><b>GitOps 배포 — 변경 반영과 실행 상태 검증</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-gitops-same-source-sha.svg" aria-label="GitOps 배포 — 변경 반영과 실행 상태 검증 — 크게 보기"><img src="./assets/govbiz-gitops-same-source-sha.svg" alt="GitOps 배포 — 변경 반영과 실행 상태 검증" width="2400" height="2555" loading="lazy" decoding="async"></a></figure>
+
+<h4 class="diagram-heading" id="gitops-tag-to-eks"><b>Git 태그 발행부터 EKS 반영까지 (전체 흐름)</b></h4>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-argocd-sync-flow.svg" aria-label="Git 태그 발행부터 EKS 반영까지 (전체 흐름) — 크게 보기"><img src="./assets/govbiz-argocd-sync-flow.svg" alt="Git 태그 발행부터 EKS 반영까지 (전체 흐름)" width="2100" height="1470" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>Argo CD 동기화:</b> Argo CD가 Git 태그를 주기적으로 확인하고 설정된 버전 범위에 맞는 가장 높은 버전의 배포 태그를 선택합니다. 해당 태그가 가리키는 커밋의 release/ YAML과 클러스터 상태를 비교해 Kubernetes API로 동기화합니다.</li>
-<li><b>배포 전후 작업과 서비스 갱신:</b> PreSync의 <code>prepare</code> Job은 신규 평가 접수를 중지하고 대기·실행 중인 평가를 확인합니다. 평가가 남아 있으면 Job이 실패해 앱 갱신을 중단하며, 평가가 끝난 뒤 같은 배포를 재시도합니다. 남은 평가가 없으면 Ops DB 마이그레이션을 실행합니다. Argo CD는 업무·평가 앱과 Service 설정을 동기화합니다. EKS 노드는 지정된 digest의 ECR 이미지를 필요할 때 가져오거나 캐시를 사용하며, 결과 서버는 Ops 이미지를 재사용합니다. 동기화와 정상 상태 확인 후 PostSync의 <code>resume</code> Job은 평가 자료·Prefect·결과 서버 연결을 점검하고 이번 배포가 중지한 접수만 이전 상태로 복구합니다. 원래 중지된 상태는 유지합니다.</li>
-<li><b>배포 확인과 웹 전환:</b> CodeBuild가 GitOps 리비전과 배포 hook, Deployment에 지정된 이미지 digest, 앱 준비 상태를 확인합니다. EKS 검증이 성공하면 GitHub Actions가 같은 Git 소스 커밋의 웹·shared 코드를 빌드하고, 필수 CI와 최신 main을 다시 확인한 뒤 Vercel 운영 주소로 전환합니다. EKS 검증이 실패하면 웹 배포 단계는 시작되지 않습니다. EKS 성공 뒤 웹 전환이 실패하면 EKS는 새 버전이고 웹은 이전 버전으로 남을 수 있습니다. 소스 커밋 SHA, GitOps 설정 커밋 SHA와 ECR 이미지 digest는 각각 별도로 확인합니다.</li>
+<li>
+<b>Argo CD 동기화:</b> Argo CD가 Git 태그를 주기적으로 확인하고 설정된 버전 범위에 맞는 가장 높은 버전의 배포 태그를 선택합니다. 해당 태그가 가리키는 커밋의 release/ YAML과 클러스터 상태를 비교해 Kubernetes API로 동기화합니다.
+</li>
+<li>
+<b>② Application 설정 확인:</b> application-controller는 <code>govbiz-eks Application</code>의 Git 저장소(<code>repoURL</code>), 태그 접두사(<code>tagPrefix</code>)와 버전 범위(<code>targetRevision</code>), 경로(<code>path</code>), 배포 대상(<code>destination</code>), 동기화 정책(<code>syncPolicy</code>)을 기준으로 삼습니다. repo-server는 이 기준에 맞는 Git의 원하는 리소스 설정을 생성해 controller에 전달합니다.
+</li>
+<li>
+<b>④ 차이 비교와 동기화 판단:</b> controller는 repo-server가 제공한 원하는 리소스 상태와 EKS의 현재 상태를 비교합니다. 차이가 있으면 ②에서 확인한 같은 Application의 <code>syncPolicy</code>와 동기화 조건을 기준으로 자동 실행 여부를 판단합니다.
+</li>
+<li>
+<b>동작 예시:</b> Git의 새 Core 이미지 digest와 EKS의 현재 Core 설정이 다르고 새 리비전이 자동 동기화 조건을 충족하면 PreSync부터 실행합니다. 자동 동기화는 켜져 있지만 <code>selfHeal: false</code>이므로, 이미 성공한 같은 리비전에서 EKS만 수동 변경한 경우에는 그 차이만으로 자동 복구하지 않습니다.
+</li>
 </ul>
-<details class="technical-detail"><summary>Argo·배포 검증 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
+<details class="technical-detail"><summary>Argo 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
 <colgroup>
 <col />
 <col width="421" />
@@ -983,22 +1004,66 @@
 <td>argocd-server · 상시 배포 관리 웹</td>
 <td>Gateway → HTTPS ClusterIP :8080 · → Deployment / ReplicaSet → Pod 1개</td>
 </tr>
-<tr>
-<td>리비전·hook·이미지·Ready 검증</td>
-<td>기대 Git 리비전 · 성공한 hook · Deployment에 지정된 image digest · 앱 준비 상태 확인</td>
-</tr>
-<tr>
-<td>Vercel 웹 전환</td>
-<td>같은 소스 SHA로 배포</td>
-</tr>
 </tbody>
-</table></div>
-</div></details>
+</table></div></div></details>
 <div class="notion-empty" aria-hidden="true"></div>
-<p><b>통합 전 원본 이미지 비교</b></p>
-<p>기존 이미지와 통합 이미지를 비교할 수 있도록 원본을 보관했습니다. 원본의 일부 표현은 통합 이미지와 설명에서 바로잡았습니다.</p>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-argo-verify-top-spacing.svg" aria-label="GitOps 배포 — 변경 반영과 실행 상태 검증 — 크게 보기"><img src="./assets/govbiz-argo-verify-top-spacing.svg" alt="GitOps 배포 — 변경 반영과 실행 상태 검증" width="2500" height="1285" loading="lazy" decoding="async"></a></figure>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-pdf-architecture-07.png" aria-label="GitOps 배포 — 변경 반영과 실행 상태 검증 — 크게 보기"><img src="./assets/govbiz-pdf-architecture-07.png" alt="GitOps 배포 — 변경 반영과 실행 상태 검증" width="2105" height="1182" loading="lazy" decoding="async"></a></figure>
+
+<h4 class="diagram-heading" id="gitops-sync-steps"><b>Argo CD 동기화 작업 (동기화 단계 상세)</b></h4>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-gitops-execution-simplified.svg" aria-label="Argo CD 동기화 작업 (동기화 단계 상세) — 크게 보기"><img src="./assets/govbiz-gitops-execution-simplified.svg" alt="Argo CD 동기화 작업 (동기화 단계 상세)" width="2100" height="1500" loading="lazy" decoding="async"></a></figure>
+<ul>
+<li><b>동기화 시작 조건:</b> application-controller가 Git의 <code>release/</code>에서 구성한 원하는 설정과 EKS의 현재 상태를 비교합니다. 차이가 있고 Application의 자동 동기화 조건이 충족되면 동기화 작업을 시작합니다.
+</li>
+<li><b>PreSync — 배포 전 준비:</b> <code>prepare</code> Job이 신규 평가 접수를 일시 중지하고 대기·실행 중인 평가를 확인합니다. 평가가 남아 있으면 Job이 실패해 앱 갱신이 중단되며, 신규 접수도 중지된 상태를 유지합니다. 평가가 끝난 뒤 재시도할 수 있고, 남은 평가가 없으면 Ops DB 마이그레이션을 실행합니다.
+</li>
+<li><b>Sync — 설정 반영:</b> Argo CD가 Kubernetes API에 Deployment와 Service 설정을 적용합니다. Kubernetes는 새 설정에 맞춰 Pod를 갱신하며, EKS 노드는 필요한 이미지를 ECR에서 가져오거나 캐시된 이미지를 사용합니다.
+</li>
+<li><b>PostSync — 적용 후 점검:</b> 관리 리소스가 Healthy가 되면 <code>resume</code> Job이 평가 자료·Prefect·결과 서버의 연결을 확인합니다. 점검에 성공하면 이번 배포로 중지한 평가 접수를 이전 상태로 복구하며, 원래 중지된 상태였다면 그대로 유지합니다.
+</li>
+<li><b>진행과 성공 확인:</b> CodeBuild가 동기화 상태와 hook 결과를 계속 조회합니다. PreSync·Sync·PostSync가 모두 성공해야 동기화 작업이 완료되며, 다음 이미지에서 CodeBuild의 배포 검증과 웹 전환 과정을 확인할 수 있습니다.
+</li>
+</ul>
+<div class="notion-empty" aria-hidden="true"></div>
+
+<h4 class="diagram-heading" id="gitops-validation-web"><b>동기화 성공 확인과 웹 전환 (배포 결과 검증)</b></h4>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-after-sync-caption-large.png" aria-label="동기화 성공 확인과 웹 전환 (배포 결과 검증) — 크게 보기"><img src="./assets/govbiz-after-sync-caption-large.png" alt="동기화 성공 확인과 웹 전환 (배포 결과 검증)" width="3360" height="2510" loading="lazy" decoding="async"></a></figure>
+<ul>
+<li><b>동기화 중 상태 조회:</b> GitHub Actions의 backend Job은 CodeBuild 환경에서 <code>gitops.py wait</code>를 실행합니다. 이 스크립트는 <code>kubectl</code>을 통해 Kubernetes API에서 Argo CD Application과 6개 Deployment의 상태를 조회합니다.
+</li>
+<li><b>동기화와 Hook 확인:</b> Application의 리비전이 배포 기록과 일치하고 <code>Synced</code>·<code>Healthy</code>이며 동기화 작업이 성공했는지 확인합니다. 이어서 Application의 동기화 결과에 기록된 <code>prepare</code>와 <code>resume</code> Hook의 <code>hookPhase</code>가 모두 <code>Succeeded</code>인지 확인합니다. Hook 성공 여부는 Job 로그 대신 Application 상태에서 확인합니다.
+</li>
+<li><b>Deployment 확인:</b> 각 Deployment의 준비 상태를 확인하고, Pod 템플릿에 지정된 소스 SHA와 이미지 digest를 배포 기록과 비교합니다. 실행 중인 각 컨테이너의 <code>imageID</code>를 직접 확인하는 방식은 아닙니다.
+</li>
+<li><b>재조회와 실패:</b> 성공 조건이 충족되지 않으면 15초를 기다린 뒤 다시 조회합니다. 해당 리비전의 동기화 작업이 <code>Failed</code>나 <code>Error</code>이거나 대기 제한인 기본 20분을 넘으면 검증이 실패해 웹 단계가 시작되지 않습니다.
+</li>
+<li><b>웹 배포 준비:</b> backend Job이 성공하면 web Job이 같은 소스 커밋의 웹·shared 코드를 빌드하고 <code>--skip-domain</code>으로 Vercel 배포를 생성합니다. 새 배포의 고유 URL은 만들어지지만 운영 도메인은 아직 기존 배포를 가리킵니다.
+</li>
+<li><b>운영 주소 전환:</b> web Job은 Vercel 프로젝트·소스 SHA·<code>READY</code> 상태와 필수 CI·최신 <code>main</code>을 확인한 뒤 운영 주소 전환을 요청하고 완료 여부를 확인합니다. 요청 전 검증에 실패하거나 시간이 초과되면 전환 요청은 보내지 않습니다.
+</li>
+</ul>
+<div class="notion-empty" aria-hidden="true"></div>
+
+<h4 class="diagram-heading" id="gitops-same-commit-failure"><b>같은 소스 커밋과 실패 시 동작</b></h4>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-application-sync-clarified.png" aria-label="같은 소스 커밋과 실패 시 동작 — 크게 보기"><img src="./assets/govbiz-application-sync-clarified.png" alt="같은 소스 커밋과 실패 시 동작" width="3360" height="3116" loading="lazy" decoding="async"></a></figure>
+<p>참고 이미지</p>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-reference-failure-scope.png" aria-label="같은 소스 커밋과 실패 시 동작 — 참고 이미지 — 크게 보기"><img src="./assets/govbiz-reference-failure-scope.png" alt="같은 소스 커밋과 실패 시 동작 — 참고 이미지" width="3600" height="1136" loading="lazy" decoding="async"></a></figure>
+<ul>
+<li>
+<b>배포 확인과 웹 전환:</b> CodeBuild가 GitOps 리비전과 배포 hook, Deployment에 지정된 이미지 digest, 앱 준비 상태를 확인합니다. EKS 검증이 성공하면 GitHub Actions가 같은 Git 소스 커밋의 웹·shared 코드를 빌드하고, 필수 CI와 최신 main을 다시 확인한 뒤 Vercel 운영 주소로 전환합니다.
+</li>
+</ul>
+<div class="notion-empty" aria-hidden="true"></div>
+
+<h4 class="diagram-heading" id="gitops-independent-deploy"><b>향후 개선 과제 — 배포 단위 분리</b></h4>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-independent-deploy-arrow-fixed.png" aria-label="향후 개선 과제 — 배포 단위 분리 — 크게 보기"><img src="./assets/govbiz-independent-deploy-arrow-fixed.png" alt="향후 개선 과제 — 배포 단위 분리" width="3600" height="3400" loading="lazy" decoding="async"></a></figure>
+<ul>
+<li><b>현재 구조:</b> 평가용 PreSync가 전체 동기화에 적용돼 평가 중 Core 배포가 지연될 수 있고, 공통 소스 SHA 변경으로 다른 서비스의 Pod도 갱신될 수 있습니다.
+</li>
+<li><b>향후 개선 제안:</b> 서비스별 Application과 배포 리비전을 분리하고 평가용 Hook은 Ops·평가 영역에 유지합니다. SHA 이력, CodeBuild·웹 검증, API·DB 호환성과 접수 복구 절차도 함께 조정해야 합니다. 아직 적용된 구성이 아닙니다.
+</li>
+</ul>
+<div class="notion-empty" aria-hidden="true"></div>
+<p><b>구현 근거: </b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/cluster.sydney-demo.yaml">EKS 클러스터·노드 설정</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/main/infrastructure/eks/gitops.py">EKS 배포 스크립트</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/main/infrastructure/eks/gitops-values.yaml">EKS 설정값</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/tree/main/infrastructure/gitops/charts">Helm Chart</a></p>
+<div class="notion-empty" aria-hidden="true"></div>
 <hr />
 <h3 id="section-23">3.6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</h3>
 <div class="notion-empty" aria-hidden="true"></div>
@@ -1071,17 +1136,12 @@
 <hr />
 <h2 id="section-troubleshooting">4. 트러블 이슈</h2>
 <h3 id="section-artifact-server">4.1 평가 결과 조회를 위한 별도 서버 운영의 복잡성</h3>
-<ul>
-<li><b>유형:</b> 아키텍처 개선 검토</li>
-<li><b>상태:</b> 현재 구조와 제약 확인 · 개선 방안 검토 중</li>
-</ul>
 <p><b>문제 상황</b></p>
 <p>평가 실행기는 비교 결과와 HTML 보고서 등의 파일을 결과 PVC에 저장합니다. Ops API와 ops-sync는 이 파일을 조회하기 위해 별도 Pod인 <code>ops-artifacts</code>에 HTTP 요청을 보냅니다. 이 서버는 결과 PVC를 읽기 전용으로 연결해 파일을 반환합니다.</p>
 <p>현재 경로는 <code>평가 실행기 → 결과 PVC → ops-artifacts → Ops API·ops-sync</code>입니다. 결과 조회를 위해 별도 Pod, 내부 Service, 인증 토큰과 네트워크 연결을 관리해야 하며, 결과 서버에 문제가 생기면 파일 조회에도 영향을 줄 수 있습니다. 이는 실제 장애 발생 기록이 아닌 <b>구조적 복잡성에 대한 검토</b>입니다.</p>
 <p><b>배경과 현재 제약</b></p>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-evaluation-pvc-access.svg" aria-label="평가 결과 PVC 접근의 현재 제약 — 크게 보기"><img src="./assets/govbiz-evaluation-pvc-access.svg" alt="평가 결과 PVC 접근의 현재 제약" width="1600" height="760" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li>과거에는 Ops가 Kubernetes에 있고 평가 실행기·결과 저장소는 Docker Compose에 있어, 두 환경을 연결하기 위해 인증된 HTTP 조회 방식을 사용했습니다. 평가 구성의 Kubernetes 이전 이후에도 이 방식이 유지됐습니다.</li>
 <li>현재 설정에서 Ops는 <code>govbiz-msa</code>, 결과 PVC와 실행기·결과 서버는 <code>govbiz-evaluation</code>에 있습니다. Pod는 다른 네임스페이스의 PVC를 직접 참조할 수 없습니다.</li>
 <li>EKS 배포 설정은 Ops를 <code>application</code>, 실행기와 결과 서버를 <code>observability</code> 노드 그룹에 배치합니다. 결과 PVC의 <code>ReadWriteOnce</code> 방식에서는 같은 노드의 여러 Pod가 볼륨을 사용할 수 있으며, 현재 실행기와 결과 서버가 이를 공유합니다.</li>
 <li>Ops 코드에는 결과 서버의 HTTP 조회와 파일 경로 직접 읽기 분기가 모두 있습니다. 다만 직접 읽기를 사용하려면 결과 PVC와 평가 입력 자료를 Ops API·ops-sync가 실제로 읽을 수 있게 연결해야 합니다.</li>
@@ -1114,8 +1174,6 @@
 </tbody>
 </table></div>
 <p>현재 파일 직접 읽기 코드가 있어 <b>PVC 직접 연결을 우선 검토</b>할 수 있습니다. 다만 같은 노드에 배치해야 하는 제약을 S3 방식과 비교해 결정합니다.</p>
-<p><b>진행 상태와 검증 과제</b></p>
-<p>아직 결과 서버를 제거하거나 저장 방식을 변경하지 않았습니다. 변경 시 기존 결과 파일과 평가 자료를 보존하고, Ops API·ops-sync의 보고서 조회, 비교 결과 및 파일 해시 검증, 접근 제어와 재시작 후 데이터 보존을 확인해야 합니다.</p>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/backend/ops-service/apps/evaluations/artifact_store.py#L70-L102">결과 조회 코드</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/gitops/docs/ops-runtime.md#L1-L14">기존 환경 연결 배경</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/gitops-values.yaml#L37-L45">EKS 배치 설정</a> · <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Kubernetes PVC</a></p>
 <hr />
 <h2 id="section-30">5. 기술 보고서 PDF</h2>
