@@ -947,7 +947,7 @@
 <div class="notion-empty" aria-hidden="true"></div>
 
 <h4 class="diagram-heading" id="gitops-tag-to-eks"><b>Git 태그 발행부터 EKS 반영까지 (전체 흐름)</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-argocd-sync-flow.svg" aria-label="Git 태그 발행부터 EKS 반영까지 (전체 흐름) — 크게 보기"><img src="./assets/govbiz-argocd-sync-flow.svg" alt="Git 태그 발행부터 EKS 반영까지 (전체 흐름)" width="2100" height="1470" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-argocd-sync-flow-notion-20261122.svg" aria-label="Git 태그 발행부터 EKS 반영까지 (전체 흐름) — 크게 보기"><img src="./assets/govbiz-argocd-sync-flow-notion-20261122.svg" alt="Git 태그 발행부터 EKS 반영까지 (전체 흐름)" width="2100" height="1470" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li>
 <b>Argo CD 동기화:</b> Argo CD가 Git 태그를 주기적으로 확인하고 설정된 버전 범위에 맞는 가장 높은 버전의 배포 태그를 선택합니다. 해당 태그가 가리키는 커밋의 release/ YAML과 클러스터 상태를 비교해 Kubernetes API로 동기화합니다.
