@@ -2,7 +2,7 @@
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="description" content="GovBiz 고도화 프로젝트의 LLM 기반 업무 라우팅, LLMOps, EKS·GitOps, 마이크로서비스 및 웹·모바일 공유 구조 기술 보고서."><title>GovBiz 고도화</title><link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./notion-content.css?v=20261119"><link rel="stylesheet" href="./header-toc.css"><link rel="stylesheet" href="./pdf-button.css"><script src="./script.js" defer></script></head>
 <body><a class="skip-link" href="#content">본문으로 바로 가기</a><header class="site-header" id="top"><a class="brand" href="#top">GovBiz<span>TECHNICAL PORTFOLIO</span></a><a href="https://github.com/ilil1/SKN34-4th-1Team">프로젝트 GitHub ↗</a></header>
 <main><header class="hero"><h1>GovBiz</h1><p class="hero-subtitle">[고도화] AI Agent 를 활용한 정부지원사업 탐색·신청 관리 플랫폼</p></header>
-<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li><li><a href="#section-2">2. 시스템 아키텍처</a></li><li><a href="#section-implementation">3. 구현 정보</a><ol><li><a href="#section-10">3.1. 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</a></li><li><a href="#section-evaluation-pipeline">3.2. LLM 응답 품질을 측정하고 결과를 비교·보고하는 평가 모듈을 구현하고, Prefect 기반 평가 파이프라인과 평가 실행기를 구축.</a></li><li><a href="#section-13">3.3. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</a></li><li><a href="#section-kubernetes-resources">3.4. Kubernetes 리소스 설계를 통한 서비스 실행·연결, HPA·Cluster Autoscaler 기반 Pod·노드 자동 확장 및 영속 스토리지 구성.</a></li><li><a href="#section-18">3.5. AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo CD를 활용한 GitOps 배포 자동화 구축.</a></li><li><a href="#section-23">3.6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</a></li><li><a href="#section-26">3.7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</a></li></ol></li><li><a href="#section-troubleshooting">4. 트러블 이슈</a><ol><li><a href="#section-artifact-server">4.1 평가 결과 조회를 위한 별도 서버 운영의 복잡성</a></li></ol></li><li><a href="#section-30">5. 기술 보고서 PDF</a></li></ol></nav><article id="content">
+<nav class="toc" aria-labelledby="toc-title"><div class="toc-top"><h2 id="toc-title">목차</h2></div><ol><li><a href="#section-1">1. 프로젝트 개요</a></li><li><a href="#section-2">2. 시스템 아키텍처</a></li><li><a href="#section-implementation">3. 구현 정보</a><ol><li><a href="#section-10">3.1. 사용자 의도를 분석해 업무 기능을 연결하는 LLM 기반 라우팅과 Human-in-the-loop를 설계·구현.</a></li><li><a href="#section-evaluation-pipeline">3.2. LLM 응답 품질을 측정하고 결과를 비교·보고하는 평가 모듈을 구현하고, Prefect 기반 평가 파이프라인과 평가 실행기를 구축.</a></li><li><a href="#section-13">3.3. Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.</a></li><li><a href="#section-kubernetes-resources">3.4. Kubernetes 리소스 설계, HPA·Cluster Autoscaler 기반 Pod·노드 자동 확장 및 영속 스토리지 구성.</a></li><li><a href="#section-18">3.5. AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo CD를 활용한 GitOps 배포 자동화 구축.</a></li><li><a href="#section-23">3.6. Core·Catalog·AI·Ops로 책임을 분리한 마이크로서비스 아키텍처 설계.</a></li><li><a href="#section-26">3.7. React 웹과 React Native 앱이 도메인·API 클라이언트·응답 검증을 공유하고, 플랫폼별 인증·전송 처리는 분리 설계.</a></li></ol></li><li><a href="#section-troubleshooting">4. 트러블 이슈</a><ol><li><a href="#section-artifact-server">4.1 평가 결과 조회를 위한 별도 서버 운영의 복잡성</a></li></ol></li><li><a href="#section-30">5. 기술 보고서 PDF</a></li></ol></nav><article id="content">
 <h2 id="section-1">1. 프로젝트 개요</h2>
 <p>GovBiz는 <b>정부지원사업 탐색부터 신청 준비까지 연결하는 AI 서비스</b>입니다. 여러 기관에 흩어진 공고를 모아, 기업의 조건과 목적에 맞는 사업을 찾고 신청 준비와 진행 상황까지 관리할 수 있도록 돕습니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
@@ -648,7 +648,7 @@
 <div class="notion-empty" aria-hidden="true"></div>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/backend/ops-service/README.md">Ops 운영 API</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/evaluation/support-program-evidence/ops_flow.py">평가 실행 흐름</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/evaluation/support-program-evidence/llmops.py">분석·보고서·점수 등록</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/docs/assets/demos/llmops/2026-10-15/README.md">운영 화면 원본</a></p>
 <hr />
-<h3 id="section-kubernetes-resources">3.4. Kubernetes 리소스 설계를 통한 서비스 실행·연결, HPA·Cluster Autoscaler 기반 Pod·노드 자동 확장 및 영속 스토리지 구성.</h3>
+<h3 id="section-kubernetes-resources">3.4. Kubernetes 리소스 설계, HPA·Cluster Autoscaler 기반 Pod·노드 자동 확장 및 영속 스토리지 구성.</h3>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-34"><b>Namespace별 서비스·리소스 구성</b></h4>
 <figure class="diagram"><a class="zoom-image" href="./assets/namespace-hierarchy-replicaset.svg" aria-label="Namespace별 서비스·리소스 구성 — 크게 보기"><img src="./assets/namespace-hierarchy-replicaset.svg" alt="Namespace별 서비스·리소스 구성" width="1520" height="960" loading="lazy" decoding="async"></a></figure>
@@ -681,7 +681,7 @@
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="govbiz-msa-ingress"><b>govbiz-msa — Ingress와 외부 요청 전달</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ingress-helm-lbc.svg" aria-label="govbiz-msa — Ingress와 외부 요청 전달 — 크게 보기"><img src="./assets/govbiz-ingress-helm-lbc.svg" alt="govbiz-msa — Ingress와 외부 요청 전달" width="2000" height="1570" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ingress-helm-lbc-notion-20261122.svg" aria-label="govbiz-msa — Ingress와 외부 요청 전달 — 크게 보기"><img src="./assets/govbiz-ingress-helm-lbc-notion-20261122.svg" alt="govbiz-msa — Ingress와 외부 요청 전달" width="2000" height="1570" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>Ingress 규칙:</b> <code>govbiz-msa</code>의 <code>api-gateway</code> Ingress가 <code>/api</code>·<code>/argocd</code>·<code>/_langfuse</code> 경로의 백엔드로 Gateway Service를 지정합니다.</li>
 <li><b>ALB 구성:</b> AWS Load Balancer Controller가 Ingress를 감시하고 내부 ALB와 대상 그룹을 구성합니다. Ingress는 요청이 직접 지나가는 Pod가 아니라 설정 리소스입니다.</li>
@@ -757,11 +757,10 @@
 
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-38"><b>노드별 Pod 배치와 자동 확장</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-autoscale-structure-clarified.svg" aria-label="노드별 Pod 배치와 자동 확장 — 크게 보기"><img src="./assets/govbiz-autoscale-structure-clarified.svg" alt="노드별 Pod 배치와 자동 확장" width="2100" height="1890" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-autoscale-structure-clarified-notion-20261122.svg" aria-label="노드별 Pod 배치와 자동 확장 — 크게 보기"><img src="./assets/govbiz-autoscale-structure-clarified-notion-20261122.svg" alt="노드별 Pod 배치와 자동 확장" width="2100" height="1890" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>실행 위치:</b> 업무·저장소와 관측·평가 구성 요소를 나누어 배치합니다.</li>
+<li><b>HPA — Pod 개수 조절:</b> Metrics Server가 각 노드의 kubelet에서 컨테이너 CPU 사용량을 수집합니다. HPA는 Kubernetes API로 이 사용량을 조회해 컨테이너에 설정된 CPU 요청량과 비교하고, 평균 사용률이 60%에 가깝도록 Pod 수를 조절합니다. Core와 AI는 각각 2~3개, Gateway는 1~3개 범위에서 조절합니다. 부하가 줄어들 때는 최근 5분 동안 필요하다고 계산한 Pod 수 중 가장 큰 값을 기준으로 축소해, 일시적인 사용량 감소에 따라 Pod 수가 자주 바뀌는 현상을 줄입니다.</li>
 <li><b>Cluster Autoscaler — Node 개수 조절:</b> 늘어난 Pod가 자원이나 분산 조건 때문에 배치되지 못하면 application Node를 1대에서 최대 2대로 늘립니다. observability Node 1대를 합쳐 EC2는 기본 2대·최대 3대입니다. 추가 Node가 10분간 불필요하고 남은 Pod를 안전하게 옮길 수 있을 때 축소합니다.</li>
-<li><b>HPA — Pod 개수 조절:</b> Metrics Server의 지표를 사용해 컨테이너 CPU 요청량 대비 평균 사용률 60%를 기준으로 Core·AI는 각각 2~3개, Gateway는 1~3개로 조절합니다. 부하가 줄면 5분 안정화 구간을 거쳐 축소합니다.</li>
 </ul>
 <details class="technical-detail"><summary>노드·확장 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
 <colgroup>
@@ -801,7 +800,6 @@
 </tr>
 </tbody>
 </table></div>
-<p>평가 실행기와 결과 서버는 같은 노드에 배치합니다. Namespace는 논리 구분이고 EC2는 실행 위치입니다.</p>
 </div></details>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="pod-distribution-rollout"><b>노드별 Pod 분산과 배포 방식</b></h4>
@@ -816,21 +814,21 @@
 <li><b>PDB — 자발적 퇴거 보호:</b> Core·AI는 각각 최소 1개가 사용 가능하도록 설정해 노드 축소 같은 자발적 퇴거를 제한합니다. PDB가 갑작스러운 노드 장애를 막거나 DB 고가용성을 보장하는 것은 아닙니다.</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
-<h4 class="diagram-heading" id="notion-section-40"><b>클러스터 관리·요청 경로·자동 확장</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-platform-no-heading.svg" aria-label="클러스터 관리·요청 경로·자동 확장 — 크게 보기"><img src="./assets/govbiz-platform-no-heading.svg" alt="클러스터 관리·요청 경로·자동 확장" width="2880" height="5444" loading="lazy" decoding="async"></a></figure>
-<ul>
-<li><b>StatefulSet·PVC·EBS:</b> MySQL 등 상태를 가진 저장소는 StatefulSet으로 Pod와 저장소 연결을 관리합니다. PVC는 저장 공간 요청이고 PV는 연결된 볼륨 정보입니다. EKS는 EBS CSI와 <code>gp3</code> StorageClass를 사용하며, 기존 PVC와 볼륨을 유지하면 Pod 교체 후에도 데이터를 다시 사용할 수 있습니다. <code>Retain</code>으로 남은 볼륨을 재사용하려면 별도 복구 절차가 필요합니다.</li>
-<li><b>배포 전후 작업:</b> PreSync는 새 평가 접수를 중지하고 진행 중인 평가를 확인한 뒤 필요한 DB 마이그레이션을 수행합니다. PostSync는 연결 상태를 확인하고 이번 배포를 위해 중지한 접수를 복구합니다.</li>
-<li><b>구성의 한계:</b> 이 EKS는 <b>단일 AZ 구성</b>이며 DB와 일부 서비스는 단일 실행입니다. Pod 분산이 다중 AZ 고가용성이나 모든 서비스의 무중단을 보장하지는 않습니다. 기본 2대로 자동 축소되는 과정은 문서상 관찰이 완료되지 않았으며, 과거 배포 기록과 현재 클러스터 상태도 구분해야 합니다.</li>
-</ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L270-L282">메인 README의 운영 구성</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L311-L395">Kubernetes 리소스 설명</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/autoscaling/README.md">자동 확장 설정</a></p>
+<div class="notion-empty" aria-hidden="true"></div>
+<h4 class="diagram-heading" id="notion-section-40"><b>클러스터 관리·요청 경로·자동 확장</b></h4>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-platform-without-pod-autoscaling.png" aria-label="클러스터 관리·요청 경로·자동 확장 — 크게 보기"><img src="./assets/govbiz-platform-without-pod-autoscaling.png" alt="클러스터 관리·요청 경로·자동 확장" width="2880" height="4816" loading="lazy" decoding="async"></a></figure>
+<ul>
+<li><b>StatefulSet·PVC·EBS:</b> MySQL 등 상태를 가진 저장소는 StatefulSet으로 Pod와 저장소 연결을 관리합니다. PVC는 저장 공간 요청이고 PV는 연결된 볼륨 정보입니다. EKS는 EBS CSI와 <code>gp3</code> StorageClass를 사용하며, 기존 PVC와 볼륨을 유지하면 Pod 교체 후에도 데이터를 다시 사용할 수 있습니다. <code>Retain</code>으로 남은 볼륨을 재사용하려면 별도 복구 절차가 필요합니다.</li>
+</ul>
+<div class="notion-empty" aria-hidden="true"></div>
 <hr />
 <h3 id="section-18">3.5. AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo CD를 활용한 GitOps 배포 자동화 구축.</h3>
 <div class="notion-empty" aria-hidden="true"></div>
 
 <h4 class="diagram-heading" id="notion-section-41"><b>EKS 클러스터·노드·네트워크 구성</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eks-network-volume-line.svg" aria-label="EKS 클러스터·노드·네트워크 구성 — 크게 보기"><img src="./assets/govbiz-eks-network-volume-line.svg" alt="EKS 클러스터·노드·네트워크 구성" width="2000" height="2315" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eks-network-volume-line-notion-20261122.svg" aria-label="EKS 클러스터·노드·네트워크 구성 — 크게 보기"><img src="./assets/govbiz-eks-network-volume-line-notion-20261122.svg" alt="EKS 클러스터·노드·네트워크 구성" width="2000" height="2315" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li>
 <b>클러스터와 VPC:</b> eksctl 설정으로 시드니 리전의 EKS 클러스터와 VPC 네트워크를 구성했습니다. AWS가 관리하는 EKS 컨트롤 플레인은 Kubernetes API와 클러스터 관리를 담당하고, 실제 서비스는 별도 EC2 노드에서 실행됩니다.
@@ -1009,7 +1007,7 @@
 <div class="notion-empty" aria-hidden="true"></div>
 
 <h4 class="diagram-heading" id="gitops-sync-steps"><b>Argo CD 동기화 작업 (동기화 단계 상세)</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-gitops-execution-simplified.svg" aria-label="Argo CD 동기화 작업 (동기화 단계 상세) — 크게 보기"><img src="./assets/govbiz-gitops-execution-simplified.svg" alt="Argo CD 동기화 작업 (동기화 단계 상세)" width="2100" height="1500" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-gitops-execution-simplified-notion-20261122.svg" aria-label="Argo CD 동기화 작업 (동기화 단계 상세) — 크게 보기"><img src="./assets/govbiz-gitops-execution-simplified-notion-20261122.svg" alt="Argo CD 동기화 작업 (동기화 단계 상세)" width="2100" height="1500" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>동기화 시작 조건:</b> application-controller가 Git의 <code>release/</code>에서 구성한 원하는 설정과 EKS의 현재 상태를 비교합니다. 차이가 있고 Application의 자동 동기화 조건이 충족되면 동기화 작업을 시작합니다.
 </li>
