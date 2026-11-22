@@ -28,7 +28,7 @@ AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo 
 
 - **AI 에이전트:** LangChain, LangGraph, MCP, OpenAI API
 - **검색:** Elasticsearch(Nori/BM25), Qdrant
-- **LLMOps:** Langfuse, Prefect, Evidently
+- **LLMOps:** Langfuse, Prefect, Evidently, OpenTelemetry
 - **Infra & Cloud:** AWS (EKS, ECR, EC2, EBS), Docker, Kubernetes, Helm
 
 <details>
