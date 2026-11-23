@@ -109,15 +109,15 @@
 </tr>
 <tr>
 <td>Core · :8080</td>
-<td>/api/\* · → Ready Pod</td>
+<td>/api/* · → Ready Pod</td>
 </tr>
 <tr>
 <td>Ops · :8000</td>
-<td>/api/v1/ops/\* · → Pod 1개</td>
+<td>/api/v1/ops/* · → Pod 1개</td>
 </tr>
 <tr>
 <td>Argo · :8080</td>
-<td>HTTPS · /argocd/\* · → 웹 Pod 1개</td>
+<td>HTTPS · /argocd/* · → 웹 Pod 1개</td>
 </tr>
 <tr>
 <td>배포 관리자 접속</td>
@@ -672,12 +672,12 @@
 
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-35"><b>govbiz-msa — 업무 서비스와 데이터</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-msa-internal-calls.svg" aria-label="govbiz-msa — 업무 서비스와 데이터 — 크게 보기"><img src="./assets/govbiz-msa-internal-calls.svg" alt="govbiz-msa — 업무 서비스와 데이터" width="1800" height="1730" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-msa-storageclass.svg" aria-label="govbiz-msa — 업무 서비스와 데이터 — 크게 보기"><img src="./assets/govbiz-msa-storageclass.svg" alt="govbiz-msa — 업무 서비스와 데이터" width="1800" height="1900" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><code>core-service</code>·<code>catalog-service</code>·<code>ai-service</code>·<code>ops-service</code>는 Deployment가 ReplicaSet을 통해 Pod를 관리합니다. Ops API와 <code>ops-sync</code>는 같은 Pod에서 실행됩니다.</li>
-<li>EKS에서 Core와 AI는 각각 Pod 2~3개, Gateway는 1~3개로 구성합니다. 로컬 환경에서는 Gateway 대신 <code>web</code>을 사용합니다. Core·AI Pod는 두 노드에 분산하고, Catalog·Ops는 업무 DB와 같은 application 노드에 배치합니다.</li>
+<li>EKS에서 Core와 AI는 각각 Pod 2~3개, Gateway는 1~3개로 구성합니다. Core·AI Pod는 두 노드에 분산하고, Catalog·Ops는 업무 DB와 같은 application 노드에 배치합니다.</li>
 <li>Core·Catalog·Ops MySQL, Redis, Qdrant, Elasticsearch, RabbitMQ는 각각 별도의 단일 Pod로 실행합니다. StatefulSet과 PVC를 사용하며, EKS 업무 저장소의 PVC는 총 7개입니다.</li>
-<li>앱은 ClusterIP Service, 데이터 저장소는 Headless Service로 연결합니다. 배포 전후 작업에는 <code>prepare</code>·<code>resume</code> Job을 사용합니다.</li>
+<li>앱은 ClusterIP Service, 데이터 저장소는 Headless Service로 연결합니다.</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="govbiz-msa-ingress"><b>govbiz-msa — Ingress와 외부 요청 전달</b></h4>
@@ -760,7 +760,9 @@
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-autoscale-structure-clarified-notion-20261122.svg" aria-label="노드별 Pod 배치와 자동 확장 — 크게 보기"><img src="./assets/govbiz-autoscale-structure-clarified-notion-20261122.svg" alt="노드별 Pod 배치와 자동 확장" width="2100" height="1890" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>HPA — Pod 개수 조절:</b> Metrics Server가 각 노드의 kubelet에서 컨테이너 CPU 사용량을 수집합니다. HPA는 Kubernetes API로 이 사용량을 조회해 컨테이너에 설정된 CPU 요청량과 비교하고, 평균 사용률이 60%에 가깝도록 Pod 수를 조절합니다. Core와 AI는 각각 2~3개, Gateway는 1~3개 범위에서 조절합니다. 부하가 줄어들 때는 최근 5분 동안 필요하다고 계산한 Pod 수 중 가장 큰 값을 기준으로 축소해, 일시적인 사용량 감소에 따라 Pod 수가 자주 바뀌는 현상을 줄입니다.</li>
-<li><b>Cluster Autoscaler — Node 개수 조절:</b> 늘어난 Pod가 자원이나 분산 조건 때문에 배치되지 못하면 application Node를 1대에서 최대 2대로 늘립니다. observability Node 1대를 합쳐 EC2는 기본 2대·최대 3대입니다. 추가 Node가 10분간 불필요하고 남은 Pod를 안전하게 옮길 수 있을 때 축소합니다.</li>
+<li><b>Cluster Autoscaler — Node 개수 조절:</b> kube-system 네임스페이스에 속하고, 늘어난 Pod가 자원이나 분산 조건 때문에 배치되지 못하면 application Node를 1대에서 최대 2대로 늘립니다. observability Node 1대를 합쳐 EC2는 기본 2대·최대 3대입니다. 추가 Node가 10분간 불필요하고 남은 Pod를 안전하게 옮길 수 있을 때 축소합니다.</li>
+<li><b>Gateway:</b> 복제된 Gateway Pod가 한 노드에 몰리지 않도록 분산합니다. 두 노드가 모두 배치 가능한 상태라면, Gateway 2개를 한 노드에 몰아서 <b>2개 대 0개로 배치하는 것을 제한</b>합니다. 노드 하나에 문제가 생겼을 때 다른 노드에도 Gateway가 남을 수 있도록 하기 위한 설정입니다.</li>
+<li><b>Catalog 또는 Ops가 DB와 같은 노드에 배치하는 규칙이 없다면</b>, 추가 노드가 생긴 이후 배포로 교체된 Catalog 또는 Ops Pod가 추가 노드에 배치될 수 있습니다. 각 서비스는 하나만 실행되고 PDB로 보호받기 때문에, 그 노드를 나중에 회수하기 어려울 수 있습니다.</li>
 </ul>
 <details class="technical-detail"><summary>노드·확장 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
 <colgroup>
@@ -818,7 +820,7 @@
 <p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L270-L282">메인 README의 운영 구성</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L311-L395">Kubernetes 리소스 설명</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/autoscaling/README.md">자동 확장 설정</a></p>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-40"><b>클러스터 관리·요청 경로·자동 확장</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-platform-without-pod-autoscaling.png" aria-label="클러스터 관리·요청 경로·자동 확장 — 크게 보기"><img src="./assets/govbiz-platform-without-pod-autoscaling.png" alt="클러스터 관리·요청 경로·자동 확장" width="2880" height="4816" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-cluster-settings.png" aria-label="클러스터 관리·요청 경로·자동 확장 — 크게 보기"><img src="./assets/govbiz-cluster-settings.png" alt="클러스터 관리·요청 경로·자동 확장" width="2000" height="982" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>StatefulSet·PVC·EBS:</b> MySQL 등 상태를 가진 저장소는 StatefulSet으로 Pod와 저장소 연결을 관리합니다. PVC는 저장 공간 요청이고 PV는 연결된 볼륨 정보입니다. EKS는 EBS CSI와 <code>gp3</code> StorageClass를 사용하며, 기존 PVC와 볼륨을 유지하면 Pod 교체 후에도 데이터를 다시 사용할 수 있습니다. <code>Retain</code>으로 남은 볼륨을 재사용하려면 별도 복구 절차가 필요합니다.</li>
 </ul>
@@ -838,9 +840,6 @@
 </li>
 <li>
 <b>노드의 외부 통신:</b> 프라이빗 노드는 외부에 직접 노출하지 않고 NAT Gateway를 통해 필요한 외부 서비스에 접근합니다. 이는 이미지 다운로드 등 노드에서 외부로 나가는 통신을 위한 경로입니다.
-</li>
-<li>
-<b>사용자 API 요청 경로:</b> 외부 요청은 CloudFront → VPC origin → 내부 ALB → Nginx 게이트웨이 → Core·Ops 서비스 순서로 전달됩니다.
 </li>
 <li>
 <b>클러스터 관리 접근:</b> EKS Kubernetes API에는 프라이빗 접근을 설정하고, 퍼블릭 접근은 허용된 관리자 IP로 제한했습니다. 이는 사용자 API의 공개 경로가 아니라 클러스터를 관리하기 위한 접근 경로입니다.
@@ -947,7 +946,7 @@
 <div class="notion-empty" aria-hidden="true"></div>
 
 <h4 class="diagram-heading" id="gitops-tag-to-eks"><b>Git 태그 발행부터 EKS 반영까지 (전체 흐름)</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-argocd-sync-flow-notion-20261122.svg" aria-label="Git 태그 발행부터 EKS 반영까지 (전체 흐름) — 크게 보기"><img src="./assets/govbiz-argocd-sync-flow-notion-20261122.svg" alt="Git 태그 발행부터 EKS 반영까지 (전체 흐름)" width="2100" height="1470" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-gitops-numbering-refined.png" aria-label="Git 태그 발행부터 EKS 반영까지 (전체 흐름) — 크게 보기"><img src="./assets/govbiz-gitops-numbering-refined.png" alt="Git 태그 발행부터 EKS 반영까지 (전체 흐름)" width="2400" height="3107" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li>
 <b>Argo CD 동기화:</b> Argo CD가 Git 태그를 주기적으로 확인하고 설정된 버전 범위에 맞는 가장 높은 버전의 배포 태그를 선택합니다. 해당 태그가 가리키는 커밋의 release/ YAML과 클러스터 상태를 비교해 Kubernetes API로 동기화합니다.
