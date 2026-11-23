@@ -821,9 +821,6 @@
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-40"><b>클러스터 관리·요청 경로·자동 확장</b></h4>
 <figure class="diagram"><a class="zoom-image" href="./assets/govbiz-cluster-settings.png" aria-label="클러스터 관리·요청 경로·자동 확장 — 크게 보기"><img src="./assets/govbiz-cluster-settings.png" alt="클러스터 관리·요청 경로·자동 확장" width="2000" height="982" loading="lazy" decoding="async"></a></figure>
-<ul>
-<li><b>StatefulSet·PVC·EBS:</b> MySQL 등 상태를 가진 저장소는 StatefulSet으로 Pod와 저장소 연결을 관리합니다. PVC는 저장 공간 요청이고 PV는 연결된 볼륨 정보입니다. EKS는 EBS CSI와 <code>gp3</code> StorageClass를 사용하며, 기존 PVC와 볼륨을 유지하면 Pod 교체 후에도 데이터를 다시 사용할 수 있습니다. <code>Retain</code>으로 남은 볼륨을 재사용하려면 별도 복구 절차가 필요합니다.</li>
-</ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <hr />
 <h3 id="section-18">3.5. AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo CD를 활용한 GitOps 배포 자동화 구축.</h3>
@@ -844,6 +841,7 @@
 <li>
 <b>클러스터 관리 접근:</b> EKS Kubernetes API에는 프라이빗 접근을 설정하고, 퍼블릭 접근은 허용된 관리자 IP로 제한했습니다. 이는 사용자 API의 공개 경로가 아니라 클러스터를 관리하기 위한 접근 경로입니다.
 </li>
+<li><b>StatefulSet·PVC·EBS:</b> MySQL 등 상태를 가진 저장소는 StatefulSet으로 Pod와 저장소 연결을 관리합니다. PVC는 저장 공간 요청이고 PV는 연결된 볼륨 정보입니다. EKS는 EBS CSI와 <code>gp3</code> StorageClass를 사용하며, 기존 PVC와 볼륨을 유지하면 Pod 교체 후에도 데이터를 다시 사용할 수 있습니다. <code>Retain</code>으로 남은 볼륨을 재사용하려면 별도 복구 절차가 필요합니다.</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
 
