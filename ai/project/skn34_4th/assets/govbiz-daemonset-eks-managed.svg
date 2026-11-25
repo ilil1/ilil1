@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2100" height="1905" viewBox="0 0 2100 1905">
+<style>text{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans CJK KR",sans-serif}</style>
+<rect x="0" y="0" width="2100" height="1905" rx="0" fill="#f4f7fb" stroke="none" stroke-width="1" />
+<rect x="39" y="34" width="2022" height="1835" rx="26" fill="#ffffff" stroke="#dae4ed" stroke-width="2" />
+<rect x="78" y="73" width="7" height="50" rx="3" fill="#3675ca" stroke="none" stroke-width="1" />
+<text x="108" y="108" fill="#193453" font-size="41" font-weight="760" text-anchor="start" >AWS EKS와 DaemonSet의 노드별 agent 배치</text>
+<text x="108" y="150" fill="#61778a" font-size="23" font-weight="500" text-anchor="start" >AWS는 EKS 관리 영역을 운영하고, Kubernetes는 규칙에 따라 노드마다 agent Pod를 배치합니다.</text>
+<rect x="102" y="198" width="890" height="150" rx="17" fill="#ffffff" stroke="#cbdcea" stroke-width="2" />
+<rect x="124" y="216" width="50" height="50" rx="13" fill="#e7f0fc" stroke="none" stroke-width="1" />
+<text x="149" y="249" fill="#2e6cc5" font-size="23" font-weight="750" text-anchor="middle" >1</text>
+<text x="190" y="244" fill="#203e63" font-size="27" font-weight="750" text-anchor="start" >프로젝트 EKS 애드온 설정</text>
+<text x="190" y="281" fill="#526f8b" font-size="21" font-weight="600" text-anchor="start" >vpc-cni · aws-ebs-csi-driver</text>
+<text x="190" y="313" fill="#526f8b" font-size="21" font-weight="600" text-anchor="start" >eks-pod-identity-agent</text>
+<rect x="1108" y="198" width="890" height="150" rx="17" fill="#fffaf3" stroke="#e5d1b4" stroke-width="2" />
+<rect x="1130" y="216" width="50" height="50" rx="13" fill="#fff0dd" stroke="none" stroke-width="1" />
+<text x="1155" y="249" fill="#ab701f" font-size="23" font-weight="750" text-anchor="middle" >2</text>
+<text x="1196" y="244" fill="#9b641d" font-size="27" font-weight="750" text-anchor="start" >AWS EKS · 관리형 애드온</text>
+<text x="1196" y="281" fill="#765f49" font-size="21" font-weight="550" text-anchor="start" >지정한 애드온을 클러스터에 설치·관리</text>
+<text x="1196" y="313" fill="#765f49" font-size="21" font-weight="550" text-anchor="start" >AWS가 아래 Kubernetes 관리 영역을 운영</text>
+<path d="M992 273 H1092" fill="none" stroke="#b8a58b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1107 273 l-12 -7 v14z" fill="#b8a58b"/>
+<text x="1050" y="255" fill="#947957" font-size="18" font-weight="600" text-anchor="middle" >설치 요청</text>
+<path d="M1553 348 V379" fill="none" stroke="#b8a58b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1553 390 l-7 -12 h14z" fill="#b8a58b"/>
+<rect x="78" y="391" width="1944" height="555" rx="22" fill="#f8fbff" stroke="#cbdcec" stroke-width="2" />
+<text x="112" y="434" fill="#203e63" font-size="29" font-weight="750" text-anchor="start" >AWS가 운영하는 Kubernetes 컨트롤 플레인</text>
+<rect x="1716" y="405" width="256" height="42" rx="21" fill="#eaf2fc" stroke="none" stroke-width="1" />
+<text x="1844" y="433" fill="#36679f" font-size="19" font-weight="700" text-anchor="middle" >AWS EKS 관리 영역</text>
+<text x="112" y="475" fill="#5d7389" font-size="21" font-weight="500" text-anchor="start" >애드온의 노드 기능을 위한 DaemonSet 배치 규칙과 쿠버네티스 관리 요소</text>
+<text x="112" y="520" fill="#3a618d" font-size="23" font-weight="700" text-anchor="start" >배치 규칙 · DaemonSet 3개</text>
+<rect x="112" y="549" width="580" height="108" rx="16" fill="#ffffff" stroke="#d8e2ed" stroke-width="2" />
+<rect x="130" y="565" width="50" height="50" rx="13" fill="#e7f0fc" stroke="none" stroke-width="1" />
+<text x="155" y="599" fill="#2e6cc5" font-size="20" font-weight="750" text-anchor="middle" >DS</text>
+<text x="197" y="585" fill="#1f3856" font-size="25" font-weight="750" text-anchor="start" >VPC CNI</text>
+<text x="197" y="627" fill="#2e6cc5" font-size="22" font-weight="650" text-anchor="start" >aws-node</text>
+<rect x="760" y="549" width="580" height="108" rx="16" fill="#ffffff" stroke="#d8e2ed" stroke-width="2" />
+<rect x="778" y="565" width="50" height="50" rx="13" fill="#e4f4f0" stroke="none" stroke-width="1" />
+<text x="803" y="599" fill="#177e76" font-size="20" font-weight="750" text-anchor="middle" >DS</text>
+<text x="845" y="585" fill="#1f3856" font-size="25" font-weight="750" text-anchor="start" >EBS CSI 노드</text>
+<text x="845" y="627" fill="#177e76" font-size="22" font-weight="650" text-anchor="start" >ebs-csi-node</text>
+<rect x="1408" y="549" width="580" height="108" rx="16" fill="#ffffff" stroke="#d8e2ed" stroke-width="2" />
+<rect x="1426" y="565" width="50" height="50" rx="13" fill="#f0eafa" stroke="none" stroke-width="1" />
+<text x="1451" y="599" fill="#805eb0" font-size="20" font-weight="750" text-anchor="middle" >DS</text>
+<text x="1493" y="585" fill="#1f3856" font-size="25" font-weight="750" text-anchor="start" >Pod Identity Agent</text>
+<text x="1493" y="627" fill="#805eb0" font-size="22" font-weight="650" text-anchor="start" >eks-pod-identity-agent</text>
+<path d="M402 657 V682 M1050 657 V682 M1698 657 V682 M402 682 H1698 M627 682 V707" fill="none" stroke="#9eb6cc" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M627 717 l-7 -12 h14z" fill="#9eb6cc"/>
+<rect x="291" y="719" width="672" height="150" rx="16" fill="#ffffff" stroke="#cdddeb" stroke-width="2" />
+<rect x="315" y="738" width="48" height="48" rx="12" fill="#e7f0fc" stroke="none" stroke-width="1" />
+<text x="339" y="770" fill="#2e6cc5" font-size="22" font-weight="750" text-anchor="middle" >3</text>
+<text x="380" y="769" fill="#264b75" font-size="27" font-weight="750" text-anchor="start" >DaemonSet 컨트롤러</text>
+<text x="380" y="808" fill="#5b7289" font-size="21" font-weight="500" text-anchor="start" >대상 노드마다 필요한 Pod 생성·유지</text>
+<rect x="1137" y="719" width="672" height="150" rx="16" fill="#ffffff" stroke="#cdddeb" stroke-width="2" />
+<rect x="1161" y="738" width="48" height="48" rx="12" fill="#e7f0fc" stroke="none" stroke-width="1" />
+<text x="1185" y="770" fill="#2e6cc5" font-size="22" font-weight="750" text-anchor="middle" >4</text>
+<text x="1226" y="769" fill="#264b75" font-size="27" font-weight="750" text-anchor="start" >Kubernetes 스케줄러</text>
+<text x="1226" y="808" fill="#5b7289" font-size="21" font-weight="500" text-anchor="start" >생성된 Pod를 해당 노드에 배치</text>
+<path d="M963 794 H1120" fill="none" stroke="#9eb6cc" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1135 794 l-12 -7 v14z" fill="#9eb6cc"/>
+<text x="1050" y="778" fill="#758ba0" font-size="18" font-weight="600" text-anchor="middle" >Pod</text>
+<path d="M1473 869 V982 H590 V1081 M1473 982 H1510 V1081" fill="none" stroke="#9bb3c9" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M590 1096 l-7 -12 h14z" fill="#9bb3c9"/>
+<path d="M1510 1096 l-7 -12 h14z" fill="#9bb3c9"/>
+<rect x="555" y="998" width="990" height="50" rx="14" fill="#eef4fb" stroke="none" stroke-width="1" />
+<text x="1050" y="1031" fill="#4b6b8e" font-size="22" font-weight="650" text-anchor="middle" >노드의 kubelet이 배치된 Pod의 컨테이너를 실행</text>
+<rect x="137" y="1099" width="880" height="495" rx="20" fill="#ffffff" stroke="#cad9e8" stroke-width="2.4" />
+<rect x="165" y="1123" width="52" height="52" rx="12" fill="#e6effb" stroke="none" stroke-width="1" />
+<rect x="176" y="1133" width="30" height="10" rx="3" fill="none" stroke="#3769ad" stroke-width="2" />
+<rect x="176" y="1149" width="30" height="14" rx="3" fill="none" stroke="#3769ad" stroke-width="2" />
+<circle cx="181" cy="1156" r="2" fill="#3769ad"/><circle cx="187" cy="1156" r="2" fill="#3769ad"/>
+<text x="231" y="1146" fill="#1e5798" font-size="30" font-weight="750" text-anchor="start" >application 노드</text>
+<text x="231" y="1175" fill="#728397" font-size="20" font-weight="500" text-anchor="start" >EC2 · 업무 워크로드 실행</text>
+<rect x="707" y="1122" width="282" height="45" rx="11" fill="#edf3fb" stroke="none" stroke-width="1" />
+<text x="848" y="1151" fill="#36659b" font-size="19" font-weight="700" text-anchor="middle" >kubelet · Pod 실행</text>
+<rect x="163" y="1201" width="828" height="105" rx="14" fill="#f1f6fd" stroke="#dce6ef" stroke-width="1.5" />
+<rect x="181" y="1219" width="44" height="44" rx="12" fill="#2e6cc5" stroke="none" stroke-width="1" />
+<path d="M192 1235 l11 -6 11 6 v13 l-11 6 -11 -6 z" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M192 1235 l11 6 11 -6 M203 1241 v13" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="243" y="1244" fill="#203852" font-size="26" font-weight="750" text-anchor="start" >VPC CNI Pod</text>
+<text x="243" y="1279" fill="#566d82" font-size="21" font-weight="500" text-anchor="start" >Pod IP 할당 · 네트워크 연결 설정</text>
+<rect x="909" y="1220" width="61" height="28" rx="8" fill="#ffffff" stroke="#dce5ed" stroke-width="1" />
+<text x="939.5" y="1240" fill="#2e6cc5" font-size="16" font-weight="700" text-anchor="middle" >Pod</text>
+<rect x="163" y="1317" width="828" height="105" rx="14" fill="#eff8f6" stroke="#dce6ef" stroke-width="1.5" />
+<rect x="181" y="1335" width="44" height="44" rx="12" fill="#177e76" stroke="none" stroke-width="1" />
+<path d="M192 1351 l11 -6 11 6 v13 l-11 6 -11 -6 z" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M192 1351 l11 6 11 -6 M203 1357 v13" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="243" y="1360" fill="#203852" font-size="26" font-weight="750" text-anchor="start" >EBS CSI 노드 Pod</text>
+<text x="243" y="1395" fill="#566d82" font-size="21" font-weight="500" text-anchor="start" >연결된 EBS를 Pod에서 쓰도록 마운트</text>
+<rect x="909" y="1336" width="61" height="28" rx="8" fill="#ffffff" stroke="#dce5ed" stroke-width="1" />
+<text x="939.5" y="1356" fill="#177e76" font-size="16" font-weight="700" text-anchor="middle" >Pod</text>
+<rect x="163" y="1433" width="828" height="105" rx="14" fill="#f7f4fb" stroke="#dce6ef" stroke-width="1.5" />
+<rect x="181" y="1451" width="44" height="44" rx="12" fill="#805eb0" stroke="none" stroke-width="1" />
+<path d="M192 1467 l11 -6 11 6 v13 l-11 6 -11 -6 z" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M192 1467 l11 6 11 -6 M203 1473 v13" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="243" y="1476" fill="#203852" font-size="26" font-weight="750" text-anchor="start" >Pod Identity Agent Pod</text>
+<text x="243" y="1511" fill="#566d82" font-size="21" font-weight="500" text-anchor="start" >연결된 Pod에 임시 AWS 자격 증명 제공</text>
+<rect x="909" y="1452" width="61" height="28" rx="8" fill="#ffffff" stroke="#dce5ed" stroke-width="1" />
+<text x="939.5" y="1472" fill="#805eb0" font-size="16" font-weight="700" text-anchor="middle" >Pod</text>
+<rect x="1083" y="1099" width="880" height="495" rx="20" fill="#ffffff" stroke="#cad9e8" stroke-width="2.4" />
+<rect x="1111" y="1123" width="52" height="52" rx="12" fill="#e6effb" stroke="none" stroke-width="1" />
+<rect x="1122" y="1133" width="30" height="10" rx="3" fill="none" stroke="#3769ad" stroke-width="2" />
+<rect x="1122" y="1149" width="30" height="14" rx="3" fill="none" stroke="#3769ad" stroke-width="2" />
+<circle cx="1127" cy="1156" r="2" fill="#3769ad"/><circle cx="1133" cy="1156" r="2" fill="#3769ad"/>
+<text x="1177" y="1146" fill="#1e5798" font-size="30" font-weight="750" text-anchor="start" >observability 노드</text>
+<text x="1177" y="1175" fill="#728397" font-size="20" font-weight="500" text-anchor="start" >EC2 · 관측 워크로드 실행</text>
+<rect x="1653" y="1122" width="282" height="45" rx="11" fill="#edf3fb" stroke="none" stroke-width="1" />
+<text x="1794" y="1151" fill="#36659b" font-size="19" font-weight="700" text-anchor="middle" >kubelet · Pod 실행</text>
+<rect x="1109" y="1201" width="828" height="105" rx="14" fill="#f1f6fd" stroke="#dce6ef" stroke-width="1.5" />
+<rect x="1127" y="1219" width="44" height="44" rx="12" fill="#2e6cc5" stroke="none" stroke-width="1" />
+<path d="M1138 1235 l11 -6 11 6 v13 l-11 6 -11 -6 z" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1138 1235 l11 6 11 -6 M1149 1241 v13" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1189" y="1244" fill="#203852" font-size="26" font-weight="750" text-anchor="start" >VPC CNI Pod</text>
+<text x="1189" y="1279" fill="#566d82" font-size="21" font-weight="500" text-anchor="start" >Pod IP 할당 · 네트워크 연결 설정</text>
+<rect x="1855" y="1220" width="61" height="28" rx="8" fill="#ffffff" stroke="#dce5ed" stroke-width="1" />
+<text x="1885.5" y="1240" fill="#2e6cc5" font-size="16" font-weight="700" text-anchor="middle" >Pod</text>
+<rect x="1109" y="1317" width="828" height="105" rx="14" fill="#eff8f6" stroke="#dce6ef" stroke-width="1.5" />
+<rect x="1127" y="1335" width="44" height="44" rx="12" fill="#177e76" stroke="none" stroke-width="1" />
+<path d="M1138 1351 l11 -6 11 6 v13 l-11 6 -11 -6 z" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1138 1351 l11 6 11 -6 M1149 1357 v13" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1189" y="1360" fill="#203852" font-size="26" font-weight="750" text-anchor="start" >EBS CSI 노드 Pod</text>
+<text x="1189" y="1395" fill="#566d82" font-size="21" font-weight="500" text-anchor="start" >연결된 EBS를 Pod에서 쓰도록 마운트</text>
+<rect x="1855" y="1336" width="61" height="28" rx="8" fill="#ffffff" stroke="#dce5ed" stroke-width="1" />
+<text x="1885.5" y="1356" fill="#177e76" font-size="16" font-weight="700" text-anchor="middle" >Pod</text>
+<rect x="1109" y="1433" width="828" height="105" rx="14" fill="#f7f4fb" stroke="#dce6ef" stroke-width="1.5" />
+<rect x="1127" y="1451" width="44" height="44" rx="12" fill="#805eb0" stroke="none" stroke-width="1" />
+<path d="M1138 1467 l11 -6 11 6 v13 l-11 6 -11 -6 z" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1138 1467 l11 6 11 -6 M1149 1473 v13" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1189" y="1476" fill="#203852" font-size="26" font-weight="750" text-anchor="start" >Pod Identity Agent Pod</text>
+<text x="1189" y="1511" fill="#566d82" font-size="21" font-weight="500" text-anchor="start" >연결된 Pod에 임시 AWS 자격 증명 제공</text>
+<rect x="1855" y="1452" width="61" height="28" rx="8" fill="#ffffff" stroke="#dce5ed" stroke-width="1" />
+<text x="1885.5" y="1472" fill="#805eb0" font-size="16" font-weight="700" text-anchor="middle" >Pod</text>
+<rect x="78" y="1630" width="950" height="145" rx="19" fill="#f7fafc" stroke="#d6e2ed" stroke-width="2" />
+<rect x="108" y="1653" width="52" height="52" rx="14" fill="#e6effb" stroke="none" stroke-width="1" />
+<path d="M134 1664 V1694 M119 1679 H149" fill="none" stroke="#3471bd" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="184" y="1681" fill="#1e5798" font-size="27" font-weight="750" text-anchor="start" >노드가 추가되면</text>
+<text x="184" y="1716" fill="#4e657e" font-size="22" font-weight="500" text-anchor="start" >배치 조건에 맞는 새 노드에도 세 agent Pod가</text>
+<text x="184" y="1750" fill="#4e657e" font-size="22" font-weight="500" text-anchor="start" >각각 하나씩 추가됩니다.</text>
+<rect x="1062" y="1630" width="960" height="145" rx="19" fill="#fffaf3" stroke="#eadbc8" stroke-width="2" />
+<rect x="1092" y="1653" width="52" height="52" rx="14" fill="#fff0dd" stroke="none" stroke-width="1" />
+<text x="1118" y="1687" fill="#a96c1b" font-size="23" font-weight="750" text-anchor="middle" >V</text>
+<text x="1168" y="1681" fill="#9b641d" font-size="27" font-weight="750" text-anchor="start" >애드온 버전 관리</text>
+<text x="1168" y="1716" fill="#765f49" font-size="22" font-weight="500" text-anchor="start" >관리형 애드온의 새 버전은</text>
+<text x="1168" y="1750" fill="#765f49" font-size="22" font-weight="500" text-anchor="start" >별도의 업데이트 작업이 필요합니다.</text>
+<text x="108" y="1821" fill="#7b8b9c" font-size="19" font-weight="500" text-anchor="start" >※ DaemonSet의 실제 배치는 노드 선택 조건과 노드 상태에 따라 달라집니다.</text>
+<text x="1992" y="1821" fill="#7b8b9c" font-size="19" font-weight="500" text-anchor="end" >EBS CSI 컨트롤러는 별도 Deployment로 관리</text>
+</svg>
