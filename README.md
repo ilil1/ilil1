@@ -22,7 +22,8 @@ AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo 
 - LLM 응답 품질을 측정하고 결과를 비교·보고하는 평가 모듈을 구현하고, Prefect 기반 평가 파이프라인과 평가 실행기를 구축.  
 - Ops-service 운영 API와 Langfuse·Prefect를 연동해 LLM 응답 품질 평가·추적·실행 관리 체계인 LLMOps를 구축.
 - Kubernetes 리소스 설계, HPA·Cluster Autoscaler 기반 Pod·노드 자동 확장 및 영속 스토리지 구성.        
-- AWS EKS 클러스터와 노드·네트워크 환경을 구성하고, Helm·Argo CD를 활용한 GitOps 배포 자동화 구축.  
+- AWS EKS 클러스터 생성과 노드·네트워크·AWS 권한 구성.  
+- GitHub Actions·Helm·Argo CD를 활용한 CI/CD 및 GitOps 배포 자동화 구축.    
 
 #### 사용 기술
 
