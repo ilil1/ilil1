@@ -66,10 +66,10 @@
 <p>아래 구조도는 <b>접속 → 외부 통신 → 서비스·데이터 → 평가·관측 → 서버 배치·저장소 </b> 순서로 살펴봅니다. 세부 설정은 각 그림 아래에서 펼쳐 볼 수 있습니다.</p>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="section-3"><b>접속 경로 — 웹·앱에서 백엔드까지</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-access-no-tunnel-note.svg" aria-label="접속 경로 — 웹·앱에서 백엔드까지 — 크게 보기"><img src="./assets/govbiz-access-no-tunnel-note.svg" alt="접속 경로 — 웹·앱에서 백엔드까지" width="2000" height="885" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-access-route-clarified-20261127.svg" aria-label="접속 경로 — 웹·앱에서 백엔드까지 — 크게 보기"><img src="./assets/govbiz-access-route-clarified-20261127.svg" alt="접속 경로 — 웹·앱에서 백엔드까지" width="2000" height="885" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>웹·앱 요청:</b> 인증과 프록시를 거쳐 Gateway에 도착합니다.</li>
-<li><b>서비스 연결:</b> Gateway가 URL에 따라 Core·Ops 등 내부 서비스로 전달합니다.</li>
+<li><b>서비스 연결:</b> Gateway가 요청 경로에 따라 Core·Ops ClusterIP Service로 전달합니다.</li>
 </ul>
 <details class="technical-detail"><summary>접속·인증 설정 펼쳐 보기</summary><div class="detail-content"><div class="table-scroll"><table>
 <colgroup>
@@ -105,7 +105,7 @@
 </tr>
 <tr>
 <td>Nginx API Gateway</td>
-<td>EKS · govbiz-eks / Pod 1~3개 · 프록시 비밀값 검증 · URL → ClusterIP Service</td>
+<td>EKS · govbiz-eks / Pod 1~3개 · Vercel이 보낸 비밀값 확인 · 요청 경로에 따라 Core·Ops ClusterIP Service로 전달</td>
 </tr>
 <tr>
 <td>Core · :8080</td>
@@ -650,7 +650,7 @@
 <h3 id="section-kubernetes-resources">3.4. Kubernetes 리소스 설계, HPA·Cluster Autoscaler 기반 Pod·노드 자동 확장 및 영속 스토리지 구성.</h3>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-34"><b>Namespace별 서비스·리소스 구성</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/namespace-hierarchy-replicaset.svg" aria-label="Namespace별 서비스·리소스 구성 — 크게 보기"><img src="./assets/namespace-hierarchy-replicaset.svg" alt="Namespace별 서비스·리소스 구성" width="1520" height="960" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-namespace-current.svg" aria-label="Namespace별 서비스·리소스 구성 — 크게 보기"><img src="./assets/govbiz-namespace-current.svg" alt="Namespace별 서비스·리소스 구성" width="1520" height="970" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li>
 <b>업무:</b> <code>govbiz-msa</code>에 Gateway·Core·Catalog·AI·Ops와 업무 저장소를 구성합니다.
@@ -670,8 +670,14 @@
 </ul>
 
 <div class="notion-empty" aria-hidden="true"></div>
+<h4 class="diagram-heading" id="namespace-future-improvement"><b>Namespace별 서비스·리소스 구성 (추후 개선)</b></h4>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-namespace-future.svg" aria-label="Namespace별 서비스·리소스 구성 (추후 개선) — 크게 보기"><img src="./assets/govbiz-namespace-future.svg" alt="Namespace별 서비스·리소스 구성 (추후 개선)" width="1520" height="500" loading="lazy" decoding="async"></a></figure>
+<ul>
+<li><b>추후 개선:</b> Gateway가 업무 API뿐 아니라 Argo CD와 Langfuse로 가는 요청도 담당하므로, Ingress와 Gateway 관련 리소스를 별도의 <code>govbiz-gateway</code> 네임스페이스로 분리하는 방안도 괜찮을 것으로 생각됩니다. 아직 적용하지 않은 개선 방향이며, 분리할 때 NetworkPolicy·Secret과 ALB·CloudFront 연결을 함께 조정해야 합니다.</li>
+</ul>
+<div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="ebs-storage"><b>EBS 저장소 생성과 연결 순서</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ebs-stateful.png" aria-label="EBS 저장소 생성과 연결 순서 — 크게 보기"><img src="./assets/govbiz-ebs-stateful.png" alt="EBS 저장소 생성과 연결 순서" width="1800" height="1635" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/982525aa-4da5-4076-9cea-41a5249bfe09.png" aria-label="EBS 저장소 생성과 연결 순서 — 크게 보기"><img src="./assets/982525aa-4da5-4076-9cea-41a5249bfe09.png" alt="EBS 저장소 생성과 연결 순서" width="1800" height="1567" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li><b>저장소 연결:</b> MySQL Pod는 PVC를 사용하고, PVC는 PV를 통해 EBS 볼륨과 연결됩니다. MySQL은 연결된 볼륨을 마운트해 데이터를 저장합니다.</li>
 <li><b>볼륨과 PV 생성:</b> <code>WaitForFirstConsumer</code> 설정에 따라 PVC를 사용할 Pod가 생기면 스케줄러가 노드 후보를 선택합니다. CSI 컨트롤러의 external-provisioner가 EBS CSI 드라이버에 생성을 요청하고, 드라이버가 해당 가용 영역에 암호화된 gp3 EBS 볼륨을 만듭니다. external-provisioner가 이 볼륨 ID를 기록한 PV를 생성하면 Kubernetes가 PVC와 PV를 바인딩합니다.</li>
@@ -680,17 +686,13 @@
 <li><b>StatefulSet·PVC·EBS:</b> MySQL 등 상태를 가진 저장소는 StatefulSet으로 Pod와 저장소 연결을 관리합니다. PVC는 저장 공간 요청이고 PV는 EBS 볼륨 ID 등 연결 정보를 담은 Kubernetes 객체입니다. EKS는 EBS CSI와 <code>gp3</code> StorageClass를 사용하며, 기존 PVC와 볼륨을 유지하면 Pod 교체 후에도 데이터를 다시 사용할 수 있습니다. <code>Retain</code>으로 남은 볼륨을 재사용하려면 별도 복구 절차가 필요합니다.</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
-<h4 class="diagram-heading" id="govbiz-msa-ingress"><b>govbiz-msa — Ingress와 외부 요청 전달</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ingress-raised.svg" aria-label="govbiz-msa — Ingress와 외부 요청 전달 — 크게 보기"><img src="./assets/govbiz-ingress-raised.svg" alt="govbiz-msa — Ingress와 외부 요청 전달" width="2200" height="2025" loading="lazy" decoding="async"></a></figure>
+<h4 class="diagram-heading" id="govbiz-msa-ingress"><b>Ingress 설정에 따른 내부 ALB 구성과 API 요청 흐름</b></h4>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-ingress-no-config-note.svg" aria-label="Ingress 설정에 따른 내부 ALB 구성과 API 요청 흐름 — 크게 보기"><img src="./assets/govbiz-ingress-no-config-note.svg" alt="Ingress 설정에 따른 내부 ALB 구성과 API 요청 흐름" width="2200" height="2025" loading="lazy" decoding="async"></a></figure>
 <ul>
-<li><b>Helm으로 LBC 설치 : </b>Helm은 쿠버네티스 프로그램을 설치하는 도구입니다. 이 도구로 EKS 클러스터에 <b>AWS Load Balancer Controller</b>, 줄여서 LBC를 설치합니다. <a href="https://docs.aws.amazon.com/eks/latest/userguide/lbc-helm.html?utm_source=chatgpt.com">Amazon EKS</a></li>
-<li><b>Ingress 규칙:</b> <code>govbiz-msa</code>의 <code>api-gateway</code> Ingress가 <code>/api</code>·<code>/argocd</code>·<code>/_langfuse</code> 경로의 백엔드로 Gateway Service를 지정합니다. 그림에는 API 요청 경로만 표시했습니다.</li>
-<li><b>LBC가 내부 ALB 생성 : </b>LBC가 Ingress 설정을 확인하고 AWS에 요청해 <b>내부 ALB와 연결 대상</b>을 만들고 관리합니다. <a href="https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html?utm_source=chatgpt.com">Amazon EKS</a></li>
-<li><b>CloudFront 배포:</b> 그림에는 API 요청을 처리하는 CloudFront만 표시했습니다. API와 Argo CD는 같은 CloudFront 배포를 사용합니다. Langfuse 관리 화면은 별도 CloudFront를 구성하며, 설정 시 두 배포가 같은 VPC Origin과 내부 ALB를 사용합니다.</li>
+<li><b>Helm으로 LBC 설치 : </b>Helm 으로 EKS 클러스터에 AWS Load Balancer Controller를 설치합니다.</li>
+<li><b>Ingress 규칙:</b> <code>/api</code>·<code>/argocd</code>·<code>/_langfuse</code> 경로의 백엔드로 Gateway Service를 지정합니다.</li>
+<li><b>ALB 생성 : </b>LBC가 Ingress 설정을 확인하고 AWS에 요청해 내부 ALB와 연결 대상을 만들고 관리합니다.</li>
 <li><b>실제 요청:</b> CloudFront에서 내부 ALB로 요청이 들어오면, ALB는 IP 대상 방식으로 Gateway Service가 선택한 NGINX Gateway Pod에 직접 전달합니다.</li>
-<li><b>Gateway 분기:</b> <code>/api/v1/ops</code>와 그 하위 경로는 Ops로, 나머지 <code>/api/</code> 요청은 Core로 전달합니다.</li>
-<li><b>Langfuse 내부 경로:</b> 사용자가 접속하는 주소에는 <code>/_langfuse</code>를 붙이지 않습니다. CloudFront가 내부 ALB로 요청을 전달할 때만 이 경로를 추가하며, Argo CD와 Langfuse 관리 화면은 별도 인증·접속 설정이 필요합니다.</li>
-<li><b>Pod 개수:</b> HPA 설정 범위는 Gateway 1~3개, Core 2~3개입니다. 그림은 각 구성 요소의 대표 Pod를 한 개씩 표시합니다.</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-35"><b>govbiz-msa — 업무 서비스와 데이터</b></h4>
@@ -813,8 +815,6 @@
 <li><b>PDB — 자발적 퇴거 보호:</b> Core·AI는 각각 최소 1개가 사용 가능하도록 설정해 노드 축소 같은 자발적 퇴거를 제한합니다. PDB가 갑작스러운 노드 장애를 막거나 DB 고가용성을 보장하는 것은 아닙니다.</li>
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
-<p><b>구현 근거:</b> <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L270-L282">메인 README의 운영 구성</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/README.md#L311-L395">Kubernetes 리소스 설명</a> · <a href="https://github.com/ilil1/SKN34-4th-1Team/blob/4ce3ffcb94268d9e81562209cec658eef6895043/infrastructure/eks/autoscaling/README.md">자동 확장 설정</a></p>
-<div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-40"><b>클러스터 관리·요청 경로·자동 확장</b></h4>
 <figure class="diagram"><a class="zoom-image" href="./assets/E-settings-access-control.svg" aria-label="클러스터 관리·요청 경로·자동 확장: 설정과 접근 제어 — 크게 보기"><img src="./assets/E-settings-access-control.svg" alt="클러스터 관리·요청 경로·자동 확장: 설정과 접근 제어" width="2000" height="552" loading="lazy" decoding="async"></a></figure>
 <div class="notion-empty" aria-hidden="true"></div>
@@ -838,16 +838,16 @@
 </ul>
 <div class="notion-empty" aria-hidden="true"></div>
 <h4 class="diagram-heading" id="notion-section-41"><b>EKS 클러스터·노드·네트워크 구성</b></h4>
-<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eks-vpc-cni-structural.svg" aria-label="EKS 클러스터·노드·네트워크 구성 — 크게 보기"><img src="./assets/govbiz-eks-vpc-cni-structural.svg" alt="EKS 클러스터·노드·네트워크 구성" width="2000" height="2450" loading="lazy" decoding="async"></a></figure>
+<figure class="diagram"><a class="zoom-image" href="./assets/govbiz-eks-cloudfront-origin-clarified.svg" aria-label="EKS 클러스터·노드·네트워크 구성 — 크게 보기"><img src="./assets/govbiz-eks-cloudfront-origin-clarified.svg" alt="EKS 클러스터·노드·네트워크 구성" width="2000" height="2450" loading="lazy" decoding="async"></a></figure>
 <ul>
 <li>
-<b>클러스터와 VPC:</b> eksctl 설정으로 시드니 리전의 EKS 클러스터와 VPC 네트워크를 구성했습니다. AWS가 관리하는 EKS 컨트롤 플레인은 Kubernetes API와 클러스터 관리를 담당하고, 실제 서비스는 별도 EC2 노드에서 실행됩니다.
+<b>클러스터와 VPC:</b> EKS 클러스터와 VPC 네트워크를 구성했습니다. AWS가 관리하는 EKS 컨트롤 플레인은 Kubernetes API와 클러스터 관리를 담당하고, 실제 서비스는 별도 EC2 노드에서 실행됩니다.
 </li>
 <li>
-<b>노드 그룹 분리:</b> EKS 관리형 EC2 노드를 application과 observability 두 그룹으로 나눴습니다. 노드에 역할별 라벨을 부여해 업무와 관측 워크로드를 구분할 수 있게 했으며, 각 노드는 프라이빗 네트워크에 배치하고 암호화된 gp3 볼륨을 사용하도록 설정했습니다.
+<b>노드 그룹 분리:</b> EKS 관리형 EC2 노드를 application과 observability 두 그룹으로 나눴습니다. 각 노드는 프라이빗 네트워크에 배치하고 암호화된 gp3 볼륨을 사용하도록 설정했습니다.
 </li>
 <li>
-<b>ENI와 Pod IP:</b> ENI는 EC2 노드를 VPC 네트워크에 연결하는 가상의 네트워크 카드입니다. 한 ENI에 여러 사설 IP를 연결할 수 있고, 이 중 추가 IP를 일반 Pod에 할당할 수 있습니다.
+<b>ENI와 Pod IP:</b> ENI는 EC2 노드를 VPC 네트워크에 연결하는 가상의 네트워크 카드입니다. 한 ENI에 여러 사설 IP를 연결할 수 있고, 이 IP를 일반 Pod에 할당할 수 있습니다.
 </li>
 <li>
 <b>VPC CNI와 네트워크 연결:</b> 각 노드에서 동작하는 VPC CNI(<code>aws-node</code>)는 Pod에 사용할 IP를 준비해 할당하고, Pod와 노드의 네트워크가 이어지도록 연결과 통신 경로를 설정합니다.
